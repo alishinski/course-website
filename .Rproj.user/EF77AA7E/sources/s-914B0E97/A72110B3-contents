@@ -1,0 +1,19 @@
+---
+title: "Schedule"
+author: "Alex Lishinski"
+date: "8/18/2021"
+output: html_document
+---
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+options(knitr.kable.NA = '')
+
+library(readxl)
+library(tidyverse)
+
+read_excel(
+  here::here("data", "schedule.xlsx")) %>% 
+  slice(-2) %>% 
+  separate(Date, c("Week", "Date"), " - ") %>% 
+  knitr::kable()
+```

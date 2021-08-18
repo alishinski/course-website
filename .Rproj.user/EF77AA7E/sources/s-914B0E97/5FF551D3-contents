@@ -16,11 +16,11 @@ menu:
     - name: Home
       url: ""
       weight: 1
-    - name: About
-      url: "about/"
+    - name: Syllabus
+      url: "syllabus/"
       weight: 2
-    - name: Categories
-      url: "categories/"
+    - name: Schedule
+      url: "schedule/"
       weight: 3
     - name: Tags
       url: "tags/"
