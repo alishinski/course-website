@@ -5,4 +5,4 @@ date: "8/19/2021"
 output: html_document
 ---
 
-- Week 1: [RMD](https://github.com/alishinski/course-website/blob/main/presentations-week-1.Rmd), [HTML](slides/week1-slides.html), [PDF](slides/week1-slides.pdf)
+- Week 1: [RMD](https://github.com/alishinski/course-website/blob/master/content/slides/week1-slides.Rmd), [HTML](slides/week1-slides.html), [PDF](slides/week1-slides.pdf)

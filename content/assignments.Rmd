@@ -9,12 +9,6 @@ output: html_document
 
 Weekly homework. To be submitted in the form of an R Markdown file (`.Rmd`) via Canvas. There are a few weeks in which we may not have homework for different reasons; why the number of homeworks is listed as 12-14.
 
-## Interactive examinations (3)
-
-Interaction examinations following each unit. These provide a chance to reflect on and summarize what you did and learned during the unit. Don't worry, these aren't high-stress!
-
-Available in Canvas.
-
 ## Personal statement on data ethics
 
 Write a personal statement on one’s perspective toward the role and nature of data, addressing how issues of equity, privacy, and ethics are central to data science in education (due approximately one-third of the way through the semester).
@@ -28,6 +22,7 @@ Curate a data science resource as a part of a class resource throughout the seme
 [Link to assignment details](assignment-curating-a-data-science-resource.html)
 
 ## Individual final project
+
 
 Complete an individually-designed project that can take different forms (R Markdown Report, interactive Shiny app, interactive dashboard, etc.) related to identifying and solving a data-related problem in education using R (due approximately two-thirds of the way through the semester).
 

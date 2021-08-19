@@ -1,8 +1,8 @@
 ---
 title: "Week 1: Getting Started"
 subtitle: ""
-author: "Joshua M. Rosenberg, Alex Lishinski"
-date: "January 21, 2022"
+author: "Alex Lishinski"
+date: "August 19 2021"
 output:
   xaringan::moon_reader:
     css: [theme.css]
@@ -37,40 +37,16 @@ library(here)
 
 class: inverse, center, middle
 
-# Part 1/5: Introductions (to one another)
-
----
-
-# #whoami
-
-.pull-left[
-* Joshua Rosenberg, Ph.D.
-* Contact: 
-  * [@jrosenberg6432](https://twitter.com/jrosenberg6432)
-  * [jmrosenberg@utk.edu](mailto:jmrosenberg@utk.edu)
-  * https://joshuamrosenberg.com
-* Assistant Professor, STEM Education, University of Tennessee, Knoxville
-* Dad (2 year old toddler)
-* Primary areas of interest:
-  * Science education
-  * Data science (for) education
-  * Data science in education
-* Former HS science teacher
-* Presently PI or Co-PI for three NSF grants
-]
+# Introductions (to one another)
 
 ---
 
 # #whoami
 .pull-left[
-* Alex Lishinski, Ph.D.
+* Alex Lishinski, Ph.D. (they/them)
 * Contact: 
-  * [@html034](https://twitter.com/html034)
-  * [@html034@fosstodon.org](https://fosstodon.org/@html034)
   * [alishins@utk.edu](mailto:alishins@utk.edu)
-  * https://alexlishinski.com
 * Postdoctoral researcher, CS Education, University of Tennessee, Knoxville
-* Dad (3 year old toddler)
 * Primary areas of interest:
   * Computer Science education
   * Quantitative research methods
@@ -80,22 +56,14 @@ class: inverse, center, middle
 
 ---
   
+# Introductions!
 
-# Breakout rooms!
-
-Starting with whomever had a snack or meal most recently, discuss . . . 
-
-1. What is something you're good at but don't particularly like to do?
-1. What is something you like to do but aren't particularly good at?
+1. Stuff about you
 1. Why are you interested in data science?
+1. What tools/experiences do you have for doing data science?
+1. What do you think you want to get out of this course?
 
 (10 minutes)
-
----
-
-class: inverse, center, middle
-
-# Part 2/5: Introductions (to the class)
 
 ---
 
@@ -217,45 +185,13 @@ knitr::include_graphics("./img/data-science-cycle/data-science-cycle.009.png")
 
 ---
 
-# What we learned from your survey responses (thank you!)
-
-- Everyone uses spreadsheet software
-- You're (mostly) confident that you can solve problems with respect to analyzing 
-data, but are less confident with respect to using statistical software
-- You have impressive backgrounds and professional experiences
-- For many, programming and using statistics correctly can be intimidating
-- You're a bit more interested in preparing data for analyses than we thought (cool!)
-
----
-
-# Pedagogical framework
-
-*Constructivist*
-
-You'll be involved in the process of building new capabilities (and knowledge and skills) with support from others and carefully-chosen scaffolds.
-
-1. You will be doing a great deal of the work
-1. Then, we will discuss what we did and how it applies
-
----
-
 # Over-arching design
 
 The pedagogical framework *plays out* in the following specific ways:
 
-1. You'll first see some brief examples to give you a sense of what's possible
-1. You'll be using R Markdown to try things out
-1. You'll have a chance to share your ideas and thoughts about what you've done; it will also give me a chance to hear from you about what you did
-
----
-
-# A little motivation theory
-
-## Expectancy-value theory
-
-- We choose things that we are *confident* that we can do well and that are *valuable* to us
-
-- We do these in a sociocultural *context*: our sense of belonging impacts what we choose to do
+1. You'll first hear about the concepts underlying what you can do 
+1. You'll see examples of working out these ideas in practice
+1. You'll try these ideas out on your own
 
 ---
 
@@ -351,13 +287,19 @@ class: inverse, center, middle
 
 class: inverse, center, middle
 
-# Part 4/5: Syllabus
+# Syllabus
+
+Assignments
+- Homework
+- Exams
+- Final Project
+- Others (data ethics, data science resources)
 
 ---
 
 # Organization of the class
 
-- Class website: https://making-data-science-count.github.io/s21-intro-to-data-sci-methods-in-ed/
+- Class website: https://f21-intro-to-data-sci-methods-in-ed.netlify.app/
 - Canvas: for submitting assignments and checking grades
 - Slack: for communication
 - Email: also for communication
@@ -368,17 +310,3 @@ class: inverse, center, middle
 
 class: inverse, center, middle
 
-# Part 5/5: Check-out
-
----
-
-# Random note(s)
-
-- Free rstudio::conf(): https://rstudio.com/conference/ (today until 8 am PT tomorrow, 1/22/2021)
-
----
-
-# Discuss in base groups (or, if there is insufficient time, in Slack)
-
-- What is one thing you learned today?
-- What questions do you still have?

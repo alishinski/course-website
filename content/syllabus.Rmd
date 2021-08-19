@@ -8,15 +8,24 @@ output: html_document
 # An Introduction to Data Science Methods in Education
 *University of Tennessee, Knoxville*
 
-Course Section: TPTE 595 (MA) and TPTE 695 (PhD) 
-Meeting Time and Place: Thursday, 2:50 – 4:05 pm (online, partially synchronous) 
+Course Section: TPTE 695 (PhD) and STEM 599
+
+Meeting Time and Place: Thursday, 2:50 – 4:05 pm (online synchronous)
+
 Course Credit Hours: 3
+
+Zoom Meeting: https://tennessee.zoom.us/j/94135227830
+
 Course Website: https://f21-intro-to-data-sci-methods-in-ed.netlify.app/
 
 ## Faculty Contact Information
+
 Dr. Alex Lishinski (they/them)
+
 alishins@utk.edu
+
 Zoom: https://tennessee.zoom.us/j/2299533064
+
 Website: https://www.alexlishinski.com
 
 Please don’t hesitate to email or contact me on Slack with updates, questions or concerns. I will try to respond within 24 hours during the week and 48 hours on the weekend. I will notify you if our response may be delayed. In short, please contact me.
