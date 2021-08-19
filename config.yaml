@@ -22,11 +22,19 @@ menu:
     - name: Schedule
       url: "schedule/"
       weight: 3
-    - name: Tags
-      url: "tags/"
+    - name: Homework and Readings
+      url: "homework_readings/"
       weight: 4
-    - name: Subscribe
-      url: "index.xml"
+    - name: Assignments
+      url: "assignments/"
+      weight: 5
+    - name: Videos
+      url: "videos/"
+      weight: 6
+    - name: Presentations
+      url: "presentations/"
+      weight: 7
+
 
 params:
   description: "A website built through Hugo and blogdown."
