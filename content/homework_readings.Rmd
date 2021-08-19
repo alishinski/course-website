@@ -7,6 +7,7 @@ output: html_document
 
 ## Week 1
 
+
 - [Week 1 HW](https://github.com/making-data-science-count/s21-intro-to-data-sci-methods-in-ed/blob/main/homework/homework-week-1.Rmd)
 - Reading: none
 

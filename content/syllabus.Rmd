@@ -11,23 +11,15 @@ output: html_document
 Course Section: TPTE 595 (MA) and TPTE 695 (PhD) 
 Meeting Time and Place: Thursday, 2:50 – 4:05 pm (online, partially synchronous) 
 Course Credit Hours: 3
-Course Website: https://making-data-science-count.github.io/s21-intro-to-data-sci-methods-in-ed/
+Course Website: https://f21-intro-to-data-sci-methods-in-ed.netlify.app/
 
 ## Faculty Contact Information
-Dr. Joshua Rosenberg
-jrosenb8@utk.edu
-420 Claxton
-865-236-1445
-Zoom: https://tennessee.zoom.us/my/jmrosenberg (password: rosenroom)
-Website: https://joshuamrosenberg.com
-Slack: https://teachingsciencephenom.slack.com
-
-Dr. Alex Lishinski
+Dr. Alex Lishinski (they/them)
 alishins@utk.edu
 Zoom: https://tennessee.zoom.us/j/2299533064
 Website: https://www.alexlishinski.com
 
-Please don’t hesitate to email us or contact us on Slack with updates, questions or concerns. We will try to respond within 24 hours during the week and 48 hours on the weekend. We will notify you if our response may be delayed. In short, please contact us.
+Please don’t hesitate to email or contact me on Slack with updates, questions or concerns. I will try to respond within 24 hours during the week and 48 hours on the weekend. I will notify you if our response may be delayed. In short, please contact me.
 
 ## Course Description/Information:
 Welcome to An Introduction to Data Science Methods in Education! The overarching goal of this course is to support graduate-level students across the Department of Theory and Practice in Teacher Education (and the Bailey Graduate School of Education) to be empowered to use new data sources and research methods in their research. 
@@ -64,12 +56,12 @@ This class will be taught in a fully-online format. We will use Zoom for synchro
 Slack is a communication platform designed for teams (e.g., in a company), that has begun to be used in education. We will use Slack to share resources and for asking and questions of one another. You are encouraged but not required to check Slack daily, and to use the app on your mobile device or phone. 
 
 ## Email
-If you email us, you will generally receive a response within 24 hours. We ask for you to please try to respond within 24 hours, too. You can contact us via email (above) or Slack (preferred).
+If you email me, you will generally receive a response within 24 hours. I ask for you to please try to respond within 24 hours, too. You can contact me via email (above) or Slack (preferred).
 
 # How to Be Successful in This Course
 
 Don’t hesitate to ask questions! Learning to do data science is challenging for everyone, and reaching out for support and assistance is imperative.
-Our late assignment policy is that as long as you submit the assignment before we grade it, you will receive full credit. However, we may grade assignments very soon after they are due. For assignments received after the due date, 5% from the grade you otherwise would earn will be subtracted from your final grade for each day late.
+Our late assignment policy is that as long as you submit the assignment before I grade it, you will receive full credit. However, I may grade assignments very soon after they are due. For assignments received after the due date, 5% from the grade you otherwise would earn will be subtracted from your final grade for each day late.
 Texts/Resources/Materials:
 
 > Estrellado, R. A., Freer, E. A., Mostipak, J., Rosenberg, J. M., & Velásquez, I. C. (2020). Data science in education using R. London, England: Routledge. Freely-available from: http://www.datascienceineducation.com/

@@ -5,16 +5,4 @@ date: "8/19/2021"
 output: html_document
 ---
 
-- Week 1: [RMD](https://github.com/making-data-science-count/s21-intro-to-data-sci-methods-in-ed/blob/main/presentations-week-1.Rmd), [HTML](slides/presentations-week-1.html), [PDF](slides/presentations-week-1.pdf)
-- Week 2: [RMD](https://github.com/making-data-science-count/s21-intro-to-data-sci-methods-in-ed/blob/main/slides/presentations-week-2.Rmd), [HTML](slides/presentations-week-2.html), [PDF](slides/presentations-week-2.pdf)
-- Week 3: [RMD](https://github.com/making-data-science-count/s21-intro-to-data-sci-methods-in-ed/blob/main/slides/presentations-week-3.Rmd), [HTML](slides/presentations-week-3.html), [PDF](slides/presentations-week-3.pdf)
-- Week 4: [RMD](https://github.com/making-data-science-count/s21-intro-to-data-sci-methods-in-ed/blob/main/slides/presentations-week-4.Rmd), [HTML](slides/presentations-week-4.html), [PDF](slides/presentations-week-4.pdf)
-- Week 5: [RMD](https://github.com/making-data-science-count/s21-intro-to-data-sci-methods-in-ed/blob/main/slides/presentations-week-5.Rmd), [HTML](slides/presentations-week-5.html), [PDF](slides/presentations-week-5.pdf)
-- Week 6: [RMD](https://github.com/making-data-science-count/s21-intro-to-data-sci-methods-in-ed/blob/main/slides/presentations-week-6.Rmd), [HTML](slides/presentations-week-6.html), [PDF](slides/presentations-week-6.pdf)
-- Week 7: [RMD](https://github.com/making-data-science-count/s21-intro-to-data-sci-methods-in-ed/blob/main/slides/presentations-week-7.Rmd), [HTML](slides/presentations-week-7.html), [PDF](slides/presentations-week-7.pdf)
-- Week 8: [RMD](https://github.com/making-data-science-count/s21-intro-to-data-sci-methods-in-ed/blob/main/slides/presentations-week-8.Rmd), [HTML](slides/presentations-week-8.html), [PDF](slides/presentations-week-8.pdf)
-- Week 10: [RMD](https://github.com/making-data-science-count/s21-intro-to-data-sci-methods-in-ed/blob/main/slides/presentations-week-10.Rmd), [HTML](slides/presentations-week-10.html), [PDF](slides/presentations-week-10.pdf)
-- Week 11: [RMD](https://github.com/making-data-science-count/s21-intro-to-data-sci-methods-in-ed/blob/main/slides/presentations-week-11.Rmd), [HTML](slides/presentations-week-11.html), [PDF](slides/presentations-week-11.pdf)
-- Week 12: [RMD](https://github.com/making-data-science-count/s21-intro-to-data-sci-methods-in-ed/blob/main/slides/presentations-week-12.Rmd), [HTML](slides/presentations-week-12.html), [PDF](slides/presentations-week-12.pdf)
-- Week 13: [RMD](https://github.com/making-data-science-count/s21-intro-to-data-sci-methods-in-ed/blob/main/slides/presentations-week-13.Rmd), [HTML](slides/presentations-week-13.html), [PDF](slides/presentations-week-13.pdf)
-- Week 14: [RMD](https://github.com/making-data-science-count/s21-intro-to-data-sci-methods-in-ed/blob/main/slides/presentations-week-14.Rmd), [HTML](slides/presentations-week-14.html), [PDF](slides/presentations-week-14.pdf)
+- Week 1: [RMD](https://github.com/alishinski/course-website/blob/main/presentations-week-1.Rmd), [HTML](slides/week1-slides.html), [PDF](slides/week1-slides.pdf)

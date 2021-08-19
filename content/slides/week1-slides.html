@@ -1,0 +1,328 @@
+---
+title: "Week 1: Getting Started"
+subtitle: ""
+author: "Joshua M. Rosenberg, Alex Lishinski"
+date: "January 21, 2022"
+output:
+  xaringan::moon_reader:
+    css: [theme.css]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="agenda" class="section level1">
+<h1>Agenda</h1>
+<ol style="list-style-type: decimal">
+<li>Introductions to one another</li>
+<li>A brief introduction to data science</li>
+<li>First activity: Visualizing data in RStudio!</li>
+<li>Discussion of the syllabus</li>
+<li>Check-out</li>
+</ol>
+<hr />
+<p>class: inverse, center, middle</p>
+</div>
+<div id="part-15-introductions-to-one-another" class="section level1">
+<h1>Part 1/5: Introductions (to one another)</h1>
+<hr />
+</div>
+<div id="whoami" class="section level1">
+<h1>#whoami</h1>
+<p>.pull-left[
+* Joshua Rosenberg, Ph.D.
+* Contact:
+* <span class="citation">[@jrosenberg6432]</span>(<a href="https://twitter.com/jrosenberg6432" class="uri">https://twitter.com/jrosenberg6432</a>)
+* <a href="mailto:jmrosenberg@utk.edu">jmrosenberg@utk.edu</a>
+* <a href="https://joshuamrosenberg.com" class="uri">https://joshuamrosenberg.com</a>
+* Assistant Professor, STEM Education, University of Tennessee, Knoxville
+* Dad (2 year old toddler)
+* Primary areas of interest:
+* Science education
+* Data science (for) education
+* Data science in education
+* Former HS science teacher
+* Presently PI or Co-PI for three NSF grants]</p>
+<hr />
+</div>
+<div id="whoami-1" class="section level1">
+<h1>#whoami</h1>
+<p>.pull-left[
+* Alex Lishinski, Ph.D.
+* Contact:
+* <span class="citation">[@html034]</span>(<a href="https://twitter.com/html034" class="uri">https://twitter.com/html034</a>)
+* <span class="citation">[@html034@fosstodon.org]</span>(<a href="https://fosstodon.org/@html034" class="uri">https://fosstodon.org/@html034</a>)
+* <a href="mailto:alishins@utk.edu">alishins@utk.edu</a>
+* <a href="https://alexlishinski.com" class="uri">https://alexlishinski.com</a>
+* Postdoctoral researcher, CS Education, University of Tennessee, Knoxville
+* Dad (3 year old toddler)
+* Primary areas of interest:
+* Computer Science education
+* Quantitative research methods
+* Data science in education
+* Former philosopher]</p>
+<hr />
+</div>
+<div id="breakout-rooms" class="section level1">
+<h1>Breakout rooms!</h1>
+<p>Starting with whomever had a snack or meal most recently, discuss . . .</p>
+<ol style="list-style-type: decimal">
+<li>What is something you’re good at but don’t particularly like to do?</li>
+<li>What is something you like to do but aren’t particularly good at?</li>
+<li>Why are you interested in data science?</li>
+</ol>
+<p>(10 minutes)</p>
+<hr />
+<p>class: inverse, center, middle</p>
+</div>
+<div id="part-25-introductions-to-the-class" class="section level1">
+<h1>Part 2/5: Introductions (to the class)</h1>
+<hr />
+<div id="course-faq" class="section level2">
+<h2>Course FAQ</h2>
+<p>.pull-left-wide[
+<strong>Q - What data science background does this course assume?</strong><br />
+A - None.</p>
+<p><strong>Q - Is this an intro stat course?</strong><br />
+A - While statistics <span class="math inline">\(\ne\)</span> data science, they are very closely related and have tremendous of overlap. Hence, this course is a great way to get started with statistics. However this course is <em>not</em> your typical high school statistics course.</p>
+<p><strong>Q - Will we be doing computing?</strong><br />
+A - Yes.
+]</p>
+<hr />
+</div>
+<div id="course-faq-1" class="section level2">
+<h2>Course FAQ</h2>
+<p>.pull-left-wide[
+<strong>Q - Is this an intro CS course?</strong><br />
+A - No, but many themes are shared.</p>
+<p><strong>Q - What computing language will we learn?</strong><br />
+A - R.</p>
+<p><strong>Q: Why not language X?</strong><br />
+A: We can discuss that over coffee.
+]</p>
+<hr />
+<p><img src="img/excel.png" width="75%" style="display: block; margin: auto auto auto 0;" /></p>
+<hr />
+<p><img src="img/r.png" width="50%" style="display: block; margin: auto auto auto 0;" /></p>
+<hr />
+<p><img src="img/RStudio.png" width="73%" style="display: block; margin: auto auto auto 0;" /></p>
+<hr />
+<p><img src="img/data-science-cycle/data-science-cycle.001.png" width="90%" style="display: block; margin: auto auto auto 0;" /></p>
+<hr />
+<p><img src="img/data-science-cycle/data-science-cycle.002.png" width="90%" style="display: block; margin: auto auto auto 0;" /></p>
+<hr />
+<p><img src="img/data-science-cycle/data-science-cycle.003.png" width="90%" style="display: block; margin: auto auto auto 0;" /></p>
+<hr />
+<p><img src="img/data-science-cycle/data-science-cycle.004.png" width="90%" style="display: block; margin: auto auto auto 0;" /></p>
+<hr />
+<p><img src="img/data-science-cycle/data-science-cycle.005.png" width="90%" style="display: block; margin: auto auto auto 0;" /></p>
+<hr />
+<p><img src="img/data-science-cycle/data-science-cycle.006.png" width="90%" style="display: block; margin: auto auto auto 0;" /></p>
+<hr />
+<pre><code>## # A tibble: 5 × 2
+##   date             season
+##   &lt;chr&gt;            &lt;chr&gt; 
+## 1 23 January 2017  winter
+## 2 4 March 2017     spring
+## 3 14 June 2017     summer
+## 4 1 September 2017 fall  
+## 5 ...              ...</code></pre>
+<p>]</p>
+<hr />
+<p><img src="img/data-science-cycle/data-science-cycle.007.png" width="90%" style="display: block; margin: auto auto auto 0;" /></p>
+<hr />
+<p><img src="img/data-science-cycle/data-science-cycle.008.png" width="90%" style="display: block; margin: auto auto auto 0;" /></p>
+<hr />
+<p><img src="img/data-science-cycle/data-science-cycle.009.png" width="90%" style="display: block; margin: auto auto auto 0;" /></p>
+<hr />
+</div>
+</div>
+<div id="what-we-learned-from-your-survey-responses-thank-you" class="section level1">
+<h1>What we learned from your survey responses (thank you!)</h1>
+<ul>
+<li>Everyone uses spreadsheet software</li>
+<li>You’re (mostly) confident that you can solve problems with respect to analyzing
+data, but are less confident with respect to using statistical software</li>
+<li>You have impressive backgrounds and professional experiences</li>
+<li>For many, programming and using statistics correctly can be intimidating</li>
+<li>You’re a bit more interested in preparing data for analyses than we thought (cool!)</li>
+</ul>
+<hr />
+</div>
+<div id="pedagogical-framework" class="section level1">
+<h1>Pedagogical framework</h1>
+<p><em>Constructivist</em></p>
+<p>You’ll be involved in the process of building new capabilities (and knowledge and skills) with support from others and carefully-chosen scaffolds.</p>
+<ol style="list-style-type: decimal">
+<li>You will be doing a great deal of the work</li>
+<li>Then, we will discuss what we did and how it applies</li>
+</ol>
+<hr />
+</div>
+<div id="over-arching-design" class="section level1">
+<h1>Over-arching design</h1>
+<p>The pedagogical framework <em>plays out</em> in the following specific ways:</p>
+<ol style="list-style-type: decimal">
+<li>You’ll first see some brief examples to give you a sense of what’s possible</li>
+<li>You’ll be using R Markdown to try things out</li>
+<li>You’ll have a chance to share your ideas and thoughts about what you’ve done; it will also give me a chance to hear from you about what you did</li>
+</ol>
+<hr />
+</div>
+<div id="a-little-motivation-theory" class="section level1">
+<h1>A little motivation theory</h1>
+<div id="expectancy-value-theory" class="section level2">
+<h2>Expectancy-value theory</h2>
+<ul>
+<li><p>We choose things that we are <em>confident</em> that we can do well and that are <em>valuable</em> to us</p></li>
+<li><p>We do these in a sociocultural <em>context</em>: our sense of belonging impacts what we choose to do</p></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="an-argument-for-this-class" class="section level1">
+<h1>An argument for this class</h1>
+<ul>
+<li><p>This presentation will make the argument that <strong>you can use R and RStudio to solve
+problems that are important to you</strong></p></li>
+<li><p>In doing so, you can <strong>participate in a cool community of data scientists in education</strong></p></li>
+</ul>
+<hr />
+</div>
+<div id="why-learn-r" class="section level1">
+<h1>Why learn R?</h1>
+<ul>
+<li>It is capable of carrying out basic and complex statistical analyses</li>
+<li>It is able to work with data small (<em>n</em> = 30) and large (<em>n</em> = 100,000+) efficiently</li>
+<li>It is a programming language and so is quite flexible</li>
+<li>There is a great, inclusive community of users and developers (and teachers)</li>
+<li>It is increasingly used in education</li>
+<li>It can help you to carry out your educational analyses in open and trustworthy ways</li>
+<li>It is cross-platform, open-source, and freely-available</li>
+</ul>
+<hr />
+</div>
+<div id="rmarkdown" class="section level1">
+<h1>RMarkdown</h1>
+<ul>
+<li>RMarkdown is a data analysis “notebook” that combines text with code and output</li>
+<li>It is a great file type to use when beginning to use R and to create reproducible analyses</li>
+<li>It is fun to use because you can generate different types of output (Word, PDF, and even web-based)</li>
+</ul>
+<hr />
+</div>
+<div id="lets-look-at-a-bit-of-code-together" class="section level1">
+<h1>Let’s look at a bit of code together</h1>
+<p>What do you think this code will do?</p>
+<pre class="r"><code>sci_mo_processed %&gt;% 
+  filter(percentage_earned &gt;= .60) %&gt;% 
+  select(student_id, course_id, percentage_earned))</code></pre>
+<hr />
+</div>
+<div id="lets-look-at-a-bit-of-code-together-1" class="section level1">
+<h1>Let’s look at a bit of code together</h1>
+<pre class="r"><code>sci_mo_processed %&gt;% 
+  filter(percentage_earned &gt;= .60) %&gt;% 
+  select(student_id, course_id, percentage_earned)</code></pre>
+<pre><code>## # A tibble: 563 × 3
+##    student_id course_id     percentage_earned
+##         &lt;dbl&gt; &lt;chr&gt;                     &lt;dbl&gt;
+##  1      43146 FrScA-S216-02             0.677
+##  2      44638 OcnA-S116-01              0.757
+##  3      47448 FrScA-S216-01             0.661
+##  4      47979 OcnA-S216-01              0.677
+##  5      48797 PhysA-S116-01             0.865
+##  6      51943 FrScA-S216-03             0.855
+##  7      52446 PhysA-S116-01             0.824
+##  8      53447 FrScA-S116-01             0.676
+##  9      53475 FrScA-S116-02             0.820
+## 10      53475 FrScA-S216-01             0.808
+## # … with 553 more rows</code></pre>
+<hr />
+</div>
+<div id="lets-look-at-a-bit-of-code-together-2" class="section level1">
+<h1>Let’s look at a bit of code together</h1>
+<p>What do you think this code will do?</p>
+<pre class="r"><code>sci_mo_processed %&gt;% 
+  filter(percentage_earned &gt;= .60) %&gt;% 
+  arrange(desc(percentage_earned)) %&gt;% 
+  select(student_id, course_id, percentage_earned, TimeSpent)</code></pre>
+<hr />
+</div>
+<div id="lets-look-at-a-bit-of-code-together-3" class="section level1">
+<h1>Let’s look at a bit of code together</h1>
+<pre class="r"><code>sci_mo_processed %&gt;% 
+  filter(percentage_earned &gt;= .60) %&gt;% 
+  select(student_id, course_id, percentage_earned, TimeSpent)</code></pre>
+<pre><code>## # A tibble: 563 × 4
+##    student_id course_id     percentage_earned TimeSpent
+##         &lt;dbl&gt; &lt;chr&gt;                     &lt;dbl&gt;     &lt;dbl&gt;
+##  1      43146 FrScA-S216-02             0.677   1555.  
+##  2      44638 OcnA-S116-01              0.757   1383.  
+##  3      47448 FrScA-S216-01             0.661    860.  
+##  4      47979 OcnA-S216-01              0.677   1599.  
+##  5      48797 PhysA-S116-01             0.865   1482.  
+##  6      51943 FrScA-S216-03             0.855      3.45
+##  7      52446 PhysA-S116-01             0.824   1390.  
+##  8      53447 FrScA-S116-01             0.676   1479.  
+##  9      53475 FrScA-S116-02             0.820     NA   
+## 10      53475 FrScA-S216-01             0.808   1867.  
+## # … with 553 more rows</code></pre>
+<hr />
+<p>class: inverse, center, middle</p>
+</div>
+<div id="part-35-tutorial" class="section level1">
+<h1>Part 3/5: Tutorial</h1>
+<hr />
+</div>
+<div id="first-in-class-tutorial-data-viz" class="section level1">
+<h1>First in-class tutorial: Data viz!</h1>
+<ul>
+<li>Navigate to <a href="https://github.com/making-data-science-count/s21-intro-to-data-sci-methods-in-ed/find/main" class="uri">https://github.com/making-data-science-count/s21-intro-to-data-sci-methods-in-ed/find/main</a></li>
+<li>Begin to type “tutorials”</li>
+<li>Find <code>tutorials-week-1.Rmd</code></li>
+<li>Download this file by right-clicking it and then open it within RStudio</li>
+<li>Walk through the steps</li>
+</ul>
+<hr />
+<p>class: inverse, center, middle</p>
+</div>
+<div id="part-45-syllabus" class="section level1">
+<h1>Part 4/5: Syllabus</h1>
+<hr />
+</div>
+<div id="organization-of-the-class" class="section level1">
+<h1>Organization of the class</h1>
+<ul>
+<li>Class website: <a href="https://making-data-science-count.github.io/s21-intro-to-data-sci-methods-in-ed/" class="uri">https://making-data-science-count.github.io/s21-intro-to-data-sci-methods-in-ed/</a></li>
+<li>Canvas: for submitting assignments and checking grades</li>
+<li>Slack: for communication</li>
+<li>Email: also for communication</li>
+<li>Zoom: for synchronous classes</li>
+</ul>
+<hr />
+<p>class: inverse, center, middle</p>
+</div>
+<div id="part-55-check-out" class="section level1">
+<h1>Part 5/5: Check-out</h1>
+<hr />
+</div>
+<div id="random-notes" class="section level1">
+<h1>Random note(s)</h1>
+<ul>
+<li>Free rstudio::conf(): <a href="https://rstudio.com/conference/" class="uri">https://rstudio.com/conference/</a> (today until 8 am PT tomorrow, 1/22/2021)</li>
+</ul>
+<hr />
+</div>
+<div id="discuss-in-base-groups-or-if-there-is-insufficient-time-in-slack" class="section level1">
+<h1>Discuss in base groups (or, if there is insufficient time, in Slack)</h1>
+<ul>
+<li>What is one thing you learned today?</li>
+<li>What questions do you still have?</li>
+</ul>
+</div>
