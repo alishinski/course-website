@@ -4,27 +4,38 @@ author: "Alex Lishinski"
 date: "8/19/2021"
 output: html_document
 ---
+### Class recordings (password required; see Slack)
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+- [Week 1](https://tennessee.zoom.us/rec/share/rRprrDMdgVRM9xserfYhQnlmm8D4EBChSKQWS3ya1SYUCH4or2CY7qNFj3l214wk.KQDipfxXNZrY38ad)
+- [Week 2](https://tennessee.zoom.us/rec/share/bdjN_zHz7VqphHg8d3Y2DVmNlcRK2Ocms7gcTpRjBA0LXaS-5freubRWbko92kAP.iyhVOK7vsp73Ncmy)
+- [Week 3](https://tennessee.zoom.us/rec/share/IIDRdgajy2BQNDymE_73rL7dP4bVM72FxH_jnwKMg-wHcFcyH6z_-5zsZZqivbj2.5Hb3GVORhi7Vj-xI)
+- [Week 4](https://tennessee.zoom.us/rec/share/SSfLL0p5mPq8GVehvkadNRkdeWnrocnSW70xL5AurFs7OegIQI_KH0LYYEPB-EIW._oaNXpDRlQWvCn1s)
+- [Week 5](https://tennessee.zoom.us/rec/share/1EPrjKwWM382FgkCgwn6UaOWpU4Gbt44tpUWu0z_MrvndLpFG7ixcjjr-RgA6QM.rVBPF3SsVC2n6eZh)
+- [Week 6](https://tennessee.zoom.us/rec/share/Wtk2Glo6el2HaPRKSZSuJBwUIOreON7LLv607uGbZVjwltXPD6S2-xysOsMXrsl8.--_s11em6U-1-6fC)
+- [Week 7](https://tennessee.zoom.us/rec/share/r65DutSapzjKNxxBT01yVV3Cpd7JAqcwDPxKBzxTx94kJrEbb08tpL5F9Mxw7CzR.8R5sJVdj8hb7y1aj)
+- Week 8 - No synchronous class
+- Week 9
+- Week 10
+- Week 11
+- Week 12
+- Week 13
 
-## R Markdown
+### Homework videos 
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+- [HW 1](https://tennessee.zoom.us/rec/share/xLBmj7lqdmANkRVB2SvL4pBTX4hng3jpxw0znH5FWi2CIGHmfg5q_H9g5QkduT5s.WAV9rRzzyH9UXwZ7?startTime=1611332611000)
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+### Topic videos
 
-```{r cars}
-summary(cars)
-```
+- [Using R Projects](https://tennessee.zoom.us/rec/share/6Ch_B0VQSh4XOmRXw3Zum7cZ_M7HaVoYErPn8WPBP6Ylf3MKK1OrtMfa9-HmWVOR.7cl4Un1DdOnEFbu1)
 
-## Including Plots
+- [Extra material from week 2 slides not covered in class](https://tennessee.zoom.us/rec/play/58gQ7qPUZcJykRzH0RaxRsCnvPyPMQbY-Aqji8mOv5_0ZVq4M32zV0Q0mED1PCNChSCmSIWPOG288_4V.aOWdsvvdQQubCvA2?autoplay=true&startTime=1611893850000)
 
-You can also embed plots, for example:
+- [Vector types in R](https://tennessee.zoom.us/rec/play/U4qu4FZcAM6An6QE8yuWHE7l3M3QvvkaNndsiRxDKTF9NcBtMWs5l3rm6Xhm2ztrvi3l3wi2WCu2ahUt._yJXDuWJYfV4Twkh?continueMode=true)
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
+- [Homework 4 solution walkthrough](https://tennessee.zoom.us/rec/share/4ZYWWBQYkA4_4YWP_-twc_F229EXtOHCb3H7CcLkWK0krYwrnGFB9y4-grcwNVtR.WnvBsBar64vEQSwE)
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+- [Homework 8 solution walkthrough](https://tennessee.zoom.us/rec/share/TEryKqSo7zyZx53uQ_RZBDgE4ybumOoGGVOzDvYx9i_shMnPocuQVur0gGJhnSQ.-I9nQGVkY7d57ir_)
+
+- [Homework 9 supplementary explanation - code chunks](https://tennessee.zoom.us/rec/share/wCxEUXjYysY5Zb2mjpyNUMzP6W-rgyf9bOA6scu-tVOggeR6TQEXW3gvhG9R5Eov.FLxCdBmt3fgxLgiy )
+
+- [Week 11 demo](https://tennessee.zoom.us/rec/share/BxDFhbdafdxV6_FMl-fgtph3XZAZc_GwFaeYvzPYkswetiZF_BPtr6gjZCyRYbVV.IxdzaU4zmC_Y7uRl)

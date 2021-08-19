@@ -5,26 +5,30 @@ date: "8/19/2021"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+## Homework (12-14)
 
-## R Markdown
+Weekly homework. To be submitted in the form of an R Markdown file (`.Rmd`) via Canvas. There are a few weeks in which we may not have homework for different reasons; why the number of homeworks is listed as 12-14.
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+## Interactive examinations (3)
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+Interaction examinations following each unit. These provide a chance to reflect on and summarize what you did and learned during the unit. Don't worry, these aren't high-stress!
 
-```{r cars}
-summary(cars)
-```
+Available in Canvas.
 
-## Including Plots
+## Personal statement on data ethics
 
-You can also embed plots, for example:
+Write a personal statement on one’s perspective toward the role and nature of data, addressing how issues of equity, privacy, and ethics are central to data science in education (due approximately one-third of the way through the semester).
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
+[Link to assignment details](assignment-data-ethics.html)
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## Curating a data science resource
+
+Curate a data science resource as a part of a class resource throughout the semester.
+
+[Link to assignment details](assignment-curating-a-data-science-resource.html)
+
+## Individual final project
+
+Complete an individually-designed project that can take different forms (R Markdown Report, interactive Shiny app, interactive dashboard, etc.) related to identifying and solving a data-related problem in education using R (due approximately two-thirds of the way through the semester).
+
+[Link to assignment details](assignment-final-project.html)
