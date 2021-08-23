@@ -18,4 +18,4 @@ Welcome to An Introduction to Data Science Methods in Education! The overarching
 
 # Modality
 
-Note: This class is designed as a fully online and partially synchronous course. We will meet synchronously every week via Zoom on Tuesdays and Thursdays 2:50-4:05 pm. This class will be taught in a fully-online format. We will use Zoom for synchronous (or at-the-same-time) a) introductions to new content, b) “try-it-out” laboratories, and c) discussions. We will also use a number of tools for asynchronous communication, especially [Slack (click for link to our class Slack workspace)](https://datascienceinedu.slack.com/).
+Note: This class is designed as a fully online and partially synchronous course. We will meet synchronously every week via Zoom on Tuesdays and Thursdays 2:50-4:05 pm. This class will be taught in a fully-online format. We will use Zoom for synchronous (or at-the-same-time) a) introductions to new content, b) “try-it-out” laboratories, and c) discussions. We will also use a number of tools for asynchronous communication, especially [Slack (click for link to our class Slack workspace)](https://introductiont-mej9811.slack.com).
