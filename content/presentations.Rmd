@@ -6,3 +6,5 @@ output: html_document
 ---
 
 - Week 1: [RMD](https://github.com/alishinski/course-website/blob/master/slides/week1-slides.Rmd), [HTML](https://f21-intro-to-data-sci-methods-in-ed.netlify.app/slides/week1-slides.html), [PDF](https://f21-intro-to-data-sci-methods-in-ed.netlify.app/slides/week1-slides.pdf)
+
+- Week 1: [RMD](https://github.com/alishinski/course-website/blob/master/slides/week2-slides.Rmd), [HTML](https://f21-intro-to-data-sci-methods-in-ed.netlify.app/slides/week2-slides.html), [PDF](https://f21-intro-to-data-sci-methods-in-ed.netlify.app/slides/week2-slides.pdf)
