@@ -7,6 +7,8 @@ output: html_document
 ### Class recordings (password required; see Slack)
 
 - [Week 1]()
+- [Week 2]()
+
 
 ### Homework videos 
 
