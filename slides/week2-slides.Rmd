@@ -30,11 +30,21 @@ output:
 
 ---
 
-# Touching Base Questions
+# Touching Base
 
-Starting with whomever had the most sleep last night... 
+- Introductions 
 
+* Alex Lishinski, Ph.D. (they/them)
+* Contact: 
+  * [alishins@utk.edu](mailto:alishins@utk.edu)
+* Postdoctoral researcher, CS Education, University of Tennessee, Knoxville
+* Primary areas of interest:
+  * Computer Science education
+  * Quantitative research methods
+  * Data science in education
+* Former philosopher
 
+- Recap
 
 ---
 
@@ -89,7 +99,9 @@ getwd()
 
 R Projects 
 
-Project options are saved in .Rproj file
+Projects keep your work better contained and organized
+
+Project data is saved using .RData - but we won't be using it!
 
 The here package helps you to navigate around in a project:
 
@@ -97,7 +109,7 @@ The here package helps you to navigate around in a project:
 library(here)
 
 # data file
-here("data", "fall=2018-data-file.csv")
+here("data", "fall-2018-data-file.csv")
 ```
 
 ---
@@ -382,20 +394,19 @@ x | y
 
 # Demo
 
-Tour of Rstudio
-Projects
-Packages
-Files
-R scripts and Rmarkdown
+- Tour of Rstudio
+- Projects
+- Packages
+- Files
+- R scripts and Rmarkdown
 
 ---
 
 ## Readings
 
-Two assigned readings for the next week:
+One assigned readings for the next week:
 
 - Data Science in Education Using R (DSIEUR) chapter #3: https://datascienceineducation.com/c03.html
-- Grammar of Graphics: http://vita.had.co.nz/papers/layered-grammar.pdf
 
 ---
 
@@ -403,12 +414,14 @@ Two assigned readings for the next week:
 
 ### This week
 
-- Readings (by next class; Thursday, 2/4)
-- HW1
+- Readings (by next week)
+- HW1 (Given Thursday)
 
 ---
 
 # Wrapping up
+
+On slack:
 
 - What is one thing you took away from today?
 - What is something you want to learn more about? 

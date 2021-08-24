@@ -14,4 +14,3 @@ None
 Readings:
 
 - Data Science in Education Using R (DSIEUR) chapter #3: https://datascienceineducation.com/c03.html
-- Grammar of Graphics: http://vita.had.co.nz/papers/layered-grammar.pdf
