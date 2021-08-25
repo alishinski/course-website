@@ -6,25 +6,291 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
 ```
 
-## R Markdown
+# Loading, setting up
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+## Checking that the project is correct
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+First, ensure that this `.Rmd` file is saved *in the directory for the project that you 
+created for the course.* 
 
-```{r cars}
-summary(cars)
+## First, let's install and load ggplot2 
+
+We'll do so by running the following line of code. This line of code, though, is 
+a bit different from most: it installs a new R "package" with specific, additional 
+functionality. Installing R packages is very common. The reason it is different from
+most code, though, is you typically only want to run it once - after that, the package
+is installed on your computer, and you don't need to run it again. For that reason,
+we've commented out this line of code below. You will just have to remove that 
+comment symbol and then click the green arrow to the right to run the code!
+
+```{r}
+# install.packages("ggplot2")
 ```
 
-## Including Plots
+Next, we'll "load" ggplot2, or check it out for use in our current analysis / R 
+session. Run this next chunk the same way as the first:
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+library(ggplot2)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## Print a built-in dataset
+
+Next, simply run msleep to view a dataset built-in to R:
+
+```{r}
+msleep
+```
+
+What do you notice? What do you wonder? Consider viewing additional rows by clicking
+the numbers at the bottom of the table; or more rows by clicking the black right arrow 
+at the top.
+
+Add a few thoughts on what you notice and what you wonder after the dashes below!
+You can add additional dashes, if needed!
+
+- 
+- 
+- 
+
+
+
+## Loading the tidyverse suite of packages
+
+Next, load the tidyverse packages (or, more descriptively, the suite of packages)
+Recall that the tidyverse includes a number of useful packages that work with each 
+other and many other packages well; check out this site to learn more (we highly
+recommend poking around and familiarizing oneself with the tidyverse site!):
+
+https://www.tidyverse.org/
+
+Add your code below to load (hint: but not install, unless you were unable to 
+do this in class) the tidyverse suite of packages. Check out your 
+homework from last week if you need a reminder on how to do this. Remember to 
+run the chunk by clicking the green arrow to the right of the chunk.
+
+```{r}
+
+```
+
+We'll be using the gss_cat dataset for this homework. It is built-in to the 
+tidyverse, so, to load it, just type its name in a code chunk and then run 
+the coe in that chunk.
+
+## Examine data
+
+Often, it is helpful and important to get to know the dimensions of your data.
+
+How many rows and columns exist in the gss_cat data? Add the number after the two 
+clauses below. It may help to add some code to determine this; you may find it helpful 
+to add code on the line following this line, if you like.
+
+```{r}
+library(lubridate)
+
+storms %>%
+  mutate(date = make_date(year = year, month = month, day = day))
+```
+
+Number of rows:
+
+Number of columns:
+
+We have one more question to pose to you: What do rows and columns typically 
+represent in your area of work and/or research? Rows typically represent "cases,"
+the units that we measure, or the units on which we collect data. This is not a trick
+question! What counts as a "case" (and therefore what is represented as a row)
+varies by (and within) fields. There may be multiple types or levels of units
+studied in your field; listing more than one is fine! Also, please consider what
+columns - which usually represent variables - represent in your area of work and/or
+research.
+
+What rows typically represent:
+
+What columns typically represent: 
+
+# Selecting variables
+
+Let's select only a few variables.
+
+```{r}
+gss_cat %>% 
+  select(year, age, tvhours)
+```
+
+Let's *include one additional variable* in your select function.
+
+First, we need to figure out what variables exist in our dataset (or be reminded 
+of this - it's very common in R to be continually checking and inspecting your data)! 
+
+You can use glimpse to do this; check this slide for an example of how to use it:
+https://making-data-science-count.github.io/s21-intro-to-data-sci-methods-in-ed/slides/presentations-week-2.html#17
+
+Be sure to replace the argument to glimpse for the data set in that example with the name of the 
+dataset we are using here (the same dataset with the name you typed in the chunk above): 
+
+```{r}
+
+```
+
+Then, add a new variable to the code below, being careful to type the new variable 
+name as it appears in the data. We've added some code to get you started.
+
+```{r}
+gss_cat %>% 
+  select()
+```
+
+# Filtering variables
+
+Next, let's explore filtering variables. Check out and run the next chunk of code:
+
+```{r}
+gss_cat %>% 
+  filter(tvhours > 3)
+```
+
+Note that *a bit* more information on this dataset is available by running ?gss_cat in 
+the console tab of RStudio; or, by including ?gss_cat in a code chunk and then running
+the code in that chunk. *A lot* more information on the large-scale survey from which
+this data was accessed is here: https://gss.norc.org/get-documentation
+
+What do you notice (about the code or its output)? What do you wonder? Add these
+thoughts below!
+
+- 
+- 
+- 
+
+What do you think will happen if we add another condition to the filter statement?
+
+**Try it out!**
+
+Let's try to filter on age, as well. We've added some code to get you started.
+
+Logical operators define relationships between conditions that are either TRUE
+or FALSE. R calls variables with a TRUE or FALSE value "logical," but they're
+otherwise known as "boolean." When you use the filter() function for example
+you're defining a logical condition. You give the condition to filter on based
+on variables in the data, such as `mpg < 20` or `am == 1`, and you are asking the
+filter() function to return the rows for which that condition is TRUE, i.e. that
+the mpg value on that row is less than 20 or the am value on that row equals 1.
+Other logical operators can connect 2 conditions. You could use `mpg <20 & am
+== 1` to filter the rows meeting both conditions, and you can use `mpg < 20 | am
+== 1` to filter rows meeting one or more of the two conditions.
+
+```{}
+# equivalent to
+==
+  
+# not equivalenet to
+!=
+  
+# greater than
+>
+  
+# lesser than
+<
+
+# equivalent or greater to
+>=
+  
+# equivalent or lesser than
+<=
+```
+
+Add a logical operator (of your choosing) and complete the logical statement for
+the age variable below; you can use any of the logical operators defined above:
+
+```{r}
+gss_cat %>% 
+  filter(tvhours > 3,
+         age )
+```
+
+## Arrange
+
+Let's arrange the data frame based on the tvhours variable:
+
+```{r}
+gss_cat %>% 
+  arrange(tvhours)
+```
+
+**Try it out!**
+
+Now, arrange the dataset based not on tvhours, but on a variable of your choice.
+We've added a chunk of code below, but nothing more:
+
+```{r}
+
+```
+
+## Reach 1
+
+Can you compose a series of functions that include the select(), filter(), and
+arrange functions? Recall that you can "pipe" the output from one function to the 
+next; check out the following slide from Week 1's presentations for an example: 
+https://making-data-science-count.github.io/s21-intro-to-data-sci-methods-in-ed/slides/presentations-week-1.html#31
+
+```{r}
+gss_cat %>% 
+```
+
+When content with the result, write a brief (1-2 sentence) interpretation of what 
+your code outputs next:
+
+
+## Reach 2
+
+Can you read a .csv file using the readr package, HINT: we talked about it in the slides today
+
+There is a .csv file called answer_export.csv, that you can find here: https://github.com/making-data-science-count/s21-intro-to-data-sci-methods-in-ed/tree/main/data
+
+Download it and assign it to the name data:
+
+```{r}
+library(readr)
+
+
+
+exists("data")
+```
+
+
+## fin
+
+Nice work! Once you've finished your work, click "Knit" at the top to render a 
+report that you can share; this is how you'll submit homework for class! 
+
+**Note:** Slightly differently from last week, please submit:
+
+- Submit the .html file you used to render a report to Canvas
+- Upload the .Rmd file you rendered to the #homework channel in Slack.
+
+:tada: :tada: :tada: 
+
+## Self-assessment and reflection
+
+Respond to the following three questions on a 1 (not at all) to 5 (very much) 
+scale by replacing the "x" below with your response:
+
+```{r}
+x = NULL
+tibble::tribble(
+  ~question,                                   ~response,
+  "How challenging was this homework?",        x,
+  "How interesting was this homework to you?", x,
+  "How valuable was this homework to you?",    x
+)
+```
+
+Include any other comments, feedback, or reflections on this homework below:
+
+
+
+If you like, you can post these other comments, feedback, or reflections in the 
+message you post to #homework in Slack to share what you've done.
