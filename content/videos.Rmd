@@ -8,9 +8,10 @@ output: html_document
 
 - [Week 2 Lecture](https://tennessee.zoom.us/rec/share/ly1wN7qlP5F96Du6g7_RELTRPcn_5AYhlbCXrJpAtjf-zd4qaw_9Apel6jxtWt23.ZZentZmU1XFPgAD0)
 
-
 ### Homework videos 
 
 
 ### Topic videos
+
+
 
