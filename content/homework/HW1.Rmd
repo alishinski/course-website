@@ -27,14 +27,14 @@ we've commented out this line of code below. You will just have to remove that
 comment symbol and then click the green arrow to the right to run the code!
 
 ```{r}
-# install.packages("ggplot2")
+# install.packages("tidyverse")
 ```
 
-Next, we'll "load" ggplot2, or check it out for use in our current analysis / R 
+Next, we'll "load" the tidyverse, or check it out for use in our current analysis / R 
 session. Run this next chunk the same way as the first:
 
 ```{r}
-library(ggplot2)
+library(tidyverse)
 ```
 
 ## Print a built-in dataset
@@ -245,9 +245,10 @@ your code outputs next:
 
 ## Reach 2
 
-Can you read a .csv file using the readr package, HINT: we talked about it in the slides today
+Can you read a .csv file using the readr package, HINT: we talked about it in the slides
 
-There is a .csv file called answer_export.csv, that you can find here: https://github.com/making-data-science-count/s21-intro-to-data-sci-methods-in-ed/tree/main/data
+There is a .csv file called answer_export.csv, that you can find here: 
+
 
 Download it and assign it to the name data:
 
@@ -265,10 +266,10 @@ exists("data")
 Nice work! Once you've finished your work, click "Knit" at the top to render a 
 report that you can share; this is how you'll submit homework for class! 
 
-**Note:** Slightly differently from last week, please submit:
+Please submit:
 
 - Submit the .html file you used to render a report to Canvas
-- Upload the .Rmd file you rendered to the #homework channel in Slack.
+- Upload the .Rmd file you rendered to the #homework-yourname channel in Slack.
 
 :tada: :tada: :tada: 
 
