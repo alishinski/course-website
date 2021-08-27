@@ -16,21 +16,19 @@ knitr::opts_chunk$set(echo = TRUE, error = TRUE)
 First, ensure that this `.Rmd` file is saved *in the directory for the project that you 
 created for the course.* 
 
-## First, let's install and load ggplot2 
+## First, let's install and load a package 
 
 We'll do so by running the following line of code. This line of code, though, is 
 a bit different from most: it installs a new R "package" with specific, additional 
 functionality. Installing R packages is very common. The reason it is different from
 most code, though, is you typically only want to run it once - after that, the package
-is installed on your computer, and you don't need to run it again. For that reason,
-we've commented out this line of code below. You will just have to remove that 
-comment symbol and then click the green arrow to the right to run the code!
+is installed on your computer, and you don't need to run it again. In fact this line shouldn't even really be in this document, so if you already have the here package installed, you can just go ahead and delete everything from lines 27-29. Otherwise remove the # symbol, run the code, and then delete.
 
 ```{r}
 # install.packages("tidyverse")
 ```
 
-Next, we'll "load" the tidyverse, or check it out for use in our current analysis / R 
+Next, we'll "load" the here package, to make it available for use in our current analysis / R 
 session. Run this next chunk the same way as the first:
 
 ```{r}
@@ -88,10 +86,7 @@ clauses below. It may help to add some code to determine this; you may find it h
 to add code on the line following this line, if you like.
 
 ```{r}
-library(lubridate)
-
-storms %>%
-  mutate(date = make_date(year = year, month = month, day = day))
+gss_cat
 ```
 
 Number of rows:
@@ -125,18 +120,14 @@ Let's *include one additional variable* in your select function.
 First, we need to figure out what variables exist in our dataset (or be reminded 
 of this - it's very common in R to be continually checking and inspecting your data)! 
 
-You can use glimpse to do this; check this slide for an example of how to use it:
-https://making-data-science-count.github.io/s21-intro-to-data-sci-methods-in-ed/slides/presentations-week-2.html#17
-
-Be sure to replace the argument to glimpse for the data set in that example with the name of the 
-dataset we are using here (the same dataset with the name you typed in the chunk above): 
+We can do this a number of ways, including simply running the name of the dataset and looking at the printed output. There's also a function called `colnames()` that can be very handy.
 
 ```{r}
-
+colnames(gss_cat)
 ```
 
 Then, add a new variable to the code below, being careful to type the new variable 
-name as it appears in the data. We've added some code to get you started.
+name exactly as it appears in the data. We've added some code to get you started.
 
 ```{r}
 gss_cat %>% 
@@ -232,8 +223,8 @@ We've added a chunk of code below, but nothing more:
 
 Can you compose a series of functions that include the select(), filter(), and
 arrange functions? Recall that you can "pipe" the output from one function to the 
-next; check out the following slide from Week 1's presentations for an example: 
-https://making-data-science-count.github.io/s21-intro-to-data-sci-methods-in-ed/slides/presentations-week-1.html#31
+next.
+
 
 ```{r}
 gss_cat %>% 
