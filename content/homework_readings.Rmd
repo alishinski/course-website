@@ -11,6 +11,16 @@ None
 
 ## Week 2
 
+Homework:
+
+Homework 1: https://github.com/alishinski/course-website/blob/master/content/homework/HW1.Rmd
+
 Readings:
 
 - Data Science in Education Using R (DSIEUR) chapter #3: https://datascienceineducation.com/c03.html
+
+## Week 3
+
+Readings:
+
+- R for Data Science Chapter #12 Tidy Data: https://r4ds.had.co.nz/tidy-data.html

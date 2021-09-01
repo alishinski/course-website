@@ -1,0 +1,384 @@
+---
+title: "Week 3: 'Tidying' data" 
+subtitle: ""
+author: "Alex Lishinski"
+date: "August 31, 2021"
+output:
+  xaringan::moon_reader:
+    css: [theme.css]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+# Welcome!
+
+Welcome to *week 3*!
+
+Great job last week. 
+
+Now we feel like we have enough of an introduction to some of the basics of working 
+with R that we can move to the more substantial material. However, don't be discouraged
+if you don't feel rock solid about any of the basics we've covered so far. We will continue to reinforce these as we move forward.
+
+**Record the meeting** 
+
+```{r, include = FALSE}
+library(here)
+library(dplyr)
+library(readr)
+library(magrittr)
+```
+
+---
+
+# Discussion
+
+- How did you find the homework? Too easy, too hard, confusing?
+
+- From [the chapter introducing educational data science](https://datascienceineducation.com/c03.html), which of the educational data science roles do you see as the most similar to the work you have done, are doing, or intend to do, and why? If you are coming from outside of education, discuss any similarities (or the lack thereof)!
+
+- What are you looking forward to (general life question)?
+
+(10 minutes)
+
+---
+
+# Recap: Foundational R skills
+
+A general framework for you to use as a foundation and as a set of concepts to help you work through the class.
+
+The four core concepts we will use to build our framework are:
+
+1. Projects
+1. Packages
+1. Data
+1. Functions
+
+You will use each of these in most of your analyses with R.
+
+---
+
+# Recap: Foundational R skills
+
+These foundational skills are what we will build on as we move to data wrangling and tidying
+
+We're not done building your understanding of working with packages, data, and functions
+
+---
+
+# Recap: Packages quick review
+
+1. What are packages? 
+  + Code bundles that add functionality to R
+  + Examples: ggplot2, dplyr, rtweet, quanteda, lme4
+1. Where do we get packages?
+  + CRAN or GitHub
+1. How do we install packages?
+  + `install.packages("pkg-name")`
+1. How do we know what packages to use?
+  + Searching 
+  + People and news related to R (more later - there are *tons*)
+  + CRAN task views
+1. How do we use packages?
+  + `library(pkgname)`
+
+---
+
+### Overview of today's class
+
+Wrangling and Tidying
+
+1. Reading in Data
+1. Tidying data
+1. Our Tidy data tools
+
+---
+
+# 1. Reading in Data
+
+So far, we have used *built-in data*. There is a lot of built-in data!
+
+Loading different types of data, assigning to a name 
+
+Comma-separated values (`.csv`)
+
+```{r, eval = FALSE}
+library(readr)
+
+data <- readr::read_csv(here( "content", "data", "answer_export.csv"))
+```
+
+---
+
+# 1. Reading in Data 
+
+`.xlsx`
+
+```{r, eval = FALSE}
+library(readxl)
+
+data <- read_excel((here("content", "data", "schedule.xlsx")))
+```
+
+---
+
+# 1. Reading in Data
+
+`.sav`
+
+```{r, eval = FALSE}
+library(haven)
+data <- read_sav((here("data", "file-name.sav")))
+```
+
+---
+
+# 1. Reading in Data
+
+Google Sheets
+
+```{r, eval = FALSE}
+library(googlesheets4)
+```
+
+Web
+
+```{r, eval = FALSE}
+data <- read_csv("https://github.com/data-edu/dataedu/raw/master/data-raw/wt01_online-science-motivation/raw/s12-course-data.csv")
+```
+
+---
+
+# 1. Reading in Data
+
+Pitfalls
+
+Can't find data file
+
+* Check file location
+* Check working directory (here base directory)
+* Make sure those line up
+
+---
+
+# 1. Reading in Data
+
+Other considerations to keep in mind
+
+- Missing column name headers, csv files in particular (`header = T`)
+
+```{r}
+data <- readr::read_csv(here("content", "data", "answer_export.csv"), col_names = F, skip =1)
+
+colnames(data)
+
+colnames(data) <- c("id", "content", "session_id", "question_id")
+
+data
+```
+
+
+---
+
+# 1. Reading in Data
+
+Other considerations to keep in mind
+
+- renaming column headers with `dplyr::rename()`
+
+```{r}
+data <- readr::read_csv(here("content", "data", "answer_export.csv"))
+
+colnames(data)
+
+data <- data %>%
+  rename(ID_num = id,
+         Response = content,
+         Session_num = session_id,
+         Question_num = question_id)
+
+colnames(data)
+```
+
+
+---
+
+# 2. Tidying Data
+
+Tidying data AKA wrangling data, cleaning data, etc.
+
+* Data cleaning is 80% of the job
+* Don't underestimate it, know what to expect
+
+---
+
+# 2. Tidying Data
+
+    “Happy families are all alike; 
+    every unhappy family is unhappy in its own way.” 
+    –– Leo Tolstoy
+
+    “Tidy datasets are all alike, 
+    but every messy dataset is messy in its own way.” 
+    –– Hadley Wickham
+
+What does 'tidy' data mean
+
+1. Every Column is a variable
+1. Every Row is an observation
+1. Every cell is a single value 
+
+(Don't worry too much about the details of what these mean quite yet)
+
+Primary importance: the tools that we will use are built around tidy data.
+
+---
+
+# 2. Tidying data
+
+Examining data is the first step
+
+* `View()` 
+* `glimpse()`
+* `colnames()` or `names()`
+* `table()` or `tabyl()`
+
+---
+
+# 2. Tidying data
+
+Deeper aspects of cleaning/tidying data
+
+* Columns should be the right type (e.g. integer, double, factor, character, additional character types like date/time)
+
+* Values in column should only be valid values for whatever that variable is supposed to be (sometimes your data sources will pre-validate this, sometimes not)
+
+* Missing data indicators for missing values (NA type)
+
+---
+
+# 2. Tidying data
+
+Data is stored in data frames or tibbles
+
+Variables are vectors, and there are a few types of these in R based on what type of information the entries in the vector are
+
+Character: Text strings, in double quotes
+Numeric: numbers, with decimals
+Logical: TRUE or FALSE values
+Integer: Whole number values
+Factor: categorical variables with a fixed number of levels
+
+---
+
+# 2. Tidying data
+
+Vector types need to be correct for what you were expecting or functions won't work correctly
+
+Most of the time this will work as expected but it's important to be mindful when cleaning data
+
+```{r}
+glimpse(storms)
+```
+
+
+---
+
+# 3. Our Tidy Data Tools
+
+What are our tools for tidy data?
+
+* Tidyverse
+* More specifically tidyr and dplyr are the wrangling tools
+* tidyr narrower focus on reshaping data 
+* dplyr does more, stuff like filtering arranging selecting joining 
+* dplyr also has powerful tools for grouping data and grouped operations 
+* stringr: not talked about as much but useful operations for dealing with character strings
+
+---
+
+# 3. Our Tidy Data Tools 
+
+How dplyr functions work:
+
+* First argument is always data frame (important for %>%)
+* They don't modify the existing data frame, need to save the results
+
+```{r, eval = FALSE}
+data <- data %>%
+  rename(ID_num = id,
+         Response = content,
+         Session_num = session_id,
+         Question_num = question_id)
+```
+
+---
+
+# 3. Our Tidy Data Tools 
+
+How dplyr functions work:
+
+Very amenable to chained operations with `%>%`
+
+```{r}
+data <- readr::read_csv(here("content", "data", "answer_export.csv"))
+
+data_subset <- data %>%
+  rename(ID_num = id,
+         Response = content,
+         Session_num = session_id,
+         Question_num = question_id) %>%
+  select(Response, Question_num)
+```
+
+---
+
+# 3. Our Tidy Data Tools 
+
+How dplyr functions work:
+
+Grouped operations
+
+```{r}
+data <- readr::read_csv(here("content", "data", "answer_export.csv"))
+
+data_grp <- data_subset %>%
+  group_by(Question_num)
+```
+
+---
+
+# 3. Our Tidy Data Tools 
+
+Dplyr `mutate()` function
+
+Can use to add columns or change columns
+
+```{r}
+data <- data %>% dplyr::mutate(new_col = 1:nrow(data))
+```
+
+---
+
+# 3. Our Tidy Data Tools 
+
+`stringr` package has a number of tools used to clean up text data
+
+```{r, eval = FALSE}
+library(stringr)
+
+data <- data %>% dplyr::mutate(stringr::str_trim(col1))
+```
+
+
+---
+
+# Wrapping up
+
+On Slack:
+
+- What is one thing you took away from today?
+- What is something you want to learn more about? 

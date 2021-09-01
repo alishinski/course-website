@@ -1,0 +1,37 @@
+---
+title: "Demo Week 3"
+author: "Alex Lishinski"
+date: "8/31/2021"
+output: html_document
+---
+
+### Reading in the Data
+
+```{r}
+
+```
+
+### Rename the columns
+
+```{r}
+
+```
+
+### Examining the columns
+
+```{r}
+
+```
+
+### Mutating Columns
+
+```{r}
+
+```
+
+### Stringr operations
+
+```{r}
+
+```
+
