@@ -1,0 +1,169 @@
+---
+title: "HW Week 3 - Data Cleaning Skills"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Loading, setting up
+
+## Load the tidyverse and here packages
+
+Recall that the tidyverse package itself loads a number of packages, including:
+
+- dplyr
+- readr
+- stringr
+- forcats
+
+You could load these individually, but it can be handy to load them all with just 
+one function.
+
+```{r}
+
+
+
+```
+
+## Read in the data answer_export.csv and save it using whatever name you want
+
+The data is here in case you don't already have it: https://github.com/alishinski/course-website/blob/master/content/data/answer_export.csv
+
+Be sure to use the here package too.
+
+```{r}
+
+```
+
+## Figure out how many rows and columns are in the dataset and put the answer below
+
+```{r}
+
+```
+
+rows: 
+columns: 
+
+## Determine what type the columns content and question_id are
+
+Add the code you use to do this below
+
+```{r}
+
+```
+
+## Rename the columns using names of your choice using a dplyr function
+
+```{r}
+
+```
+
+## Use a function from dplyr to filter the data based on the column that was originally named content
+
+We think that this column should only consist of the values "1", "2", "3", "4", and "5", so we want to get rid of other values.
+
+When you're filtering with dplyr, remember you have to write the filtering condition based on the column name. Recall last week we filtered the `gss_cat` dataset based on the variable `tvhours` looking for values of `tvhours` that were greater than 3 with the condition `tvhours > 3`. 
+
+You can also set conditions based on specific values using the `==` operator. So in the previous example using `tvhours == 3` would get us rows where `tvhours` was equal to 3.
+
+You can also use multiple conditions. Recall again last weeks homework, we asked you to add a second condition to the filtering statement, something like `(tvhours > 3, age > 25)`. That statement would pick out rows meeting both conditions. You can also have multiple conditions that are mutually exclusive using the `|` operator. So we could have done something like `(tvhours > 3 | age > 25)` to filter rows meeting either of the two conditions. And you can keep chaining together with the `|` operator as many times as you need to. Why are we telling you all this? Oh no reason really.
+
+Don't forget to assign the new filtered dataset to a new name.
+
+```{r}
+
+```
+
+## Convert the column formerly known as content to a numeric column
+
+The `mutate()` function in dplyr is used to add columns to datasets or modify existing ones. Type `?mutate` into the console to get more details. Here's an example of what that would look like using the built in `mtcars` dataset:
+
+```{r}
+mtcars_tons <- mtcars %>% mutate(wt = wt * 1000)
+mtcars_test <- mtcars %>% mutate(wt = as.character(wt))
+```
+
+In that example I modified the `wt` column to be equal to the old value of `wt` multiplied by 1000 (which I think gives the true weight of the cars in pounds, but that's not important for this exercise).
+
+R also has different functions to convert types of variables, what we'll call "as functions", such as `as.numeric()` `as.character()` `as.logical()`
+
+You can also use these "as functions" with the mutate function to convert the types of variables in your dataset. 
+
+What we want to do here is to take the filtered dataset from the previous step where you removed the unexpected values from the variable originally known as `content`, and convert the type of that variable using the mutate function. 
+
+Once again, don't forget to save the resulting dataset with a new name.
+
+## Reach 1: Turn a character vector into a factor
+
+The variable that was originally called `question_id` should be a numeric variable. Let's convert it into a factor. Base R has the `as.factor()` function, but let's use the similar `as_factor()` function from the `forecats` package. Why do they have such similar functions? Because the forecats one tweaks the functionality a bit and is made to play nicely with the other tidyverse functions. Make sure you loaded that at the beginning.
+
+Make sure you assign the resulting data to a new name!
+
+```{r}
+
+
+```
+
+## Reach 2: Strip out the numeric part of the character vector
+
+If you've been paying close attention, you may have noticed that there was a flaw in our data cleaning procedure for the "content" column. We got rid of any values outside of "1", "2,", "3", "4", "5", but there were some rows that had valid answers in them, but were filtered out by our filter, such as "4, Agree." We can see that should be a 4, but we need a way to catch these cases. 
+
+This is where the stringr package comes in handy. The stringr package has many functions that you can use to deal with character vectors. One that is handy in this situation is `str_extract()`. You give this function a character vector and a pattern (using regular expression language, don't worry about that part right now) you want to extract, and it'll give you a new vector with the parts matching your pattern. Here's an example.
+
+```{r}
+string_vector <- c("1, of course", "2", "3!   ")
+
+str_extract(string = string_vector, pattern = "[123]{1}")
+```
+
+In the example, we have the messy vector called `string_vector` and we used the pattern "[123]{1}" which means "find one instance of any of the characters 1, 2, or 3 in each string" to extract those values.
+
+So let's reload the dataset from the file and start from scratch.
+
+Use the `str_extract` function to get values from the set "1" "2" "3" "4" and "5". We've included the function including the pattern you'll need.
+
+Finally, use the `mutate()` function to change the column `content` to be the result of the `str_extract()` function, and save this as a new dataset with a new name.
+
+```{r}
+
+
+str_extract(string = , pattern = "[12345]{1}")
+
+
+
+```
+
+
+## fin
+
+Nice work! Once you've finished your work, click "Knit" at the top to render a 
+report that you can share; this is how you'll submit homework for class! 
+
+- Submit the .html file you used to render a report to Canvas
+- Upload the .Rmd file you rendered to the #homework-yourname channel in Slack.
+
+:tada: :tada: :tada: 
+
+## Self-assessment and reflection
+
+Respond to the following three questions on a 1 (not at all) to 5 (very much) 
+scale by replacing the "x" below with your response:
+
+```{r}
+x = NULL
+tibble::tribble(
+  ~question,                                   ~response,
+  "How challenging was this homework?",        x,
+  "How interesting was this homework to you?", x,
+  "How valuable was this homework to you?",    x
+)
+```
+
+Include any other comments, feedback, or reflections on this homework below:
+
+
+
+If you like, you can post these other comments, feedback, or reflections in the 
+message you post to #homework in Slack to share what you've done.

@@ -1,0 +1,45 @@
+---
+title: "Class Exercise Week 3"
+date: "9/2/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Loading packages
+
+```{r}
+
+```
+
+## Reading in the data
+
+```{r}
+
+```
+
+## Examining the data
+
+```{r}
+
+```
+
+### Rename the columns
+
+```{r}
+
+```
+
+### Mutating Columns
+
+```{r}
+
+```
+
+### Stringr operations
+
+```{r}
+
+```

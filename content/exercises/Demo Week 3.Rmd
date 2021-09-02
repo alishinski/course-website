@@ -5,22 +5,36 @@ date: "8/31/2021"
 output: html_document
 ---
 
+### Loading the packages
+
+```{r}
+library(tidyverse)
+library(magrittr)
+library(here)
+```
+
 ### Reading in the Data
 
 ```{r}
-
+data <- read_csv(here("content", "data", "answer_export.csv"))
+data
 ```
 
 ### Rename the columns
 
 ```{r}
-
+data_clean <- data %>%
+  select(content, session_id, question_id) %>%
+  rename(Answer = content,
+         SID = session_id,
+         QID = question_id)
 ```
 
 ### Examining the columns
 
 ```{r}
-
+glimpse(data_clean)
+str(data)
 ```
 
 ### Mutating Columns
