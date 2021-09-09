@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>An Introduction to Data Science Methods in Education</title>
+    <link>/</link>
+    <description>Recent content on An Introduction to Data Science Methods in Education</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About Hugo XMin</title>
+      <link>/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/about/</guid>
+      <description>XMin is the first Hugo theme I have designed. The original reason that I wrote it was I needed a minimal example of Hugo themes when I was writing the blogdown book. Basically I wanted a simple theme that supports a navigation menu, a home page, other single pages, lists of pages, blog posts, categories, tags, and RSS. That is all. Nothing fancy. In terms of CSS and JavaScript, I really want to keep them minimal.</description>
+    </item>
+    
+    <item>
+      <title>Assignments</title>
+      <link>/assignments/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/assignments/</guid>
+      <description>Homework (12-14) Weekly homework. To be submitted in the form of an R Markdown file (.Rmd) via Canvas. There are a few weeks in which we may not have homework for different reasons; why the number of homeworks is listed as 12-14.
+ Individual final project Complete an individually-designed project that can take different forms (R Markdown Report, interactive Shiny app, interactive dashboard, etc.) related to identifying and solving a data-related problem in education using R (due approximately two-thirds of the way through the semester).</description>
+    </item>
+    
+    <item>
+      <title>Class Exercise Week 2</title>
+      <link>/exercises/exercise-week2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/exercises/exercise-week2/</guid>
+      <description>  Loading packages  loading data  looking at data  Basic dplyr operations Select
+Filter
+Arrange
+ </description>
+    </item>
+    
+    <item>
+      <title>Class Exercise Week 2</title>
+      <link>/exercises/exercise-week3/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/exercises/exercise-week3/</guid>
+      <description>  Loading packages  loading data  looking at data  Basic dplyr operations Select
+Filter
+Arrange
+ </description>
+    </item>
+    
+    <item>
+      <title>Demo Week 3</title>
+      <link>/exercises/demo-week-3/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/exercises/demo-week-3/</guid>
+      <description>  Reading in the Data  Rename the columns  Examining the columns  Mutating Columns  Stringr operations  </description>
+    </item>
+    
+    <item>
+      <title>Homework 1</title>
+      <link>/homework/hw1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/homework/hw1/</guid>
+      <description>Loading, setting up Checking that the project is correct First, ensure that this .Rmd file is saved in the directory for the project that you created for the course.
+ First, let’s install and load ggplot2 We’ll do so by running the following line of code. This line of code, though, is a bit different from most: it installs a new R “package” with specific, additional functionality. Installing R packages is very common.</description>
+    </item>
+    
+    <item>
+      <title>Homework and Readings</title>
+      <link>/homework_readings/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/homework_readings/</guid>
+      <description>  Week 1 None
+ Week 2 Homework:
+Homework 1: https://github.com/alishinski/course-website/blob/master/content/homework/HW1.Rmd
+Readings:
+ Data Science in Education Using R (DSIEUR) chapter #3: https://datascienceineducation.com/c03.html   Week 3 Readings:
+ R for Data Science Chapter #12 Tidy Data: https://r4ds.had.co.nz/tidy-data.html   </description>
+    </item>
+    
+    <item>
+      <title>Presentations</title>
+      <link>/presentations/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/presentations/</guid>
+      <description>   Week 1: RMD, HTML, PDF
+ Week 2: RMD, HTML, PDF
+  </description>
+    </item>
+    
+    <item>
+      <title>Schedule</title>
+      <link>/schedule/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/schedule/</guid>
+      <description>     Week Date Unit Topic Homework Assignment Exam    Week 1  Aug 19 1: Getting started Introductions to each other and to data science HW1    Week 2  Aug 24,26  Foundational skills: Projects, functions, packages, and data HW2    Week 3  Aug 31, Sep 2 2: Exploring data Wrangling and “tidying” data HW3    Week 4  Sep 7, 9  Summarizing data descriptively HW4    Week 5  Sep 14,16  Visualization data with the grammar of graphics HW5    Week 6  Sep 21, 23  More visualization with the grammar of graphics (and some data wrangling) HW6    Week 7  Sep 28, 30  Color, stacking and dodging bars, and faceting HW8    Week 8  Oct 5, 7  Summarizing data in tables HW9    Week 9  Oct 12, 14  More on tables and a gentle introduction to modeling HW10    Week 10 Oct 19, 21 3: Drawing conclusions Estimating parameters HW10 Final project proposal   Week 11 Oct 26, 28  Making inferences about effects HW11    Week 12 Nov 2, 4  Communicating results effectively HW12    Week 13 Nov 9, 11 4: Looking ahead A buffet of advanced methods (Part 1) HW13    Week 14 Nov 16, 18  A buffet of advanced methods (Part 2) HW14    Week 15 Nov 23  A buffet of advanced methods (Part 2) HW14    Week 16 Nov 30  A buffet of advanced methods (Part 2) HW14    Finals Week (Due by Dec 5)     Final project and presentation, Curating resources     </description>
+    </item>
+    
+    <item>
+      <title>Syllabus</title>
+      <link>/syllabus/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/syllabus/</guid>
+      <description>An Introduction to Data Science Methods in Education University of Tennessee, Knoxville
+Course Section: TPTE 695 (PhD) and STEM 599
+Meeting Time and Place: Thursday, 2:50 – 4:05 pm (online synchronous)
+Course Credit Hours: 3
+Zoom Meeting: https://tennessee.zoom.us/j/94135227830
+Course Website: https://f21-intro-to-data-sci-methods-in-ed.netlify.app/
+Faculty Contact Information Dr. Alex Lishinski (they/them)
+alishins@utk.edu
+Zoom: https://tennessee.zoom.us/j/2299533064
+Website: https://www.alexlishinski.com
+Please don’t hesitate to email or contact me on Slack with updates, questions or concerns. I will try to respond within 24 hours during the week and 48 hours on the weekend.</description>
+    </item>
+    
+    <item>
+      <title>Videos</title>
+      <link>/videos/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/videos/</guid>
+      <description>  Class recordings (password required; see Slack)  Week 2 Lecture   Homework videos  Topic videos  </description>
+    </item>
+    
+  </channel>
+</rss>

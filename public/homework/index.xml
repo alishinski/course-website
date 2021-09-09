@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Homeworks on An Introduction to Data Science Methods in Education</title>
+    <link>/homework/</link>
+    <description>Recent content in Homeworks on An Introduction to Data Science Methods in Education</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="/homework/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Homework 1</title>
+      <link>/homework/hw1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/homework/hw1/</guid>
+      <description>Loading, setting up Checking that the project is correct First, ensure that this .Rmd file is saved in the directory for the project that you created for the course.
+ First, let’s install and load ggplot2 We’ll do so by running the following line of code. This line of code, though, is a bit different from most: it installs a new R “package” with specific, additional functionality. Installing R packages is very common.</description>
+    </item>
+    
+  </channel>
+</rss>

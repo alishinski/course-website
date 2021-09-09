@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 2: Foundational Skills</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Alex Lishinski" />
+    <meta name="date" content="2021-08-24" />
+    <script src="libs/header-attrs-2.8/header-attrs.js"></script>
+    <link rel="stylesheet" href="theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Week 2: Foundational Skills
+### Alex Lishinski
+### August 24, 2021
+
+---
+
+
+# Course organization
+
+- [Website](https://f21-intro-to-data-sci-methods-in-ed.netlify.app)
+  - Syllabus
+  - Presentations
+  - Homework
+  - Videos (recordings of class and about specific topics)
+  
+- Slack: https://introductiont-mej9811.slack.com
+- Zoom: https://tennessee.zoom.us/j/94135227830
+
+- Email: alishins@utk.edu
+
+*RECORD THE MEETING*    
+
+---
+
+# Touching Base
+
+- Introductions 
+
+* Alex Lishinski, Ph.D. (they/them)
+* Contact: 
+  * [alishins@utk.edu](mailto:alishins@utk.edu)
+* Postdoctoral researcher, CS Education, University of Tennessee, Knoxville
+* Primary areas of interest:
+  * Computer Science education
+  * Quantitative research methods
+  * Data science in education
+* Former philosopher
+
+- Recap
+
+---
+
+# Foundational R skills
+
+A general framework for you to use as a foundation and as a set of concepts to help you work through the class.
+
+The four core concepts we will use to build our framework are:
+
+1. Projects
+1. Packages
+1. Data
+1. Functions
+
+You will use each of these in most of your analyses with R.
+
+---
+
+# Course texts
+
+Data Science in Education Using R
+
+&lt;img src="https://datascienceineducation.com/dsieur-cover-routledge.jpg" width="30%" style="display: block; margin: auto;" /&gt;
+
+http://datascienceineducation.com/
+
+https://github.com/data-edu/data-science-in-education
+
+---
+
+# Course texts
+
+R for Data Science
+
+&lt;img src="https://d33wubrfki0l68.cloudfront.net/b88ef926a004b0fce72b2526b0b5c4413666a4cb/24a30/cover.png" width="30%" style="display: block; margin: auto;" /&gt;
+
+https://r4ds.had.co.nz/
+
+---
+
+## 1. Projects
+
+Working Directories 
+
+
+```r
+getwd() 
+```
+
+```
+## [1] "/home/alishinski/Documents/work/FS21-Data-Sci-Methods/Course-Website/slides"
+```
+
+R Projects 
+
+Projects keep your work better contained and organized
+
+Project data is saved using .RData - but we won't be using it!
+
+The here package helps you to navigate around in a project:
+
+
+```r
+library(here)
+
+# data file
+here("data", "fall-2018-data-file.csv")
+```
+
+---
+
+# 2. Packages
+
+1. What are packages? 
+  + Code bundles that add functionality to R
+  + Examples: ggplot2, dplyr, rtweet, quanteda, lme4
+1. Where do we get packages?
+  + CRAN or GitHub
+1. How do we install packages?
+  + install.packages("pkg-name")
+  + devtools::install_github("user/directory")
+1. How do we know what packages to use?
+  + Searching 
+  + People and news related to R (more later - there are *tons*)
+  + CRAN task views
+1. How do we use packages?
+  + `library(pkgname)`
+
+---
+
+# 2. Installing another package
+
+Tidyverse, a collection of R packages.
+
+https://www.tidyverse.org/
+
+Install via the following (do this now):
+
+
+```r
+install.packages("tidyverse")
+```
+
+What issues have arisen?
+
+---
+
+# 3. Data
+
+So far, we have used *built-in data*. There is a lot of built-in data!
+
+Loading different types of data
+
+Comma-separated values (`.csv`)
+
+
+```r
+library(readr)
+readr::read_csv(here("data", "filename.csv"))
+```
+
+---
+
+# 3. Data 
+
+`.xlsx`
+
+
+```r
+library(readxl)
+read_excel((here("data", "schedule.xlsx")))
+```
+
+---
+
+# 3. Data
+
+`.sav`
+
+
+```r
+library(haven)
+read_sav((here("data:, file-name.sav")))
+```
+
+---
+
+# 3. Other data sources
+
+Google Sheets
+
+
+```r
+library(googlesheets4)
+```
+
+Web
+
+
+```r
+read_csv("https://github.com/data-edu/dataedu/raw/master/data-raw/wt01_online-science-motivation/raw/s12-course-data.csv")
+```
+
+---
+
+# 4. Functions
+
+- A function is a reusable piece of code that allows us to consistently repeat a programming task
+
+- Functions in R can be identified by a word followed by a set of parentheses, like so: `word()`. 
+
+More often than not, the word is a verb, such as `filter()`, suggesting that we’re about to perform an action. 
+
+Indeed, functions act like verbs: they tell R what to do with our data.
+
+The parentheses are where we can provide arguments.
+
+---
+
+# 4. Functions
+
+- What is the name of the *package* used below?
+- What is the name of the *data* used below?
+- What is the name of the function used below?*
+
+
+```r
+library(dplyr)
+#mtcars
+glimpse(mtcars)
+```
+
+---
+
+# 4. `select()`
+
+
+```r
+library(dplyr)
+
+storms %&gt;% 
+  select(name, year, month, day, hour, status)
+```
+
+```
+## # A tibble: 10,010 × 6
+##    name   year month   day  hour status             
+##    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;              
+##  1 Amy    1975     6    27     0 tropical depression
+##  2 Amy    1975     6    27     6 tropical depression
+##  3 Amy    1975     6    27    12 tropical depression
+##  4 Amy    1975     6    27    18 tropical depression
+##  5 Amy    1975     6    28     0 tropical depression
+##  6 Amy    1975     6    28     6 tropical depression
+##  7 Amy    1975     6    28    12 tropical depression
+##  8 Amy    1975     6    28    18 tropical depression
+##  9 Amy    1975     6    29     0 tropical storm     
+## 10 Amy    1975     6    29     6 tropical storm     
+## # … with 10,000 more rows
+```
+
+---
+
+# 4. `filter()`
+
+
+```r
+library(dplyr)
+
+storms %&gt;% 
+  filter(month == 8)
+```
+
+```
+## # A tibble: 2,400 × 13
+##    name      year month   day  hour   lat  long status   category  wind pressure
+##    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;ord&gt;    &lt;int&gt;    &lt;int&gt;
+##  1 Caroline  1975     8    24    12  22.4 -69.8 tropica… -1          25     1011
+##  2 Caroline  1975     8    24    18  21.9 -71.1 tropica… -1          25     1011
+##  3 Caroline  1975     8    25     0  21.6 -72.5 tropica… -1          25     1010
+##  4 Caroline  1975     8    25     6  21.2 -73.8 tropica… -1          25     1010
+##  5 Caroline  1975     8    25    12  20.9 -75.1 tropica… -1          25     1011
+##  6 Caroline  1975     8    25    18  20.6 -76.4 tropica… -1          25     1011
+##  7 Caroline  1975     8    26     0  20.4 -77.7 tropica… -1          25     1011
+##  8 Caroline  1975     8    26     6  20.3 -79   tropica… -1          25     1011
+##  9 Caroline  1975     8    26    12  20.2 -80.3 tropica… -1          25     1012
+## 10 Caroline  1975     8    26    18  20.2 -81.6 tropica… -1          25     1012
+## # … with 2,390 more rows, and 2 more variables: ts_diameter &lt;dbl&gt;,
+## #   hu_diameter &lt;dbl&gt;
+```
+
+---
+
+# 4. `arrange()`
+
+
+```r
+library(dplyr)
+
+storms %&gt;% 
+  arrange(hour)
+```
+
+```
+## # A tibble: 10,010 × 13
+##    name      year month   day  hour   lat  long status   category  wind pressure
+##    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;ord&gt;    &lt;int&gt;    &lt;int&gt;
+##  1 Amy       1975     6    27     0  27.5 -79   tropica… -1          25     1013
+##  2 Amy       1975     6    28     0  31.5 -78.8 tropica… -1          25     1012
+##  3 Amy       1975     6    29     0  34.4 -75.8 tropica… 0           35     1004
+##  4 Amy       1975     6    30     0  34.3 -71.6 tropica… 0           50      998
+##  5 Amy       1975     7     1     0  36.2 -69.8 tropica… 0           60      984
+##  6 Amy       1975     7     2     0  37.4 -66.7 tropica… 0           60      984
+##  7 Amy       1975     7     3     0  37.7 -62.8 tropica… 0           55      986
+##  8 Amy       1975     7     4     0  42.5 -54.8 tropica… 0           50      986
+##  9 Caroline  1975     8    25     0  21.6 -72.5 tropica… -1          25     1010
+## 10 Caroline  1975     8    26     0  20.4 -77.7 tropica… -1          25     1011
+## # … with 10,000 more rows, and 2 more variables: ts_diameter &lt;dbl&gt;,
+## #   hu_diameter &lt;dbl&gt;
+```
+
+---
+
+# 4. Putting it together
+
+
+```r
+library(dplyr)
+
+storms %&gt;% 
+  select(name, year, month, day, hour, status) %&gt;% 
+  filter(month == 8) %&gt;% 
+  arrange(hour)
+```
+
+```
+## # A tibble: 2,400 × 6
+##    name      year month   day  hour status             
+##    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;              
+##  1 Caroline  1975     8    25     0 tropical depression
+##  2 Caroline  1975     8    26     0 tropical depression
+##  3 Caroline  1975     8    27     0 tropical depression
+##  4 Caroline  1975     8    28     0 tropical depression
+##  5 Caroline  1975     8    29     0 tropical depression
+##  6 Caroline  1975     8    30     0 hurricane          
+##  7 Caroline  1975     8    31     0 hurricane          
+##  8 Doris     1975     8    30     0 tropical storm     
+##  9 Doris     1975     8    31     0 hurricane          
+## 10 Belle     1976     8     7     0 tropical storm     
+## # … with 2,390 more rows
+```
+
+---
+
+# 4. Assignment operator
+
+
+```r
+storms_in_august &lt;- storms %&gt;% 
+  select(name, year, month, day, hour, status) %&gt;% 
+  filter(month == 8) %&gt;% 
+  arrange(hour)
+```
+
+What is one thing that is different between `storms_in_august` and `storms` ?
+
+---
+
+# 4. Assignment operator
+
+
+```r
+storms
+```
+
+```
+## # A tibble: 10,010 × 13
+##    name   year month   day  hour   lat  long status      category  wind pressure
+##    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;ord&gt;    &lt;int&gt;    &lt;int&gt;
+##  1 Amy    1975     6    27     0  27.5 -79   tropical d… -1          25     1013
+##  2 Amy    1975     6    27     6  28.5 -79   tropical d… -1          25     1013
+##  3 Amy    1975     6    27    12  29.5 -79   tropical d… -1          25     1013
+##  4 Amy    1975     6    27    18  30.5 -79   tropical d… -1          25     1013
+##  5 Amy    1975     6    28     0  31.5 -78.8 tropical d… -1          25     1012
+##  6 Amy    1975     6    28     6  32.4 -78.7 tropical d… -1          25     1012
+##  7 Amy    1975     6    28    12  33.3 -78   tropical d… -1          25     1011
+##  8 Amy    1975     6    28    18  34   -77   tropical d… -1          30     1006
+##  9 Amy    1975     6    29     0  34.4 -75.8 tropical s… 0           35     1004
+## 10 Amy    1975     6    29     6  34   -74.8 tropical s… 0           40     1002
+## # … with 10,000 more rows, and 2 more variables: ts_diameter &lt;dbl&gt;,
+## #   hu_diameter &lt;dbl&gt;
+```
+
+---
+
+# 4. Assignment operator
+
+
+```r
+storms_in_august
+```
+
+```
+## # A tibble: 2,400 × 6
+##    name      year month   day  hour status             
+##    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;              
+##  1 Caroline  1975     8    25     0 tropical depression
+##  2 Caroline  1975     8    26     0 tropical depression
+##  3 Caroline  1975     8    27     0 tropical depression
+##  4 Caroline  1975     8    28     0 tropical depression
+##  5 Caroline  1975     8    29     0 tropical depression
+##  6 Caroline  1975     8    30     0 hurricane          
+##  7 Caroline  1975     8    31     0 hurricane          
+##  8 Doris     1975     8    30     0 tropical storm     
+##  9 Doris     1975     8    31     0 hurricane          
+## 10 Belle     1976     8     7     0 tropical storm     
+## # … with 2,390 more rows
+```
+
+---
+
+# 4. Assignment operator
+
+
+```r
+ncol(storms)
+```
+
+```
+## [1] 13
+```
+
+Tricky question: How many columns are present in `storms` after the following 
+operation?
+
+
+```r
+storms %&gt;% 
+  select(name, year, status) 
+```
+
+---
+
+# 4. Assignment operators
+
+How many columns are in storms after running the following two lines of code?
+
+
+```r
+storms &lt;- storms %&gt;% 
+  select(name, year, status) 
+```
+
+
+---
+
+# 4. Pipe operator
+
+We've been using the pipe operator `%&gt;%` from the magrittr package
+
+The pipe sends the results of a function (or object) from left side of pipe to next function after pipe.
+
+So instead of this:
+
+
+```r
+library(magrittr)
+library(dplyr)
+
+mtfilter &lt;- dplyr::filter(mtcars, mpg &lt; 20)
+mtsubset &lt;- dplyr::select(mtfilter, mpg, cyl, disp)
+```
+
+We can do this:
+
+
+```r
+mtcars %&gt;% 
+  dplyr::filter(mtcars, mpg &lt; 20) %&gt;% 
+  dplyr::select(mpg, cyl, disp)
+```
+
+
+---
+
+# 4. Basic programming operators
+
+Math
+
+
+```r
+x &lt;- 3 * 4
+x
+```
+
+```
+## [1] 12
+```
+
+```r
+y &lt;- 2 + 3 -1
+y
+```
+
+```
+## [1] 4
+```
+
+```r
+z &lt;- 4 / 2 ** 3
+z
+```
+
+```
+## [1] 0.5
+```
+
+---
+
+# 4. Basic programming operators
+
+Logic
+
+
+```r
+x &lt;- TRUE
+y &lt;- FALSE
+# and
+x &amp; y
+```
+
+```
+## [1] FALSE
+```
+
+```r
+# or 
+x | y
+```
+
+```
+## [1] TRUE
+```
+
+```r
+# not 
+!x
+```
+
+```
+## [1] FALSE
+```
+
+---
+
+# Demo
+
+- Tour of Rstudio
+- Projects
+- Packages
+- Files
+- R scripts and Rmarkdown
+
+---
+
+## Readings
+
+One assigned readings for the next week:
+
+- Data Science in Education Using R (DSIEUR) chapter #3: https://datascienceineducation.com/c03.html
+
+---
+
+## Coming up
+
+### This week
+
+- Readings (by next week)
+- HW1 (Given Thursday)
+
+---
+
+# Wrapping up
+
+On slack:
+
+- What is one thing you took away from today?
+- What is something you want to learn more about? 
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

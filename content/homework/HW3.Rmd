@@ -1,0 +1,227 @@
+---
+title: "HW Week 4 - Advanced Data Cleaning Skills"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Background 
+
+For this homework, we are going to be working with the Experience Sampling
+Method - ESM - data that we used in class.
+
+Here's a bit of an overview and a reminder of this dataset. The database
+contains responses, corresponding question numbers, unique identifiers for the
+survey and for the item level responses, and the course assignment that each
+survey corresponds to. What it does not have are unique identifiers of the
+person who sent it, i.e.:
+
+- their phone number 
+- the date and time when it was sent
+- and, if we wanted later, other information, such as information about their major
+
+That's where the Twilio (ESM) data file comes in it does have that information,
+and importantly, it also uses the same unique identifiers for the ESM responses. 
+
+It also has some junk in it that we *don't* want, like the messages
+where students initiated but didn't take the survey.
+
+To provide just a bit more context, students answered our five ESM survey items \~11 times
+each, with some doing so as many as 18 times. 
+
+So, it might be interesting to look at the five survey questions, and see what 
+ average responses were for each question for each student.
+
+In class we went over getting the mean by survey question overall, but this time we
+want to know how each person responded on average to each item. There's \~75
+people in this dataset, and, again five survey items.
+
+**So, just to sum up, we have around 75 students each responding around 11 times 
+to five questions. What we'd like to get is a summary data table that's 75 rows 
+and 5 columns, with each entry being each person's average response for each of the 
+five questions.** 
+
+There's a lot here, and if you have questions about any of this, please message 
+over in the #questions channel on Slack. You'll note that this is entirely data 
+tidying/processing, but is very much the kind of thing that you may wish to do as 
+the descriptive part of an analysis for a research project.
+
+This task will involve a number of steps that we'll tackle one at a time, then at the
+end we can put everything together and you will (maybe?) marvel at what you've done.
+
+## Downloading the data and saving them to the data directory
+
+The first thing you will need to do is get the data. You'll need the two ESM data
+files: 
+
+- `twilio_data.csv` 
+- `database_data.csv`. 
+
+Both can be acquired from the GitHub repository here:
+
+https://github.com/alishinski/course-website/tree/master/content/data
+
+To save them, simply run the following code chunk. But, first, load two packages:
+
+- tidyverse
+- here
+
+Do this - load these two packages - in the next chunk:
+
+```{r}
+
+```
+
+Then, let's download the files next. If you don't have a data subfolder, delete that part of the code.
+
+```{r}
+download.file("https://github.com/alishinski/course-website/tree/master/content/data/twilio_data.csv",
+              destfile = here("data", "twilio_data.csv"))
+
+download.file("https://github.com/alishinski/course-website/tree/master/content/data/database_data.csv",
+              destfile = here("data", "database_data.csv"))
+```
+
+Let's break down what's going on:
+
+- First, we load the here package so that we can specify where we want to save the file
+- Second, we use the `download.file` function -- twice. First, we download the 
+`twilio_data.csv` file; second, we download the `database_data.csv` file
+
+If you saw two message with "trying URL" and then the URL and some information 
+about the file and the word "downloaded", you should be good to go! I recommend
+checking your project directory to make sure that both files are there.
+
+## Reading the data
+
+Now, you'll need to read the data. We'll do this for the first file; you do this 
+for the second file. 
+
+```{r}
+
+```
+
+## Joining the data
+
+The next thing we need to do is join the two data frames since we need
+variables from both. We only want to keep the matching rows from both data sets. 
+
+At each intermediate step in the process, starting now, you should assign your 
+results to a data frame. We'll build this up iteratively, so each step will involve
+chaining the new step to what you did in the previous step.
+
+First, here, join the two data frames together based on a common variable. Remember
+the differences between the different types of joins! More on those here:
+
+https://making-data-science-count.github.io/s21-intro-to-data-sci-methods-in-ed/slides/presentations-week-4.html#1
+
+You'll need one of the join functions; you may find this help documentation helpful:
+https://dplyr.tidyverse.org/reference/join.html
+
+```{r}
+
+```
+
+Now that the data is joined, we will want to get rid of some of the variables
+that we won't need. 
+
+So, consider what our end goal is: We want a table of
+means by person and by item. 
+
+- We will need the answers to obtain these means, so we'll
+need the content variable; 
+- We will need to know which question they go with, so we'll need the question ID; 
+- We will also need to know which person each response goes with, so that's the From variable,
+with the anonymized phone numbers; 
+- Besides these, it would also be helpful to have a unique identifier so that we could rejoin this data with the main set later; so we should keep the survey ID
+variable. 
+
+In this next step let's pare down our data set to just those important
+variables:
+
+```{r}
+
+```
+
+Now that we've gotten rid of the unimportant variables, that will make our next
+steps a bit simpler. There's more than one way to go from here, but let's think
+about our end goal again. 
+
+We want means by item (and also by person), so one way to do this would involve 
+separating the content variable by item, so that each item
+has it's own variable. If we can do that, we can then group by person,
+summarize, and achieve our desired result. 
+
+Separating the content variable by item is exactly what the `pivot_wider()` 
+function can help us do. This one can be tricky, so we'll fill in some parts for
+you to get started, but you'll need to add the crucial bits, and connect it with 
+what you've done before.
+
+```{r}
+
+```
+
+Great! Now that you have those new variables for each question, all that's
+left to do is to group the data and then summarize on each of those five variables.
+With the summarize function, you can do several summaries, so it's just a matter
+of doing it for each one. Let's do that here.
+
+```{r}
+
+```
+
+So now you might be mad, because that didn't work and it gave you an obnoxiously
+long error message. Sorry about that. But maybe you also remember that we
+covered dealing with this exact issue in the lecture. And let's also drill down
+on what this means `argument is not numeric or logical: returning NA` you can't
+take the mean of something that's not a numeric vector (or logical vector, but
+don't worry about the logical part right now). So we'll need to fix that, but
+you already know how from the lecture and last week's homework, so go ahead and
+do that below.
+
+```{r}
+
+```
+
+Now that you have everything, just type in the name of your summary data table so 
+we can see the print output.
+
+```{r}
+
+```
+
+If you made it all the way, congrats, you did a great job! If you couldn't get
+it quite 100% right, don't worry, you're probably at least 80-90% there, and
+we'll help you the rest of the way.
+
+## fin
+
+You know the drill; render and please submit:
+
+- Submit the .html file you used to render a report to Canvas
+- Upload the .Rmd file you rendered to the #homework channel in Slack.
+
+One difference from last week: Please post a comment, feedback, or reflection
+below *as well as to Slack when you post your homework*.
+
+## Self-assessment and reflection
+
+Respond to the following three questions on a 1 (not at all) to 5 (very much) 
+scale by replacing the "x" below with your response:
+
+```{r, reflection}
+x = NULL
+tibble::tribble(
+  ~question,                                   ~response,
+  "How challenging was this homework?",        x,
+  "How interesting was this homework to you?", x,
+  "How valuable was this homework to you?",    x
+)
+```
+
+Include any other comments, feedback, or reflections on this homework below:
+
+
+Important note: Please post your comment(s), feedback, or reflections in Slack when you share your Rmd file!

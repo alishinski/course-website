@@ -24,3 +24,6 @@ Readings:
 Readings:
 
 - R for Data Science Chapter #12 Tidy Data: https://r4ds.had.co.nz/tidy-data.html
+
+## Week 4
+

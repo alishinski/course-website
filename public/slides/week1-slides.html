@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 1: Getting Started</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Alex Lishinski" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link rel="stylesheet" href="theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Week 1: Getting Started
+### Alex Lishinski
+### August 19 2021
+
+---
+
+
+
+
+# Agenda
+
+1. Introductions to one another and the class
+1. A brief introduction to data science and R
+1. Discussion of the syllabus
+
+---
+
+# Introductions!
+
+* Alex Lishinski, Ph.D. (they/them)
+* Contact: 
+  * [alishins@utk.edu](mailto:alishins@utk.edu)
+* Postdoctoral researcher, CS Education, University of Tennessee, Knoxville
+* Primary areas of interest:
+  * Computer Science education
+  * Quantitative research methods
+  * Data science in education
+* Former philosopher
+
+---
+  
+# Introductions!
+
+1. Stuff about you
+1. Why are you interested in data science?
+1. What tools/experiences do you have for doing data science?
+1. What do you think you want to get out of this course?
+
+(10 minutes)
+
+---
+
+## Course FAQ
+
+**Q - What data science background does this course assume?**  
+A - None.
+
+**Q - Is this an intro stat course?**  
+A - While statistics `\(\ne\)` data science, they are very closely related and have tremendous of overlap. Hence, this course is a great way to get started with statistics. However this course is *not* your typical high school statistics course.
+
+**Q - Will we be doing computing?**   
+A - Yes.
+
+**Q - Is this an intro CS course?**  
+A - No, but many themes are shared.
+
+**Q - What computing language will we learn?**  
+A - R.
+
+---
+
+&lt;img src="./img/excel.png" width="75%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+---
+
+&lt;img src="./img/r.png" width="50%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+---
+
+&lt;img src="./img/RStudio.png" width="73%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+---
+
+&lt;img src="./img/data-science-cycle/data-science-cycle.001.png" width="90%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+---
+
+&lt;img src="./img/data-science-cycle/data-science-cycle.002.png" width="90%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+---
+
+&lt;img src="./img/data-science-cycle/data-science-cycle.003.png" width="90%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+---
+
+&lt;img src="./img/data-science-cycle/data-science-cycle.004.png" width="90%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+---
+
+&lt;img src="./img/data-science-cycle/data-science-cycle.005.png" width="90%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+---
+
+&lt;img src="./img/data-science-cycle/data-science-cycle.006.png" width="90%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+---
+
+&lt;img src="./img/data-science-cycle/data-science-cycle.007.png" width="90%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+---
+
+&lt;img src="./img/data-science-cycle/data-science-cycle.008.png" width="90%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+---
+
+&lt;img src="./img/data-science-cycle/data-science-cycle.009.png" width="90%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+---
+
+# Over-arching design
+
+The pedagogical framework *plays out* in the following specific ways:
+
+1. You'll first hear about the concepts underlying what you can do 
+1. You'll see examples of working out these ideas in practice
+1. You'll try these ideas out on your own
+
+---
+
+# An argument for this class
+
+- This presentation will make the argument that **you can use R and RStudio to solve
+problems that are important to you**
+
+- In doing so, you can **participate in a cool community of data scientists in education**
+
+---
+
+# Why learn R?
+
+* It is capable of carrying out basic and complex statistical analyses
+* It is able to work with data small (*n* = 30) and large (*n* = 100,000+) efficiently
+* It is a programming language and so is quite flexible
+* There is a great, inclusive community of users and developers (and teachers)
+* It is increasingly used in education
+* It can help you to carry out your educational analyses in open and trustworthy ways
+* It is cross-platform, open-source, and freely-available
+
+---
+
+# RMarkdown
+
+* RMarkdown is a data analysis "notebook" that combines text with code and output
+* It is a great file type to use when beginning to use R and to create reproducible analyses
+* It is fun to use because you can generate different types of output (Word, PDF, and even web-based)
+
+---
+
+# Let's look at a bit of code together
+
+What do you think this code will do?
+
+
+```r
+sci_mo_processed %&gt;% 
+  filter(percentage_earned &gt;= .60) %&gt;% 
+  select(student_id, course_id, percentage_earned))
+```
+
+---
+
+# Let's look at a bit of code together
+
+
+```r
+sci_mo_processed %&gt;% 
+  filter(percentage_earned &gt;= .60) %&gt;% 
+  select(student_id, course_id, percentage_earned)
+```
+
+```
+## # A tibble: 563 × 3
+##    student_id course_id     percentage_earned
+##         &lt;dbl&gt; &lt;chr&gt;                     &lt;dbl&gt;
+##  1      43146 FrScA-S216-02             0.677
+##  2      44638 OcnA-S116-01              0.757
+##  3      47448 FrScA-S216-01             0.661
+##  4      47979 OcnA-S216-01              0.677
+##  5      48797 PhysA-S116-01             0.865
+##  6      51943 FrScA-S216-03             0.855
+##  7      52446 PhysA-S116-01             0.824
+##  8      53447 FrScA-S116-01             0.676
+##  9      53475 FrScA-S116-02             0.820
+## 10      53475 FrScA-S216-01             0.808
+## # … with 553 more rows
+```
+
+---
+
+# Let's look at a bit of code together
+
+What do you think this code will do?
+
+
+```r
+sci_mo_processed %&gt;% 
+  filter(percentage_earned &gt;= .60) %&gt;% 
+  arrange(desc(percentage_earned)) %&gt;% 
+  select(student_id, course_id, percentage_earned, TimeSpent)
+```
+
+---
+
+# Let's look at a bit of code together
+
+
+```r
+sci_mo_processed %&gt;% 
+  filter(percentage_earned &gt;= .60) %&gt;% 
+  select(student_id, course_id, percentage_earned, TimeSpent)
+```
+
+```
+## # A tibble: 563 × 4
+##    student_id course_id     percentage_earned TimeSpent
+##         &lt;dbl&gt; &lt;chr&gt;                     &lt;dbl&gt;     &lt;dbl&gt;
+##  1      43146 FrScA-S216-02             0.677   1555.  
+##  2      44638 OcnA-S116-01              0.757   1383.  
+##  3      47448 FrScA-S216-01             0.661    860.  
+##  4      47979 OcnA-S216-01              0.677   1599.  
+##  5      48797 PhysA-S116-01             0.865   1482.  
+##  6      51943 FrScA-S216-03             0.855      3.45
+##  7      52446 PhysA-S116-01             0.824   1390.  
+##  8      53447 FrScA-S116-01             0.676   1479.  
+##  9      53475 FrScA-S116-02             0.820     NA   
+## 10      53475 FrScA-S216-01             0.808   1867.  
+## # … with 553 more rows
+```
+
+---
+
+# Getting Started
+
+- Download R: https://www.r-project.org/
+- Download Rstudio: https://www.rstudio.com/products/rstudio/download/
+- Set up a working directory for your class projects
+
+---
+
+# Syllabus
+
+Assignments
+- Homework
+- Exams
+- Final Project
+- Others (data ethics, data science resources)
+
+---
+
+# Organization of the class
+
+- Tuesdays - Homeworks due
+- Tuesday class - Slides and demo
+- Thursday class - Review HW and work through hands on activity
+
+---
+
+# Questions
+
+What questions do you have? 
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
