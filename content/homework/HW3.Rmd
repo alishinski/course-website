@@ -115,7 +115,7 @@ chaining the new step to what you did in the previous step.
 First, here, join the two data frames together based on a common variable. Remember
 the differences between the different types of joins! More on those here:
 
-https://making-data-science-count.github.io/s21-intro-to-data-sci-methods-in-ed/slides/presentations-week-4.html#1
+
 
 You'll need one of the join functions; you may find this help documentation helpful:
 https://dplyr.tidyverse.org/reference/join.html
