@@ -193,8 +193,7 @@ we can see the print output.
 ```
 
 If you made it all the way, congrats, you did a great job! If you couldn't get
-it quite 100% right, don't worry, you're probably at least 80-90% there, and
-we'll help you the rest of the way.
+it quite 100% right, don't worry, you're probably at least 80-90% there.
 
 ## fin
 
