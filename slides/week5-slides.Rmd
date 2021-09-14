@@ -1,0 +1,399 @@
+---
+title: "Week 5 - Introduction to Data Viz" 
+subtitle: ""
+author: "Alex Lishinski"
+date: "September 14, 2021"
+output:
+  xaringan::moon_reader:
+    css: [theme.css]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+# Welcome!
+
+Welcome to *week 5*!
+
+**Record the meeting** 
+
+```{r, include = FALSE}
+library(here)
+library(dplyr)
+library(readr)
+library(magrittr)
+library(tidyr)
+library(stringr)
+library(ggplot2)
+```
+
+---
+
+### Review of last week's class
+
+**Last week we discussed wrangling and tidying data**:
+
+1. Reshaping data
+  - `pivot_wide()` and `pivot_long()`
+2. Joining data
+  - `left_join()`, `inner_join()`, and others
+3. Grouped data operations with dplyr
+  - `group_by()` and `summarize()`
+
+---
+
+### Review of last week's class
+
+**Reading**
+
+* From R for Data Science: https://r4ds.had.co.nz/tidy-data.html
+* tidy data:
+  * every variable has its own column
+  * every observation has its own row
+  * every value has its own cell
+
+* tidy data makes it easier to use similar tools (even with very different datasets and types of data)
+* tidy data works well with R
+
+---
+
+### Review of last week's class
+
+*TB cases*
+
+- Where is the year variable represented?
+- Where is the cases variable represented?
+- How many observations does each row represent?
+
+```{r}
+library(tidyverse)
+
+table4a
+```
+
+---
+
+### This week's topics
+
+**Overview**
+
+1. Introduction to data viz
+2. A bit more tidying data
+
+We are by no means done with the data tidying functions we discussed last week!
+
+---
+
+### 1. Intro to Data Viz
+
+**Outline**
+
+A. Why visualize data?  
+B. How can we visualize data in R?  
+C. And, how can we make our visualizations aesthetically pleasing?  
+
+---
+
+### 1A: Why visualize data?
+
+One answer: 
+
+"You should look at your data." ([Healy, 2018](https://socviz.co/))
+
+*To elaborate on this*:
+
+- Visualizations allow to _understand the structure and nature of your data_, and to begin to understand what might relate to what else
+- Just like we want to be constantly looking at our data in its spreadsheet/table/data frame format (e.g., `str()`, `glimpse()`, and `View()`), visualizing our data can help us to make sure our data contains what we think it does-and it can alert us to when it does not
+
+---
+
+### 1A: Why visualize data?
+
+These four different data sets have the same correlation (type `anscombe` in R to view the data), but are very different
+
+```{r, out.width = "65%", fig.align='center', echo = FALSE}
+knitr::include_graphics("https://socviz.co/dataviz-pdfl_files/figure-html4/ch-01-anscombe-1.png")
+```
+
+---
+
+### 1A: Why visualize data
+
+Another reason to visualize data is to *communicate with others*; you can use visualizations to communicate your findings or results. In example:
+
+```{r, out.width = "50%", fig.align='center', echo = FALSE}
+knitr::include_graphics("https://apreshill.github.io/ohsu-biodatavis/slides_files/figure-html/bar1-1.png")
+```
+---
+
+```{r, out.width = "75%", fig.align='center', echo = FALSE}
+knitr::include_graphics("https://apreshill.github.io/ohsu-biodatavis/slides_files/figure-html/bar8-1.png")
+```
+
+https://apreshill.github.io/ohsu-biodatavis/slides.html#33
+
+---
+
+### 1B: How to visualize data
+
+One way to think about visualizing data is in terms of the _type_ of visualization you create:
+
+- Histogram
+- Density plot
+- Scatter plot
+- Bar chart
+- Pie chart ([gasp!](https://socviz.co/refineplots.html))
+- Time series plot/line chart
+
+---
+
+### 1B: How to visualize data
+
+Another way to think about visualizing data is in terms of the elements that make up a plot.
+
+The *grammar of graphics* ([Wickham, 2010](https://www.tandfonline.com/doi/abs/10.1198/jcgs.2009.07098), [Wilkinson, 2012](https://link.springer.com/chapter/10.1007/978-3-642-21551-3_13)) has a particular answer to the question of what a plot includes:
+
+Why a grammar of graphics?
+
+- gain insight into complex figures
+- reveal deeper relationships between what may appear to be unrelated visualizations
+- more flexibly and creatively visualize data--including in ways that do not fit well into one type of plot
+- suggest what makes a good figure
+
+---
+
+### 1B: How to visualize data?
+
+One view of visualizations is that they consist of four components:
+
+1. Data
+2. One or more geometric objects (shape, point, line, etc.)
+3. A mapping between variables in the data and the geometric objects and their characteristics (including their size and color)
+4. A theme
+
+---
+
+### 1B: How to visualize data?
+
+Let's see how this might appear:
+
+```{r, echo = FALSE, eval = TRUE}
+# create a dataset
+data <- data.frame(
+  name=c( rep("Question 1",500), rep("Question 2",500), rep("Question 3",500), rep("Question 4",20), rep('Question 5', 100)  ),
+  value=c( rnorm(500, 3, 1), rnorm(500, 2, .5), rnorm(500, 3.1, 1), rnorm(20, 4, 2), rnorm(100, 6, 1.5) )
+) %>% 
+  filter(value > 0) %>% 
+  as_tibble()
+```
+
+```{r}
+data
+```
+
+```{r, echo = TRUE, eval = FALSE}
+data %>%
+  ggplot(aes(x = name, y = value)) +
+  geom_boxplot()
+```
+
+---
+
+### 1B: How to visualize data?
+
+```{r, echo = FALSE, eval = TRUE}
+data %>%
+  ggplot(aes(x = name, y = value)) +
+  geom_boxplot()
+```
+
+---
+
+### 1B: How to visualize data
+
+- The previous slide contained a potentially _useful_ plot
+- However, we might be able to improve both its interpretability and its aesthetic
+
+
+```{r, out.width="62%", echo = FALSE, fig.align='center'}
+knitr::include_graphics("https://d33wubrfki0l68.cloudfront.net/21d683072b0c21cbd9b41fc0e37a587ad26b9525/cbf41/wp-content/uploads/2018/08/data-visualization-2.1.png")
+```
+
+https://github.com/rstudio/cheatsheets/blob/master/data-visualization.pdf
+
+---
+
+### 1B: How to visualize data?
+
+```{r, echo = FALSE, eval = TRUE}
+data %>%
+  ggplot(aes(x = name, y = value)) +
+  geom_boxplot() +
+  geom_point()
+```
+
+---
+
+### 1B: How to visualize data?
+
+```{r, echo = FALSE, eval = TRUE}
+data %>%
+  ggplot(aes(x = name, y = value)) +
+  geom_boxplot() +
+  geom_jitter()
+```
+
+---
+
+### 1B: How to visualize data
+
+You can create different plots by:
+
+- Changing the aesthetic _mapping_ between variables in the data and geometric objects
+- Changing the geometric objects
+
+---
+
+### 1B: How to visualize data?
+
+```{r, echo = FALSE, eval = TRUE}
+data %>%
+  ggplot(aes(x = value, y = name, color = name)) +
+  geom_boxplot() +
+  geom_jitter()
+```
+
+---
+
+### 1B: How to visualize data?
+
+```{r, echo = FALSE, eval = TRUE}
+data %>%
+  ggplot(aes(x = value, y = name, fill = name)) +
+  geom_jitter(color = "gray") +
+  geom_violin()
+```
+
+---
+
+### 1C: How to make visualizations aesthetically pleasing
+
+```{r, echo = FALSE, eval = TRUE, fig.align='center'}
+data %>%
+  ggplot(aes(x = value, y = name, fill = name)) +
+  geom_jitter(color = "gray") +
+  geom_violin() +
+  theme_minimal()
+```
+
+---
+
+_Theming and fine-tuning_
+
+```{r, echo = TRUE, eval = FALSE}
+data %>%
+  ggplot(aes(x = value, y = name, fill = name)) +
+  geom_jitter(color = "gray") +
+  geom_violin() +
+  theme_minimal() +
+  scale_fill_brewer("", type = "qual") +
+  ylab(NULL) +
+  xlab(NULL) +
+  theme(text = element_text(size = 16, family = "Times"),
+        legend.position = "none") +
+  ggtitle("Distributions for the Five Questions")
+```
+
+---
+
+```{r, echo = FALSE, eval = TRUE, fig.align='center'}
+data %>%
+  ggplot(aes(x = value, y = name, fill = name)) +
+  geom_jitter(color = "gray") +
+  geom_violin() +
+  theme_minimal() +
+  scale_fill_brewer("", type = "qual") +
+  ylab(NULL) +
+  xlab(NULL) +
+  theme(text = element_text(size = 16, family = "Times"),
+        legend.position = "none") +
+  ggtitle("Distributions for the Five Questions")
+```
+
+---
+
+### 2: How does tidying data relate to data viz?
+
+Often, we have to make changes to our data frame in order to create the visualization we would like to create.
+
+---
+
+### 2: How does tidying data relate to data viz?
+
+**Making a new variable prior to plotting the data**
+
+```{r, eval = FALSE}
+pred_frame %>% 
+  mutate(isTeacher = ifelse(isTeacher == 0, "Non-Teachers", "Teachers")) %>% 
+  ggplot(aes(year_of_post_centered + 2016, prediction)) +
+  geom_line(aes(color = type_of_tweet), 
+            size = 1.3) +
+  geom_text(aes(label = label, color = type_of_tweet),
+           family = "Times New Roman",
+           data = label_frame) +
+  facet_wrap(~isTeacher, ncol = 1) +
+  scale_x_continuous("Year", breaks = seq(2010, 2020, 2)) +
+  labs(x = "Year", 
+       y = "Standardized Model-Predicted Sentiment Score")
+```
+
+---
+
+### 2: How does tidying data relate to data viz?
+
+```{r, out.width="60%", echo = FALSE, fig.align="center"}
+knitr::include_graphics("img/interactions.png")
+```
+
+---
+
+### 2: How does tidying data relate to data viz?
+
+_Other data tidying steps_ we might take prior to visualizing data:
+
+  - **recoding** variables
+  - **creating a factor** (so that we can order elements of a plot as we wish for them
+  to be ordered)
+  - **grouping** and **summarizing** to plot a summary statistic
+  - realizing that your data processing and tidying was not quite sufficient,
+  so **returning to those stages** before finalizing your visualization
+  - **re-running our analysis** (`.Rmd` file) because we discovered an issue with our 
+  data
+  
+---
+
+# Course Logistics
+
+**This week**
+* Homework 3: Due by Thursday, 9/16
+* Homework 4: Due by Tuesday, 9/21
+* Readings
+  * 1: A Layered Grammar of Graphics ([Wickham, 2010](http://vita.had.co.nz/papers/layered-grammar.pdf))
+  * 2: Data visualization ([Wickham & Grolemund, 2018](https://r4ds.had.co.nz/data-visualisation.html))
+  
+**Coming up**
+* *Just begin* to think and to ask questions about what you may want to do for [a final project](https://making-data-science-count.github.io/s21-intro-to-data-sci-methods-in-ed/assignments.html); something that
+will advance your research and allow you to exhibit and extend what you do in class
+
+---
+
+# Wrapping up
+
+In the class-checkout Slack channel:
+
+- What is one thing you learned today?
+- What is something you want to learn more about? 
+- _Also_, in GIF form (type `/giphy` in Slack, and then a random term), summarize how you are feeling
+about R
