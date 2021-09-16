@@ -1,0 +1,165 @@
+---
+title: "HW Week 4 - Advanced Data Cleaning Skills"
+output: html_document
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="background" class="section level2">
+<h2>Background</h2>
+<p>For this homework, we are going to be working with the Experience Sampling
+Method - ESM - data that we used in class.</p>
+<p>Here’s a bit of an overview and a reminder of this dataset. The database
+contains responses, corresponding question numbers, unique identifiers for the
+survey and for the item level responses, and the course assignment that each
+survey corresponds to. What it does not have are unique identifiers of the
+person who sent it, i.e.:</p>
+<ul>
+<li>their phone number</li>
+<li>the date and time when it was sent</li>
+<li>and, if we wanted later, other information, such as information about their major</li>
+</ul>
+<p>That’s where the Twilio (ESM) data file comes in it does have that information,
+and importantly, it also uses the same unique identifiers for the ESM responses.</p>
+<p>It also has some junk in it that we <em>don’t</em> want, like the messages
+where students initiated but didn’t take the survey.</p>
+<p>To provide just a bit more context, students answered our five ESM survey items ~11 times
+each, with some doing so as many as 18 times.</p>
+<p>So, it might be interesting to look at the five survey questions, and see what
+average responses were for each question for each student.</p>
+<p>In class we went over getting the mean by survey question overall, but this time we
+want to know how each person responded on average to each item. There’s ~75
+people in this dataset, and, again five survey items.</p>
+<p><strong>So, just to sum up, we have around 75 students each responding around 11 times
+to five questions. What we’d like to get is a summary data table that’s 75 rows
+and 5 columns, with each entry being each person’s average response for each of the
+five questions.</strong></p>
+<p>There’s a lot here, and if you have questions about any of this, please message
+over in the #questions channel on Slack. You’ll note that this is entirely data
+tidying/processing, but is very much the kind of thing that you may wish to do as
+the descriptive part of an analysis for a research project.</p>
+<p>This task will involve a number of steps that we’ll tackle one at a time, then at the
+end we can put everything together and you will (maybe?) marvel at what you’ve done.</p>
+</div>
+<div id="downloading-the-data-and-saving-them-to-the-data-directory" class="section level2">
+<h2>Downloading the data and saving them to the data directory</h2>
+<p>The first thing you will need to do is get the data. You’ll need the two ESM data
+files:</p>
+<ul>
+<li><code>twilio_data.csv</code></li>
+<li><code>database_data.csv</code>.</li>
+</ul>
+<p>Both can be acquired from the GitHub repository here:</p>
+<p><a href="https://github.com/alishinski/course-website/tree/master/content/data" class="uri">https://github.com/alishinski/course-website/tree/master/content/data</a></p>
+<p>To save them, simply run the following code chunk. But, first, load two packages:</p>
+<ul>
+<li>tidyverse</li>
+<li>here</li>
+</ul>
+<p>Do this - load these two packages - in the next chunk:</p>
+<p>Then, let’s download the files next. If you don’t have a data subfolder, delete that part of the code.</p>
+<pre class="r"><code>#download.file(&quot;https://github.com/alishinski/course-website/tree/master/content/data/twilio_data.csv&quot;,
+#              destfile = here(&quot;data&quot;, &quot;twilio_data.csv&quot;))
+
+#download.file(&quot;https://github.com/alishinski/course-website/tree/master/content/data/database_data.csv&quot;,
+#              destfile = here(&quot;data&quot;, &quot;database_data.csv&quot;))</code></pre>
+<p>Let’s break down what’s going on:</p>
+<ul>
+<li>First, we load the here package so that we can specify where we want to save the file</li>
+<li>Second, we use the <code>download.file</code> function – twice. First, we download the
+<code>twilio_data.csv</code> file; second, we download the <code>database_data.csv</code> file</li>
+</ul>
+<p>If you saw two message with “trying URL” and then the URL and some information
+about the file and the word “downloaded”, you should be good to go! I recommend
+checking your project directory to make sure that both files are there.</p>
+</div>
+<div id="reading-the-data" class="section level2">
+<h2>Reading the data</h2>
+<p>Now, you’ll need to read the data. We’ll do this for the first file; you do this
+for the second file.</p>
+</div>
+<div id="joining-the-data" class="section level2">
+<h2>Joining the data</h2>
+<p>The next thing we need to do is join the two data frames since we need
+variables from both. We only want to keep the matching rows from both data sets.</p>
+<p>At each intermediate step in the process, starting now, you should assign your
+results to a data frame. We’ll build this up iteratively, so each step will involve
+chaining the new step to what you did in the previous step.</p>
+<p>First, here, join the two data frames together based on a common variable. Remember
+the differences between the different types of joins! More on those here:</p>
+<p>You’ll need one of the join functions; you may find this help documentation helpful:
+<a href="https://dplyr.tidyverse.org/reference/join.html" class="uri">https://dplyr.tidyverse.org/reference/join.html</a></p>
+<p>Now that the data is joined, we will want to get rid of some of the variables
+that we won’t need.</p>
+<p>So, consider what our end goal is: We want a table of
+means by person and by item.</p>
+<ul>
+<li>We will need the answers to obtain these means, so we’ll
+need the content variable;</li>
+<li>We will need to know which question they go with, so we’ll need the question ID;</li>
+<li>We will also need to know which person each response goes with, so that’s the From variable,
+with the anonymized phone numbers;</li>
+<li>Besides these, it would also be helpful to have a unique identifier so that we could rejoin this data with the main set later; so we should keep the survey ID
+variable.</li>
+</ul>
+<p>In this next step let’s pare down our data set to just those important
+variables:</p>
+<p>Now that we’ve gotten rid of the unimportant variables, that will make our next
+steps a bit simpler. There’s more than one way to go from here, but let’s think
+about our end goal again.</p>
+<p>We want means by item (and also by person), so one way to do this would involve
+separating the content variable by item, so that each item
+has it’s own variable. If we can do that, we can then group by person,
+summarize, and achieve our desired result.</p>
+<p>Separating the content variable by item is exactly what the <code>pivot_wider()</code>
+function can help us do. This one can be tricky, so we’ll fill in some parts for
+you to get started, but you’ll need to add the crucial bits, and connect it with
+what you’ve done before.</p>
+<p>Great! Now that you have those new variables for each question, all that’s
+left to do is to group the data and then summarize on each of those five variables.
+With the summarize function, you can do several summaries, so it’s just a matter
+of doing it for each one. Let’s do that here.</p>
+<p>So now you might be mad, because that didn’t work and it gave you an obnoxiously
+long error message. Sorry about that. But maybe you also remember that we
+covered dealing with this exact issue in the lecture. And let’s also drill down
+on what this means <code>argument is not numeric or logical: returning NA</code> you can’t
+take the mean of something that’s not a numeric vector (or logical vector, but
+don’t worry about the logical part right now). So we’ll need to fix that, but
+you already know how from the lecture and last week’s homework, so go ahead and
+do that below.</p>
+<p>Now that you have everything, just type in the name of your summary data table so
+we can see the print output.</p>
+<p>If you made it all the way, congrats, you did a great job! If you couldn’t get
+it quite 100% right, don’t worry, you’re probably at least 80-90% there.</p>
+</div>
+<div id="fin" class="section level2">
+<h2>fin</h2>
+<p>You know the drill; render and please submit:</p>
+<ul>
+<li>Submit the .html file you used to render a report to Canvas</li>
+<li>Upload the .Rmd file you rendered to the #homework channel in Slack.</li>
+</ul>
+<p>One difference from last week: Please post a comment, feedback, or reflection
+below <em>as well as to Slack when you post your homework</em>.</p>
+</div>
+<div id="self-assessment-and-reflection" class="section level2">
+<h2>Self-assessment and reflection</h2>
+<p>Respond to the following three questions on a 1 (not at all) to 5 (very much)
+scale by replacing the “x” below with your response:</p>
+<pre class="r"><code>x = NULL
+tibble::tribble(
+  ~question,                                   ~response,
+  &quot;How challenging was this homework?&quot;,        x,
+  &quot;How interesting was this homework to you?&quot;, x,
+  &quot;How valuable was this homework to you?&quot;,    x
+)</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   question                                  response
+##   &lt;chr&gt;                                     &lt;list&gt;  
+## 1 How challenging was this homework?        &lt;NULL&gt;  
+## 2 How interesting was this homework to you? &lt;NULL&gt;  
+## 3 How valuable was this homework to you?    &lt;NULL&gt;</code></pre>
+<p>Include any other comments, feedback, or reflections on this homework below:</p>
+<p>Important note: Please post your comment(s), feedback, or reflections in Slack when you share your Rmd file!</p>
+</div>

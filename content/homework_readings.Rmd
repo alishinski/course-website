@@ -25,5 +25,21 @@ Readings:
 
 - R for Data Science Chapter #12 Tidy Data: https://r4ds.had.co.nz/tidy-data.html
 
+Homework 2: https://github.com/alishinski/course-website/blob/master/content/homework/HW2.Rmd
+
 ## Week 4
 
+Readings:
+
+None
+
+Homework 3: https://github.com/alishinski/course-website/blob/master/content/homework/HW3.Rmd
+
+## Week 5
+
+Readings:
+
+- 1: A Layered Grammar of Graphics ([Wickham, 2010](http://vita.had.co.nz/papers/layered-grammar.pdf))
+- 2: Data visualization ([Wickham & Grolemund, 2018](https://r4ds.had.co.nz/data-visualisation.html))
+
+Homework 4: https://github.com/alishinski/course-website/blob/master/content/homework/HW4.Rmd

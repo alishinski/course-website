@@ -5,6 +5,8 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(tidyverse)
 ```
 
 # Loading, setting up
@@ -129,7 +131,7 @@ Finally, use the `mutate()` function to change the column `content` to be the re
 ```{r}
 
 
-str_extract(string = , pattern = "[12345]{1}")
+#str_extract(string = , pattern = "[12345]{1}")
 
 
 

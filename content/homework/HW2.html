@@ -1,0 +1,109 @@
+---
+title: "HW Week 3 - Data Cleaning Skills"
+output: html_document
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="loading-setting-up" class="section level1">
+<h1>Loading, setting up</h1>
+<div id="load-the-tidyverse-and-here-packages" class="section level2">
+<h2>Load the tidyverse and here packages</h2>
+<p>Recall that the tidyverse package itself loads a number of packages, including:</p>
+<ul>
+<li>dplyr</li>
+<li>readr</li>
+<li>stringr</li>
+<li>forcats</li>
+</ul>
+<p>You could load these individually, but it can be handy to load them all with just
+one function.</p>
+</div>
+<div id="read-in-the-data-answer_export.csv-and-save-it-using-whatever-name-you-want" class="section level2">
+<h2>Read in the data answer_export.csv and save it using whatever name you want</h2>
+<p>The data is here in case you don’t already have it: <a href="https://github.com/alishinski/course-website/blob/master/content/data/answer_export.csv" class="uri">https://github.com/alishinski/course-website/blob/master/content/data/answer_export.csv</a></p>
+<p>Be sure to use the here package too.</p>
+</div>
+<div id="figure-out-how-many-rows-and-columns-are-in-the-dataset-and-put-the-answer-below" class="section level2">
+<h2>Figure out how many rows and columns are in the dataset and put the answer below</h2>
+<p>rows:
+columns:</p>
+</div>
+<div id="determine-what-type-the-columns-content-and-question_id-are" class="section level2">
+<h2>Determine what type the columns content and question_id are</h2>
+<p>Add the code you use to do this below</p>
+</div>
+<div id="rename-the-columns-using-names-of-your-choice-using-a-dplyr-function" class="section level2">
+<h2>Rename the columns using names of your choice using a dplyr function</h2>
+</div>
+<div id="use-a-function-from-dplyr-to-filter-the-data-based-on-the-column-that-was-originally-named-content" class="section level2">
+<h2>Use a function from dplyr to filter the data based on the column that was originally named content</h2>
+<p>We think that this column should only consist of the values “1”, “2”, “3”, “4”, and “5”, so we want to get rid of other values.</p>
+<p>When you’re filtering with dplyr, remember you have to write the filtering condition based on the column name. Recall last week we filtered the <code>gss_cat</code> dataset based on the variable <code>tvhours</code> looking for values of <code>tvhours</code> that were greater than 3 with the condition <code>tvhours &gt; 3</code>.</p>
+<p>You can also set conditions based on specific values using the <code>==</code> operator. So in the previous example using <code>tvhours == 3</code> would get us rows where <code>tvhours</code> was equal to 3.</p>
+<p>You can also use multiple conditions. Recall again last weeks homework, we asked you to add a second condition to the filtering statement, something like <code>(tvhours &gt; 3, age &gt; 25)</code>. That statement would pick out rows meeting both conditions. You can also have multiple conditions that are mutually exclusive using the <code>|</code> operator. So we could have done something like <code>(tvhours &gt; 3 | age &gt; 25)</code> to filter rows meeting either of the two conditions. And you can keep chaining together with the <code>|</code> operator as many times as you need to. Why are we telling you all this? Oh no reason really.</p>
+<p>Don’t forget to assign the new filtered dataset to a new name.</p>
+</div>
+<div id="convert-the-column-formerly-known-as-content-to-a-numeric-column" class="section level2">
+<h2>Convert the column formerly known as content to a numeric column</h2>
+<p>The <code>mutate()</code> function in dplyr is used to add columns to datasets or modify existing ones. Type <code>?mutate</code> into the console to get more details. Here’s an example of what that would look like using the built in <code>mtcars</code> dataset:</p>
+<pre class="r"><code>mtcars_tons &lt;- mtcars %&gt;% mutate(wt = wt * 1000)
+mtcars_test &lt;- mtcars %&gt;% mutate(wt = as.character(wt))</code></pre>
+<p>In that example I modified the <code>wt</code> column to be equal to the old value of <code>wt</code> multiplied by 1000 (which I think gives the true weight of the cars in pounds, but that’s not important for this exercise).</p>
+<p>R also has different functions to convert types of variables, what we’ll call “as functions”, such as <code>as.numeric()</code> <code>as.character()</code> <code>as.logical()</code></p>
+<p>You can also use these “as functions” with the mutate function to convert the types of variables in your dataset.</p>
+<p>What we want to do here is to take the filtered dataset from the previous step where you removed the unexpected values from the variable originally known as <code>content</code>, and convert the type of that variable using the mutate function.</p>
+<p>Once again, don’t forget to save the resulting dataset with a new name.</p>
+</div>
+<div id="reach-1-turn-a-character-vector-into-a-factor" class="section level2">
+<h2>Reach 1: Turn a character vector into a factor</h2>
+<p>The variable that was originally called <code>question_id</code> should be a numeric variable. Let’s convert it into a factor. Base R has the <code>as.factor()</code> function, but let’s use the similar <code>as_factor()</code> function from the <code>forecats</code> package. Why do they have such similar functions? Because the forecats one tweaks the functionality a bit and is made to play nicely with the other tidyverse functions. Make sure you loaded that at the beginning.</p>
+<p>Make sure you assign the resulting data to a new name!</p>
+</div>
+<div id="reach-2-strip-out-the-numeric-part-of-the-character-vector" class="section level2">
+<h2>Reach 2: Strip out the numeric part of the character vector</h2>
+<p>If you’ve been paying close attention, you may have noticed that there was a flaw in our data cleaning procedure for the “content” column. We got rid of any values outside of “1”, “2,”, “3”, “4”, “5”, but there were some rows that had valid answers in them, but were filtered out by our filter, such as “4, Agree.” We can see that should be a 4, but we need a way to catch these cases.</p>
+<p>This is where the stringr package comes in handy. The stringr package has many functions that you can use to deal with character vectors. One that is handy in this situation is <code>str_extract()</code>. You give this function a character vector and a pattern (using regular expression language, don’t worry about that part right now) you want to extract, and it’ll give you a new vector with the parts matching your pattern. Here’s an example.</p>
+<pre class="r"><code>string_vector &lt;- c(&quot;1, of course&quot;, &quot;2&quot;, &quot;3!   &quot;)
+
+str_extract(string = string_vector, pattern = &quot;[123]{1}&quot;)</code></pre>
+<pre><code>## [1] &quot;1&quot; &quot;2&quot; &quot;3&quot;</code></pre>
+<p>In the example, we have the messy vector called <code>string_vector</code> and we used the pattern “[123]{1}” which means “find one instance of any of the characters 1, 2, or 3 in each string” to extract those values.</p>
+<p>So let’s reload the dataset from the file and start from scratch.</p>
+<p>Use the <code>str_extract</code> function to get values from the set “1” “2” “3” “4” and “5”. We’ve included the function including the pattern you’ll need.</p>
+<p>Finally, use the <code>mutate()</code> function to change the column <code>content</code> to be the result of the <code>str_extract()</code> function, and save this as a new dataset with a new name.</p>
+<pre class="r"><code>#str_extract(string = , pattern = &quot;[12345]{1}&quot;)</code></pre>
+</div>
+<div id="fin" class="section level2">
+<h2>fin</h2>
+<p>Nice work! Once you’ve finished your work, click “Knit” at the top to render a
+report that you can share; this is how you’ll submit homework for class!</p>
+<ul>
+<li>Submit the .html file you used to render a report to Canvas</li>
+<li>Upload the .Rmd file you rendered to the #homework-yourname channel in Slack.</li>
+</ul>
+<p>:tada: :tada: :tada:</p>
+</div>
+<div id="self-assessment-and-reflection" class="section level2">
+<h2>Self-assessment and reflection</h2>
+<p>Respond to the following three questions on a 1 (not at all) to 5 (very much)
+scale by replacing the “x” below with your response:</p>
+<pre class="r"><code>x = NULL
+tibble::tribble(
+  ~question,                                   ~response,
+  &quot;How challenging was this homework?&quot;,        x,
+  &quot;How interesting was this homework to you?&quot;, x,
+  &quot;How valuable was this homework to you?&quot;,    x
+)</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   question                                  response
+##   &lt;chr&gt;                                     &lt;list&gt;  
+## 1 How challenging was this homework?        &lt;NULL&gt;  
+## 2 How interesting was this homework to you? &lt;NULL&gt;  
+## 3 How valuable was this homework to you?    &lt;NULL&gt;</code></pre>
+<p>Include any other comments, feedback, or reflections on this homework below:</p>
+<p>If you like, you can post these other comments, feedback, or reflections in the
+message you post to #homework in Slack to share what you’ve done.</p>
+</div>
+</div>

@@ -1,0 +1,297 @@
+---
+title: "HW Week 5 - Introduction to Data Viz"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval=FALSE)
+```
+
+BEFORE YOU START, FIRST REMOVE THE `, eval=FALSE` FROM THE CODE ABOVE
+
+# Background 
+
+We will use a new dataset for this week's homework, the tidykids dataset. 
+
+You can read more about it here: https://jrosen48.github.io/tidykids/
+
+# Loading data
+
+To download the data, run the following code chunk. Like for last week, this function
+uses two arguments:
+
+1. The URL on the Internet for the file
+2. `destfile`, where the file will be saved on your computer
+
+Note that - like for last week - you will need to have created a `data` directory in
+the same directory in which this file is saved for this to work.
+
+```{r}
+download.file("https://raw.githubusercontent.com/making-data-science-count/s21-intro-to-data-sci-methods-in-ed/main/data/tidykids.csv", destfile = here("data", "tidykids.csv"))
+```
+
+A brief aside: The above function has two arguments, but that *only one argument*, destfile, 
+is named. The first argument, which is named url, is not named because, by convention, 
+the first arguments to functions are not named. To see the arguments for this and any 
+other function, add a question mark before the name of the function and run that line of code in 
+the console, e.g.: 
+
+?download.file
+
+Next, let's read the tidykids data using the read_csv() function. Save the data
+to the name tidykids.
+
+```{r}
+
+```
+
+Finally, in the code chunk below, show how you would inspect the data you just loaded - 
+does it appear as you think it should appear? What do you notice from taking a first 
+look at your data?
+
+```{r}
+
+```
+
+A simple codebook for the data, which is state-level data related to spending on 
+services for children, is available here:
+
+https://jrosen48.github.io/tidykids/reference/tidykids.html
+
+We will take one last step before proceeding to visualizing the data; for this
+homework, filter the variable column to only include a single variable, such as,
+for example, PK12ed or pell. There are many more; a 
+description of the different values within the variable column is available here:
+
+https://jrosen48.github.io/tidykids/articles/tidykids-codebook.html
+
+You will need to add the name of the variable you select (choose whichever you 
+find the most interesting)! in the next code chunk; we've written some
+code to get you started:
+
+```{r}
+tidykids_variable <- filter()
+```
+
+Next, let's take one more look at our data, just to make sure that the above code
+worked as we intended. Write that code to inspect or check out your data in the 
+next chunk:
+
+```{r}
+
+```
+
+# Overview
+
+The remainder of this homework is focused around three visualization-related tasks:
+
+1. Visualizing one variable
+2. Visualizing two variables
+3. Theming and fine-tuning a plot
+
+There should be six columns in your dataset. If you have not yet, take a careful
+look at the codebook for the dataset to understand what each of the six columns 
+represent: 
+
+https://jrosen48.github.io/tidykids/reference/tidykids.html
+
+# Visualizing one variable
+
+The following are some "geoms", or geometric shapes, with which you can create visualizations
+of one variable:
+
+- geom_histogram()
+- geom_density()
+- geom_freqpoly()
+- geom_bar()
+
+The code below creates a plot - but one without any geometric shapes, so it's not very 
+interesting (you can run the code to see what we mean!). To this code below, add
+one of the above geoms. Recall that we add layers to ggplot2s (so, any line
+after the line on which we call ggplot()) through a different operator than we otherwise
+use in R (the pipe operator). Instead, we use the + operator. Take a look [at the 
+slides for this week](https://making-data-science-count.github.io/s21-intro-to-data-sci-methods-in-ed/presentations.html) if you need a pointer on this.
+
+```{r}
+tidykids_variable %>% 
+  ggplot(aes(x = inf_adj_perchild))
+```
+
+If you were successful, you should see something much more interesting than what appeared before;
+you should see a plot that summarizes the spread, or the distribution, of values.
+
+In the next code chunk, run the same code, but change the variable that you specify for 
+the x aesthetic.
+
+```{r}
+
+```
+
+Next, select a different geom than the one you selected; choose which variable
+you wish to represent (by specifying it as mapping to the x aesthetic), too:
+
+```{r}
+
+```
+
+Finally - for this portion of the homework - choose one more geom
+(other than one you have already used), and create a plot using that geom below:
+
+```{r}
+
+```
+
+What do you notice? What do you wonder? At at least one reflection below (but feel free
+to add additional dashes to add additional reflections!)
+
+- 
+
+There is one last task pertaining to visualizing a single variable. Next, filter
+the dataset once more, this time to include data from only a single year. You 
+choose which year! Note the type of the year variable; you might wish to treat it 
+as a character or as an integer; refer to homework 3 for a reminder for how to change
+the type of a variable. We strongly recommend saving the result of your filter to a 
+data frame with a different name than those that are already used.
+
+Once you have filtered the data, create one additional plot (including any of the
+elements utilized in the plots above) in the chunk below:
+
+```{r}
+
+```
+
+# Visualizing two variables
+
+Visualizing two variables invites a number of additional considerations. We will
+focus on only one geom for now, adding others over the next few weeks:
+
+- geom_col()
+
+For the next visualization (on visualizing two variables), use the
+dataset you filtered to include only responses from a single year.
+
+Using the below as a starting point, specify the state variable as either the x
+or y aesthetic, and specify another variable as the other (depending on which you
+choose for state):
+
+```{r}
+d %>% 
+  ggplot(aes()) +
+  geom_col()
+```
+
+You might see something that looks interesting, but difficult to interpret.
+
+The reorder() function can be very helpful for making such plots more interpretable.
+
+Here is an example (using code that is not run - note the code chunk option 
+eval = FALSE) of how the reorder function can be used:
+
+```{r, eval = FALSE}
+my_data %>% 
+  ggplot(aes(x = reorder(class_level, mean_value), y = mean_value)) +
+  geom_point()
+```
+
+The above code is not quite useful to you for at least two reasons:
+
+1. The data and variables are named differently than those you are using
+2. We are using a different geom
+
+But, using the above as a starting point, can you reorder the columns in the
+first visualization that you made using geom_col in the code chunk below:
+
+```{r}
+
+```
+
+There is a *lot* more you can and will do, including visualizing patterns over time
+and creating "small multiples", or separate plots for each year (or, even, for each variable).
+
+# Theming and fine-tuning a plot
+
+There are many ways to theme and fine-tune a plot. For now, we'll focus on two 
+changes you can make, those enabled through:
+
+1. The addition of a theme, which changes many parts of a plot
+2. The modification of a specific aspect of a plot (specifically, its theme, even 
+if that is the default theme)
+
+In the next chunk, copy the code from the last code chunk you ran. Then, add
+another layer (as you have done to add anything to your ggplot2 plots - with the 
++ operator) with one of the built-in themes. Here is a brief list; you can also see
+additional options by typing ggplot2::theme_ in the console (or in a code chunk)
+and then noting the names of themes that autocomplete:
+
+- theme_bw()
+- theme_minimal()
+- theme_dark()
+
+Add a theme to your plot below:
+
+```{r}
+
+```
+
+Next, as one example of many ways that you can fine-tune your plot, copy and paste
+the code you just ran in the chunk above into the chunk below, and change the x-axis 
+label. You can do so by adding xlab() as a layer, with the name of the label as 
+you wish it to appear as the sole argument to the xlab function:
+
+```{r}
+
+```
+
+# Reach 1
+
+Are the built-in options not very exciting to you?
+
+Install the ggthemes package and try out one of the themes include in it along 
+with code for a plot in the chunk below; see the themes here:
+
+https://ggplot2-book.org/polishing.html
+
+```{r}
+
+```
+
+# Reach 2
+
+Can you create a visualization that represents differences by year? To do so, make
+sure you use the data frame that contains all of the years. You may need to process,
+tidy, or summarize the data to create the visualization you have in mind; try this
+below.
+
+```{r}
+
+```
+
+## fin
+
+Render and submit:
+
+- Submit the .html file you used to render a report to Canvas
+- Upload the .Rmd file you rendered to the #homework channel in Slack.
+
+One difference from last week: Please post a comment, feedback, or reflection
+below *as well as to Slack when you post your homework*.
+
+## Self-assessment and reflection
+
+Respond to the following three questions on a 1 (not at all) to 5 (very much) 
+scale by replacing the "x" below with your response:
+
+```{r, reflection}
+x = NULL
+tibble::tribble(
+  ~question,                                   ~response,
+  "How challenging was this homework?",        x,
+  "How interesting was this homework to you?", x,
+  "How valuable was this homework to you?",    x
+)
+```
+
+Include any other comments, feedback, or reflections on this homework below:
+
+
+Important note: Please post your comment(s), feedback, or reflections in Slack when you share your Rmd file!

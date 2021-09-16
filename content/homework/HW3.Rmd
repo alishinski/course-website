@@ -77,11 +77,11 @@ Do this - load these two packages - in the next chunk:
 Then, let's download the files next. If you don't have a data subfolder, delete that part of the code.
 
 ```{r}
-download.file("https://github.com/alishinski/course-website/tree/master/content/data/twilio_data.csv",
-              destfile = here("data", "twilio_data.csv"))
+#download.file("https://github.com/alishinski/course-website/tree/master/content/data/twilio_data.csv",
+#              destfile = here("data", "twilio_data.csv"))
 
-download.file("https://github.com/alishinski/course-website/tree/master/content/data/database_data.csv",
-              destfile = here("data", "database_data.csv"))
+#download.file("https://github.com/alishinski/course-website/tree/master/content/data/database_data.csv",
+#              destfile = here("data", "database_data.csv"))
 ```
 
 Let's break down what's going on:
