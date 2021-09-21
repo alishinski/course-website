@@ -1,0 +1,648 @@
+---
+title: "Week 6 - Further into Data Viz" 
+subtitle: ""
+author: "Alex Lishinski"
+date: "September 21, 2021"
+output:
+  xaringan::moon_reader:
+    css: [theme.css]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+# Welcome!
+
+Welcome to *week 6*!
+
+**Record the meeting** 
+
+```{r, include = FALSE}
+library(here)
+library(dplyr)
+library(readr)
+library(magrittr)
+library(tidyr)
+library(stringr)
+library(ggplot2)
+library(forcats)
+```
+
+---
+
+# Discussion!
+
+Starting with whomever most wants to go first:
+
+**One question:**
+
+- What is a weird, unusual, or surprising situation that you encountered when using R in the last week?
+
+---
+
+### Review of last week's class
+
+Why visualize data?
+
+One answer: 
+
+"You should look at your data." ([Healy, 2018](https://socviz.co/))
+
+*To elaborate on this*:
+
+- Visualizations allow to _understand the structure and nature of your data_, and to begin to understand what might relate to what else
+- Just like we want to be constantly looking at our data in its spreadsheet/table/data frame format (e.g., `str()`, `glimpse()`, and `View()`), visualizing our data can help us to make sure our data contains what we think it does-and it can alert us to when it does not
+
+---
+
+### Review of last week's class
+
+* Exploratory visualization and presentation visualization
+
+* Basics of using base R plotting functions as well as ggplot
+
+---
+
+### Review of last week's class
+
+```{r, echo = FALSE, eval = TRUE}
+# create a dataset
+data <- data.frame(
+  name=c( rep("Question 1",500), rep("Question 2",500), rep("Question 3",500), rep("Question 4",20), rep('Question 5', 100)  ),
+  value=c( rnorm(500, 3, 1), rnorm(500, 2, .5), rnorm(500, 3.1, 1), rnorm(20, 4, 2), rnorm(100, 6, 1.5) )
+) %>% 
+  filter(value > 0) %>% 
+  as_tibble()
+```
+
+
+```{r, echo = TRUE, eval = FALSE}
+data %>%
+  ggplot(aes(x = name, y = value)) +
+  geom_boxplot()
+```
+
+```{r, eval = FALSE}
+data %>%
+  ggplot(aes(x = value, y = name, fill = name)) +
+  geom_jitter(color = "gray") +
+  geom_violin() +
+  theme_minimal() +
+  scale_fill_brewer("", type = "qual") +
+  ylab(NULL) +
+  xlab(NULL) +
+  theme(text = element_text(size = 16, family = "Times"),
+        legend.position = "none") +
+  ggtitle("Distributions for the Five Questions")
+```
+
+---
+
+### Review of last week's class
+
+```{r, echo = FALSE}
+data %>%
+  ggplot(aes(x = name, y = value)) +
+  geom_boxplot()
+```
+
+---
+
+### Review of last week's class
+
+```{r, echo = FALSE}
+data %>%
+  ggplot(aes(x = value, y = name, fill = name)) +
+  geom_jitter(color = "gray") +
+  geom_violin() +
+  theme_minimal() +
+  scale_fill_brewer("", type = "qual") +
+  ylab(NULL) +
+  xlab(NULL) +
+  theme(text = element_text(size = 16, family = "Times"),
+        legend.position = "none") +
+  ggtitle("Distributions for the Five Questions")
+```
+
+---
+
+### This week's topics
+
+**Overview**
+
+1. Data viz ideas and details
+3. Data viz and tidying operations
+
+---
+
+### 2 overarching goals of learning data viz in R
+
+* Conceptual framework of visualization
+  + Grammar of graphics and different mappings of data onto visual elements
+
+* Details of implementation
+  + How to build and refine plots layer by layer
+  + Eventually: Interactive data viz with ggviz and shiny
+  
+---
+
+class: inverse, center, middle
+
+# Part 1/2: Data Viz Ideas
+
+---
+
+### 1. Data Viz Ideas
+
+**Outline**
+
+A. Review of the grammar of graphics
+
+B. Understanding visualizations by layers
+
+C. Understanding mapping of data to geoms
+
+---
+
+### 1A: Grammar of Graphics
+
+Another way to think about visualizing data is in terms of the elements that make up a plot.
+
+The *grammar of graphics* ([Wickham, 2010](https://www.tandfonline.com/doi/abs/10.1198/jcgs.2009.07098), [Wilkinson, 2012](https://link.springer.com/chapter/10.1007/978-3-642-21551-3_13)) has a particular answer to the question of what a plot includes:
+
+Why a grammar of graphics?
+
+- gain insight into complex figures
+- reveal deeper relationships between what may appear to be unrelated visualizations
+- more flexibly and creatively visualize data--including in ways that do not fit well into one type of plot
+- suggest what makes a good figure
+
+---
+
+### 1A: More Data Viz Ideas
+
+#### Some general principles for effective data viz
+
+_Keep it simple_
+
+```{r pie-3d, echo = FALSE, out.width="40%"}
+knitr::include_graphics("img/pie-3d.jpg")
+```
+
+---
+
+### 1A: More Data Viz Ideas
+
+#### Some general principles for effective data viz
+
+_Keep it simple_
+
+```{r pie-to-bar, echo = FALSE, out.width="60%"}
+d <- tribble(
+  ~category, ~value,
+  "Cutting tools", 0.03,
+  "Buildings and administration", 0.22,
+  "Labor", 0.31,
+  "Machinery", 0.27,
+  "Workplace materials", 0.17
+)
+ggplot(d, aes(x = fct_reorder(category, value), y = value)) +
+  geom_col() +
+  theme_minimal() +
+  coord_flip() +
+  labs(x = "", y = "")
+```
+
+---
+
+### 1A: More Data Viz Ideas
+
+#### Some general principles for effective data viz
+
+_Use color to draw attention_
+
+```{r echo = FALSE, out.width="60%"}
+d %>%
+  mutate(category = str_replace(category, " ", "\n")) %>%
+  ggplot(aes(x = category, y = value, fill = category)) +
+  geom_col() +
+  theme_minimal() +
+  labs(x = "", y = "") +
+  theme(legend.position = "none")
+```
+
+---
+
+### 1A: More Data Viz Ideas
+
+#### Some general principles for effective data viz
+
+_Use color to draw attention_
+
+```{r echo = FALSE, out.width="60%"}
+ggplot(d, aes(x = fct_reorder(category, value), y = value, fill = category)) +
+  geom_col() +
+  theme_minimal() +
+  coord_flip() +
+  labs(x = "", y = "") +
+  scale_fill_manual(values = c("red", rep("gray", 4))) +
+  theme(legend.position = "none")
+```
+
+---
+
+### 1A: More Data Viz Ideas
+
+#### Some general principles for effective data viz
+
+_Tell a story_
+
+```{r echo = FALSE, out.width = "100%"}
+knitr::include_graphics("img/time-series-story.png")
+```
+
+---
+
+### 1B: Understanding visualizations by layer
+
+Layers:
+
+1. Data
+2. One or more geometric objects (shape, point, line, etc.)
+3. A mapping between variables in the data and the geometric objects and their characteristics (including their size and color)
+4. A theme
+
+---
+
+### 1B: Understanding visualizations by layer
+
+_Data_
+
+```{r, out.width = "50%"}
+mtcars
+```
+
+---
+
+### 1B: Understanding visualizations by layer
+
+_Data_
+
+```{r, out.width = "50%"}
+ggplot(mtcars)
+```
+
+
+---
+
+### 1B: Understanding visualizations by layer
+
+_One geom_
+
+```{r, out.width = "50%"}
+ggplot(mtcars) +
+  geom_point(aes(x = disp, y = mpg))
+```
+
+
+---
+
+### 1B: Understanding visualizations by layer
+
+_Additional Geoms_
+
+```{r, out.width = "50%", message = FALSE}
+ggplot(mtcars) +
+  geom_point(aes(x = disp, y = mpg)) +
+  geom_smooth(aes(x = disp, y = mpg), method = "loess")
+```
+
+---
+
+### 1B: Understanding visualizations by layer
+
+_Additional Aesthetic Parameters: Color_
+
+```{r, echo = FALSE}
+mtcars <- mtcars %>% mutate(am = as.factor(am))
+```
+
+```{r, out.width = "50%"}
+ggplot(mtcars) +
+  geom_point(aes(x = disp, y = mpg, color = am), size = 6)
+```
+---
+
+### 1B: Understanding visualizations by layer
+
+_Additional Aesthetic Parameters: Shape_ 
+
+```{r, out.width = "50%"}
+ggplot(mtcars) +
+  geom_point(aes(x = disp, y = mpg, shape = am), size = 6)
+```
+
+---
+
+### 1B: Understanding visualizations by layer
+
+_Additional Aesthetic Parameters: Size_
+
+```{r, out.width = "50%"}
+ggplot(mtcars) +
+  geom_point(aes(x = disp, y = mpg, size = hp))
+```
+
+---
+
+### 1B: Understanding visualizations by layer
+
+_Theme: labels_
+
+.pull-left[
+```{r labels, eval=FALSE}
+# code chunk here
+ggplot(mtcars) +
+  geom_point(aes(x = disp, y = mpg, color = am), size = 6) +
+  geom_smooth(aes(x = disp, y = mpg), method = "loess") + 
+  xlab("Displacement") +
+  ylab("Miles per Gallon") +
+  scale_color_discrete(name = "Transmission", labels = c("manual", "auto"))
+```
+]
+
+.pull-right[
+```{r label-out, ref.label="labels", echo=FALSE, message = FALSE, out.width = "90%"}
+```
+]
+
+
+---
+
+### 1B: Understanding visualizations by layer
+
+_Theme: overall_
+
+.pull-left[
+```{r theming, eval=FALSE}
+# code chunk here
+ggplot(mtcars) +
+  geom_point(aes(x = disp, y = mpg, color = am), size = 6) +
+  geom_smooth(aes(x = disp, y = mpg), method = "loess") + 
+  xlab("Displacement") +
+  ylab("Miles per Gallon") +
+  scale_color_discrete(name = "Transmission", labels = c("manual", "auto")) +
+  theme_bw()
+```
+]
+
+.pull-right[
+```{r theming-out, ref.label="theming", echo=FALSE, message = FALSE, out.width = "90%"}
+```
+]
+
+---
+
+### 1B: Understanding visualizations by layer
+
+_ggthemes package_
+
+```{r, echo = TRUE, out.width = "50%", message = FALSE}
+library(ggthemes)
+
+base_plot <- ggplot(mtcars) +
+  geom_point(aes(x = disp, y = mpg, color = am), size = 6) +
+  geom_smooth(aes(x = disp, y = mpg), method = "loess") + 
+  xlab("Displacement") +
+  ylab("Miles per Gallon") +
+  scale_color_discrete(name = "Transmission", labels = c("manual", "auto"))
+```
+
+
+---
+
+### 1B: Understanding visualizations by layer
+
+_Fivethirtyeight style_
+
+```{r, out.width = "50%", message = FALSE}
+base_plot + theme_fivethirtyeight()
+```
+
+---
+
+### 1C: Understanding mapping data to geoms
+
+You can create different plots by:
+
+- Changing the aesthetic _mapping_ between variables in the data and geometric objects
+- Changing the geometric objects
+
+
+---
+
+### 1C: Understanding mapping data to geoms
+
+_Changing the mapping_
+
+.pull-left[
+```{r mapping, eval=FALSE}
+# code chunk here
+ggplot(mtcars) +
+  geom_point(aes(y = disp, x = mpg, color = am), size = 6) +
+  geom_smooth(aes(y = disp, x = mpg), method = "loess") + 
+  xlab("Displacement") +
+  ylab("Miles per Gallon") +
+  scale_color_discrete(name = "Transmission", labels = c("manual", "auto")) +
+  theme_bw()
+```
+]
+
+.pull-right[
+```{r mapping-out, ref.label="mapping", echo=FALSE, message = FALSE, out.width = "90%"}
+```
+]
+
+---
+
+### 1C: Understanding mapping data to geoms
+
+_Changing geoms_
+
+.pull-left[
+```{r geoms, eval=FALSE}
+# code chunk here
+ggplot(mtcars) +
+  geom_rug(aes(x = disp, y = mpg, color = am), size = 6) +
+  geom_smooth(aes(x = disp, y = mpg), method = "loess") + 
+  xlab("Displacement") +
+  ylab("Miles per Gallon") +
+  scale_color_discrete(name = "Transmission", labels = c("manual", "auto")) +
+  theme_bw()
+```
+]
+
+.pull-right[
+```{r geoms-out, ref.label="geoms", echo=FALSE, message = FALSE, out.width = "90%"}
+```
+]
+
+---
+
+class: inverse, center, middle
+
+# Part 2/2: Data Viz and Tidying
+
+---
+
+### 2: How does tidying data relate to data viz?
+
+Often, we have to make changes to our data frame in order to create the visualization we would like to create.
+
+**Making a new variable prior to plotting the data**
+
+_Other data tidying steps_ we might take prior to visualizing data:
+
+  - **recoding** variables
+  - **creating a factor** (so that we can order elements of a plot as we wish for them
+  to be ordered)
+  - **grouping** and **summarizing** to plot a summary statistic
+  - realizing that your data processing and tidying was not quite sufficient,
+  so **returning to those stages** before finalizing your visualization
+  - **re-running our analysis** (`.Rmd` file) because we discovered an issue with our 
+  data
+  
+---
+
+### 2: How does tidying data relate to data viz?
+
+Sometimes we need to recode a variable or add a new one
+
+```{r}
+tidykids <- read_csv(here("content", "data", "tidykids.csv"))
+
+state_region <- data.frame(state.name, state.region)
+
+tidykids_reg <- left_join(tidykids, state_region, by = c("state" = "state.name"))
+
+tidykids_reg$timeblock <- recode(tidykids_reg$year, 
+       `1997` = "1997-2001", `1998` = "1997-2001", `1999` = "1997-2001", `2000` = "1997-2001", `2001` = "1997-2001", 
+       `2002` = "2002-2006", `2003` = "2002-2006", `2004` = "2002-2006", `2005` = "2002-2006", `2006` = "2002-2006",
+       `2007` = "2007-2011", `2008` = "2007-2011", `2009` = "2007-2011", `2010` = "2007-2011", `2011` = "2007-2011", 
+       `2012` = "2012-2016", `2013` = "2012-2016", `2014` = "2012-2016", `2015` = "2012-2016", `2016` = "2012-2016")
+
+```
+
+---
+
+### 2: How does tidying data relate to data viz?
+
+Sometimes we need to recode a variable for plotting
+
+```{r, warning = FALSE, out.width = "50%"}
+ggplot(na.omit(tidykids_reg)) +
+  geom_jitter(aes(x = state.region, y = inf_adj_perchild)) +
+  xlab("Region") + 
+  ylab("Adj per child")
+```
+
+
+---
+
+### 2: How does tidying data relate to data viz?
+
+Creating and reordering factors is often useful 
+```{r, warning = FALSE, out.width = "50%"}
+tidykids_reg <- tidykids_reg %>%
+  mutate(timeblock = factor(timeblock))
+ggplot(tidykids_reg) +
+  geom_jitter(aes(timeblock, inf_adj_perchild))
+```
+
+---
+
+### 2: How does tidying data relate to data viz?
+
+Creating and reordering factors is often useful
+
+```{r,warning = FALSE, out.width = "50%"}
+tidykids_reg$timeblock <- fct_relevel(tidykids_reg$timeblock, c("2012-2016", "2007-2011", "2002-2006", "1997-2001"))
+
+ggplot(tidykids_reg) +
+  geom_jitter(aes(timeblock, inf_adj_perchild))
+```
+
+
+---
+
+### 2: How does tidying data relate to data viz?
+
+When we do `group_by()` and `summarize()` we can plot summary statistics
+
+```{r}
+summ_df <- na.omit(tidykids_reg) %>%
+  group_by(state.region) %>%
+  summarize(mean_perchild = mean(inf_adj_perchild, na.rm = T))
+
+summ_df
+```
+
+---
+
+### 2: How does tidying data relate to data viz?
+
+When we do `group_by()` and `summarize()` we can plot summary statistics
+
+```{r , out.width = "50%"}
+summ_df %>%
+  ggplot() +
+    geom_col(aes(state.region, mean_perchild))
+```
+
+---
+
+### 2: How does tidying data relate to data viz?
+
+When we do `group_by()` and `summarize()` we can plot summary statistics
+
+.pull-left[
+```{r groups, eval=FALSE}
+# code chunk here
+  summ_df %>%
+    ggplot() +
+      geom_bar(aes(state.region, mean_perchild), stat = "identity", fill = 6) +
+      geom_errorbar(aes(x = state.region, ymin=mean_perchild-(1.96*sd(mean_perchild)), ymax=mean_perchild+(1.96*sd(mean_perchild))), width=.2,
+                position=position_dodge(.9))
+```
+]
+
+.pull-right[
+```{r group-out, ref.label="groups", echo=FALSE, message = FALSE, out.width = "90%"}
+```
+]
+
+---
+
+# Course Logistics
+
+**This week**
+
+* NO CLASS THURSDAY
+* Homework 5: Available Thursday
+* Video: Friday
+* Readings
+  * 1: https://clauswilke.com/dataviz/histograms-density-plots.html
+  * 2: https://clauswilke.com/dataviz/visualizing-proportions.html
+  
+
+---
+
+
+# Wrapping up
+
+On Slack channel:
+
+- What is one thing you learned today?
+- What is something you want to learn more about? 

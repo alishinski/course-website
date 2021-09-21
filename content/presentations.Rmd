@@ -14,3 +14,5 @@ output: html_document
 - Week 4: [RMD](https://github.com/alishinski/course-website/blob/master/slides/week4-slides.Rmd), [HTML](https://f21-intro-to-data-sci-methods-in-ed.netlify.app/slides/week4-slides.html), [PDF](https://f21-intro-to-data-sci-methods-in-ed.netlify.app/slides/week4-slides.pdf)
 
 - Week 5: [RMD](https://github.com/alishinski/course-website/blob/master/slides/week5-slides.Rmd), [HTML](https://f21-intro-to-data-sci-methods-in-ed.netlify.app/slides/week5-slides.html), [PDF](https://f21-intro-to-data-sci-methods-in-ed.netlify.app/slides/week5-slides.pdf)
+
+- Week 6: [RMD](https://github.com/alishinski/course-website/blob/master/slides/week6-slides.Rmd), [HTML](https://f21-intro-to-data-sci-methods-in-ed.netlify.app/slides/week6-slides.html), [PDF](https://f21-intro-to-data-sci-methods-in-ed.netlify.app/slides/week6-slides.pdf)

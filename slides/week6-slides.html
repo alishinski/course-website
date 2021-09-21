@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 6 - Further into Data Viz</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Alex Lishinski" />
+    <meta name="date" content="2021-09-21" />
+    <script src="libs/header-attrs-2.8/header-attrs.js"></script>
+    <link rel="stylesheet" href="theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Week 6 - Further into Data Viz
+### Alex Lishinski
+### September 21, 2021
+
+---
+
+
+# Welcome!
+
+Welcome to *week 6*!
+
+**Record the meeting** 
+
+
+
+---
+
+# Discussion!
+
+Starting with whomever most wants to go first:
+
+**One question:**
+
+- What is a weird, unusual, or surprising situation that you encountered when using R in the last week?
+
+---
+
+### Review of last week's class
+
+Why visualize data?
+
+One answer: 
+
+"You should look at your data." ([Healy, 2018](https://socviz.co/))
+
+*To elaborate on this*:
+
+- Visualizations allow to _understand the structure and nature of your data_, and to begin to understand what might relate to what else
+- Just like we want to be constantly looking at our data in its spreadsheet/table/data frame format (e.g., `str()`, `glimpse()`, and `View()`), visualizing our data can help us to make sure our data contains what we think it does-and it can alert us to when it does not
+
+---
+
+### Review of last week's class
+
+* Exploratory visualization and presentation visualization
+
+* Basics of using base R plotting functions as well as ggplot
+
+---
+
+### Review of last week's class
+
+
+
+
+
+```r
+data %&gt;%
+  ggplot(aes(x = name, y = value)) +
+  geom_boxplot()
+```
+
+
+```r
+data %&gt;%
+  ggplot(aes(x = value, y = name, fill = name)) +
+  geom_jitter(color = "gray") +
+  geom_violin() +
+  theme_minimal() +
+  scale_fill_brewer("", type = "qual") +
+  ylab(NULL) +
+  xlab(NULL) +
+  theme(text = element_text(size = 16, family = "Times"),
+        legend.position = "none") +
+  ggtitle("Distributions for the Five Questions")
+```
+
+---
+
+### Review of last week's class
+
+![](week6-slides_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+---
+
+### Review of last week's class
+
+![](week6-slides_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+
+---
+
+### This week's topics
+
+**Overview**
+
+1. Data viz ideas and details
+3. Data viz and tidying operations
+
+---
+
+### 2 overarching goals of learning data viz in R
+
+* Conceptual framework of visualization
+  + Grammar of graphics and different mappings of data onto visual elements
+
+* Details of implementation
+  + How to build and refine plots layer by layer
+  + Eventually: Interactive data viz with ggviz and shiny
+  
+---
+
+class: inverse, center, middle
+
+# Part 1/2: Data Viz Ideas
+
+---
+
+### 1. Data Viz Ideas
+
+**Outline**
+
+A. Review of the grammar of graphics
+
+B. Understanding visualizations by layers
+
+C. Understanding mapping of data to geoms
+
+---
+
+### 1A: Grammar of Graphics
+
+Another way to think about visualizing data is in terms of the elements that make up a plot.
+
+The *grammar of graphics* ([Wickham, 2010](https://www.tandfonline.com/doi/abs/10.1198/jcgs.2009.07098), [Wilkinson, 2012](https://link.springer.com/chapter/10.1007/978-3-642-21551-3_13)) has a particular answer to the question of what a plot includes:
+
+Why a grammar of graphics?
+
+- gain insight into complex figures
+- reveal deeper relationships between what may appear to be unrelated visualizations
+- more flexibly and creatively visualize data--including in ways that do not fit well into one type of plot
+- suggest what makes a good figure
+
+---
+
+### 1A: More Data Viz Ideas
+
+#### Some general principles for effective data viz
+
+_Keep it simple_
+
+&lt;img src="img/pie-3d.jpg" width="40%" /&gt;
+
+---
+
+### 1A: More Data Viz Ideas
+
+#### Some general principles for effective data viz
+
+_Keep it simple_
+
+&lt;img src="week6-slides_files/figure-html/pie-to-bar-1.png" width="60%" /&gt;
+
+---
+
+### 1A: More Data Viz Ideas
+
+#### Some general principles for effective data viz
+
+_Use color to draw attention_
+
+&lt;img src="week6-slides_files/figure-html/unnamed-chunk-7-1.png" width="60%" /&gt;
+
+---
+
+### 1A: More Data Viz Ideas
+
+#### Some general principles for effective data viz
+
+_Use color to draw attention_
+
+&lt;img src="week6-slides_files/figure-html/unnamed-chunk-8-1.png" width="60%" /&gt;
+
+---
+
+### 1A: More Data Viz Ideas
+
+#### Some general principles for effective data viz
+
+_Tell a story_
+
+&lt;img src="img/time-series-story.png" width="100%" /&gt;
+
+---
+
+### 1B: Understanding visualizations by layer
+
+Layers:
+
+1. Data
+2. One or more geometric objects (shape, point, line, etc.)
+3. A mapping between variables in the data and the geometric objects and their characteristics (including their size and color)
+4. A theme
+
+---
+
+### 1B: Understanding visualizations by layer
+
+_Data_
+
+
+```r
+mtcars
+```
+
+```
+##                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
+## Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
+## Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
+## Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
+## Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
+## Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
+## Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
+## Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
+## Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
+## Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
+## Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
+## Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
+## Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
+## Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
+## Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
+## Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
+## Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
+## Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
+## AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
+## Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
+## Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
+## Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
+## Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
+## Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
+## Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
+## Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
+## Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
+## Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2
+```
+
+---
+
+### 1B: Understanding visualizations by layer
+
+_Data_
+
+
+```r
+ggplot(mtcars)
+```
+
+&lt;img src="week6-slides_files/figure-html/unnamed-chunk-11-1.png" width="50%" /&gt;
+
+
+---
+
+### 1B: Understanding visualizations by layer
+
+_One geom_
+
+
+```r
+ggplot(mtcars) +
+  geom_point(aes(x = disp, y = mpg))
+```
+
+&lt;img src="week6-slides_files/figure-html/unnamed-chunk-12-1.png" width="50%" /&gt;
+
+
+---
+
+### 1B: Understanding visualizations by layer
+
+_Additional Geoms_
+
+
+```r
+ggplot(mtcars) +
+  geom_point(aes(x = disp, y = mpg)) +
+  geom_smooth(aes(x = disp, y = mpg), method = "loess")
+```
+
+&lt;img src="week6-slides_files/figure-html/unnamed-chunk-13-1.png" width="50%" /&gt;
+
+---
+
+### 1B: Understanding visualizations by layer
+
+_Additional Aesthetic Parameters: Color_
+
+
+
+
+```r
+ggplot(mtcars) +
+  geom_point(aes(x = disp, y = mpg, color = am), size = 6)
+```
+
+&lt;img src="week6-slides_files/figure-html/unnamed-chunk-15-1.png" width="50%" /&gt;
+---
+
+### 1B: Understanding visualizations by layer
+
+_Additional Aesthetic Parameters: Shape_ 
+
+
+```r
+ggplot(mtcars) +
+  geom_point(aes(x = disp, y = mpg, shape = am), size = 6)
+```
+
+&lt;img src="week6-slides_files/figure-html/unnamed-chunk-16-1.png" width="50%" /&gt;
+
+---
+
+### 1B: Understanding visualizations by layer
+
+_Additional Aesthetic Parameters: Size_
+
+
+```r
+ggplot(mtcars) +
+  geom_point(aes(x = disp, y = mpg, size = hp))
+```
+
+&lt;img src="week6-slides_files/figure-html/unnamed-chunk-17-1.png" width="50%" /&gt;
+
+---
+
+### 1B: Understanding visualizations by layer
+
+_Theme: labels_
+
+.pull-left[
+
+```r
+# code chunk here
+ggplot(mtcars) +
+  geom_point(aes(x = disp, y = mpg, color = am), size = 6) +
+  geom_smooth(aes(x = disp, y = mpg), method = "loess") + 
+  xlab("Displacement") +
+  ylab("Miles per Gallon") +
+  scale_color_discrete(name = "Transmission", labels = c("manual", "auto"))
+```
+]
+
+.pull-right[
+&lt;img src="week6-slides_files/figure-html/label-out-1.png" width="90%" /&gt;
+]
+
+
+---
+
+### 1B: Understanding visualizations by layer
+
+_Theme: overall_
+
+.pull-left[
+
+```r
+# code chunk here
+ggplot(mtcars) +
+  geom_point(aes(x = disp, y = mpg, color = am), size = 6) +
+  geom_smooth(aes(x = disp, y = mpg), method = "loess") + 
+  xlab("Displacement") +
+  ylab("Miles per Gallon") +
+  scale_color_discrete(name = "Transmission", labels = c("manual", "auto")) +
+  theme_bw()
+```
+]
+
+.pull-right[
+&lt;img src="week6-slides_files/figure-html/theming-out-1.png" width="90%" /&gt;
+]
+
+---
+
+### 1B: Understanding visualizations by layer
+
+_ggthemes package_
+
+
+```r
+library(ggthemes)
+
+base_plot &lt;- ggplot(mtcars) +
+  geom_point(aes(x = disp, y = mpg, color = am), size = 6) +
+  geom_smooth(aes(x = disp, y = mpg), method = "loess") + 
+  xlab("Displacement") +
+  ylab("Miles per Gallon") +
+  scale_color_discrete(name = "Transmission", labels = c("manual", "auto"))
+```
+
+
+---
+
+### 1B: Understanding visualizations by layer
+
+_Fivethirtyeight style_
+
+
+```r
+base_plot + theme_fivethirtyeight()
+```
+
+&lt;img src="week6-slides_files/figure-html/unnamed-chunk-19-1.png" width="50%" /&gt;
+
+---
+
+### 1C: Understanding mapping data to geoms
+
+You can create different plots by:
+
+- Changing the aesthetic _mapping_ between variables in the data and geometric objects
+- Changing the geometric objects
+
+
+---
+
+### 1C: Understanding mapping data to geoms
+
+_Changing the mapping_
+
+.pull-left[
+
+```r
+# code chunk here
+ggplot(mtcars) +
+  geom_point(aes(y = disp, x = mpg, color = am), size = 6) +
+  geom_smooth(aes(y = disp, x = mpg), method = "loess") + 
+  xlab("Displacement") +
+  ylab("Miles per Gallon") +
+  scale_color_discrete(name = "Transmission", labels = c("manual", "auto")) +
+  theme_bw()
+```
+]
+
+.pull-right[
+&lt;img src="week6-slides_files/figure-html/mapping-out-1.png" width="90%" /&gt;
+]
+
+---
+
+### 1C: Understanding mapping data to geoms
+
+_Changing geoms_
+
+.pull-left[
+
+```r
+# code chunk here
+ggplot(mtcars) +
+  geom_rug(aes(x = disp, y = mpg, color = am), size = 6) +
+  geom_smooth(aes(x = disp, y = mpg), method = "loess") + 
+  xlab("Displacement") +
+  ylab("Miles per Gallon") +
+  scale_color_discrete(name = "Transmission", labels = c("manual", "auto")) +
+  theme_bw()
+```
+]
+
+.pull-right[
+&lt;img src="week6-slides_files/figure-html/geoms-out-1.png" width="90%" /&gt;
+]
+
+---
+
+class: inverse, center, middle
+
+# Part 2/2: Data Viz and Tidying
+
+---
+
+### 2: How does tidying data relate to data viz?
+
+Often, we have to make changes to our data frame in order to create the visualization we would like to create.
+
+**Making a new variable prior to plotting the data**
+
+_Other data tidying steps_ we might take prior to visualizing data:
+
+  - **recoding** variables
+  - **creating a factor** (so that we can order elements of a plot as we wish for them
+  to be ordered)
+  - **grouping** and **summarizing** to plot a summary statistic
+  - realizing that your data processing and tidying was not quite sufficient,
+  so **returning to those stages** before finalizing your visualization
+  - **re-running our analysis** (`.Rmd` file) because we discovered an issue with our 
+  data
+  
+---
+
+### 2: How does tidying data relate to data viz?
+
+Sometimes we need to recode a variable or add a new one
+
+
+```r
+tidykids &lt;- read_csv(here("content", "data", "tidykids.csv"))
+```
+
+```
+## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   state = col_character(),
+##   variable = col_character(),
+##   year = col_double(),
+##   raw = col_double(),
+##   inf_adj = col_double(),
+##   inf_adj_perchild = col_double()
+## )
+```
+
+```r
+state_region &lt;- data.frame(state.name, state.region)
+
+tidykids_reg &lt;- left_join(tidykids, state_region, by = c("state" = "state.name"))
+
+tidykids_reg$timeblock &lt;- recode(tidykids_reg$year, 
+       `1997` = "1997-2001", `1998` = "1997-2001", `1999` = "1997-2001", `2000` = "1997-2001", `2001` = "1997-2001", 
+       `2002` = "2002-2006", `2003` = "2002-2006", `2004` = "2002-2006", `2005` = "2002-2006", `2006` = "2002-2006",
+       `2007` = "2007-2011", `2008` = "2007-2011", `2009` = "2007-2011", `2010` = "2007-2011", `2011` = "2007-2011", 
+       `2012` = "2012-2016", `2013` = "2012-2016", `2014` = "2012-2016", `2015` = "2012-2016", `2016` = "2012-2016")
+```
+
+---
+
+### 2: How does tidying data relate to data viz?
+
+Sometimes we need to recode a variable for plotting
+
+
+```r
+ggplot(na.omit(tidykids_reg)) +
+  geom_jitter(aes(x = state.region, y = inf_adj_perchild)) +
+  xlab("Region") + 
+  ylab("Adj per child")
+```
+
+&lt;img src="week6-slides_files/figure-html/unnamed-chunk-21-1.png" width="50%" /&gt;
+
+
+---
+
+### 2: How does tidying data relate to data viz?
+
+Creating and reordering factors is often useful 
+
+```r
+tidykids_reg &lt;- tidykids_reg %&gt;%
+  mutate(timeblock = factor(timeblock))
+ggplot(tidykids_reg) +
+  geom_jitter(aes(timeblock, inf_adj_perchild))
+```
+
+&lt;img src="week6-slides_files/figure-html/unnamed-chunk-22-1.png" width="50%" /&gt;
+
+---
+
+### 2: How does tidying data relate to data viz?
+
+Creating and reordering factors is often useful
+
+
+```r
+tidykids_reg$timeblock &lt;- fct_relevel(tidykids_reg$timeblock, c("2012-2016", "2007-2011", "2002-2006", "1997-2001"))
+
+ggplot(tidykids_reg) +
+  geom_jitter(aes(timeblock, inf_adj_perchild))
+```
+
+&lt;img src="week6-slides_files/figure-html/unnamed-chunk-23-1.png" width="50%" /&gt;
+
+
+---
+
+### 2: How does tidying data relate to data viz?
+
+When we do `group_by()` and `summarize()` we can plot summary statistics
+
+
+```r
+summ_df &lt;- na.omit(tidykids_reg) %&gt;%
+  group_by(state.region) %&gt;%
+  summarize(mean_perchild = mean(inf_adj_perchild, na.rm = T))
+
+summ_df
+```
+
+```
+## # A tibble: 4 × 2
+##   state.region  mean_perchild
+##   &lt;fct&gt;                 &lt;dbl&gt;
+## 1 Northeast             1.06 
+## 2 South                 0.855
+## 3 North Central         0.834
+## 4 West                  0.865
+```
+
+---
+
+### 2: How does tidying data relate to data viz?
+
+When we do `group_by()` and `summarize()` we can plot summary statistics
+
+
+```r
+summ_df %&gt;%
+  ggplot() +
+    geom_col(aes(state.region, mean_perchild))
+```
+
+&lt;img src="week6-slides_files/figure-html/unnamed-chunk-25-1.png" width="50%" /&gt;
+
+---
+
+### 2: How does tidying data relate to data viz?
+
+When we do `group_by()` and `summarize()` we can plot summary statistics
+
+.pull-left[
+
+```r
+# code chunk here
+  summ_df %&gt;%
+    ggplot() +
+      geom_bar(aes(state.region, mean_perchild), stat = "identity", fill = 6) +
+      geom_errorbar(aes(x = state.region, ymin=mean_perchild-(1.96*sd(mean_perchild)), ymax=mean_perchild+(1.96*sd(mean_perchild))), width=.2,
+                position=position_dodge(.9))
+```
+]
+
+.pull-right[
+&lt;img src="week6-slides_files/figure-html/group-out-1.png" width="90%" /&gt;
+]
+
+---
+
+# Course Logistics
+
+**This week**
+
+* NO CLASS THURSDAY
+* Homework 5: Available Thursday
+* Video: Friday
+* Readings
+  * 1: https://clauswilke.com/dataviz/histograms-density-plots.html
+  * 2: https://clauswilke.com/dataviz/visualizing-proportions.html
+  
+
+---
+
+
+# Wrapping up
+
+On Slack channel:
+
+- What is one thing you learned today?
+- What is something you want to learn more about? 
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
