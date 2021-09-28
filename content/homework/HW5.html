@@ -1,0 +1,123 @@
+---
+title: "HW Week 6 - Introduction to Data Viz"
+output: html_document
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="background" class="section level1">
+<h1>Background</h1>
+<p>We will use a built in dataset for this week’s homework, called <code>mpg</code>. It
+contains fuel economy and other data on 38 models of cars. You can learn more
+about it by typing this in the console <code>?mpg</code>.</p>
+</div>
+<div id="loading-data" class="section level1">
+<h1>Loading data</h1>
+<p>To load the data, run the following code chunk.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.3     ✓ dplyr   1.0.6
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>data(mpg)</code></pre>
+<p>Once you’ve loaded it, familiarize yourself with the different variables in the
+dataset using the methods that we’ve talked about.</p>
+</div>
+<div id="using-the-count-function" class="section level1">
+<h1>Using the <code>count()</code> function</h1>
+<p>As we discussed in class, the <code>count()</code> function can be a useful way to
+summarize data for plotting. Here’s an example of how this works:</p>
+<pre class="r"><code>mpg %&gt;% count(year)</code></pre>
+<pre><code>## # A tibble: 2 × 2
+##    year     n
+##   &lt;int&gt; &lt;int&gt;
+## 1  1999   117
+## 2  2008   117</code></pre>
+<p>Below, we would like you to create a barplot showing the number of vehicles per
+manufacturer, using the <code>count()</code> function and <code>geom_col()</code>.</p>
+</div>
+<div id="plotting-summary-statistics" class="section level1">
+<h1>Plotting summary statistics</h1>
+<p>As we discussed in class, the combination of <code>group_by()</code> and <code>summarize()</code> can
+be used to generate summary dataframes which you can then use to plot summary
+statistics. Below, we would like you to generate a summary dataframe and plot
+the summary statistics you create. You can use whatever variables from the data
+you see fit. Refer back to the slides and video from this week’s (and last
+week’s) class for examples of how to do this if you’re not sure.</p>
+</div>
+<div id="recoding-a-variable-for-plotting" class="section level1">
+<h1>Recoding a variable for plotting</h1>
+<p>In class this week we showed you examples in the slides and in the live coding
+demo of how to recode a variable for plotting purposes. Below, we would like you
+to use the <code>recode()</code> function from dplyr to recode a variable from <code>mpg</code> to
+make a plot. One natural way to implement this would be to condense the number
+of categories in one of the above variables to make a more manageable number to
+show in a plot. However you are free to be creative and implement this as you
+see fit.</p>
+</div>
+<div id="tell-us-a-story" class="section level1">
+<h1>Tell us a story</h1>
+<p>As we mentioned in one class, one important principle of creating data
+visualizations is using them to tell a clear story about some aspect of the
+data. We would like you to tell us something interesting about the data. By
+interesting we don’t mean it has to be anything earth-shattering, but just a
+coherent conclusion about the data that is communicated by your plot. Make it
+look nice insofar as it serves this end, but there’s no need to go overboard.
+For more about what we mean by tell a story, we will refer you to this book
+chapter which shows some examples of storytelling with the mpg dataset:
+<a href="https://r4ds.had.co.nz/graphics-for-communication.html" class="uri">https://r4ds.had.co.nz/graphics-for-communication.html</a>
+Of course we would like your story to be different from the examples in that
+chapter. Be creative and have fun with it!</p>
+</div>
+<div id="reach-1" class="section level1">
+<h1>Reach 1</h1>
+<p><em>Note: The reaches are not required to complete, but are chances for you to do more if you wish to</em></p>
+<p>The first task in the homework asked you to plot the count of different vehicles
+by manufacturer. This should have been relatively straightforward to plot the
+number of different vehicles from each manufacturer, but many of these are the
+same model. Below, try to produce a plot of the number of unique models for each
+manufacturer. For example, there are 3 unique Audi models in the dataset: a4, a4
+quattro, and a6 quattro. HINT: You can supply more than one variable to
+<code>count()</code>, and you’ll need to use the <code>count()</code> function twice to get the right
+counts.</p>
+</div>
+<div id="reach-2" class="section level1">
+<h1>Reach 2</h1>
+<p>Take the plot you made above, your “story” and make it look extra pretty. Change
+2 or more aspects of the theming of your plot to make it more “publication
+quality” whatever that means to you.</p>
+<div id="fin" class="section level2">
+<h2>fin</h2>
+<p>Render and submit:
+- Submit the .html file you used to render a report to Canvas - Upload the .Rmd
+file you rendered to the #homework channel in Slack.
+One difference from last week: Please post a comment, feedback, or reflection
+below <em>as well as to Slack when you post your homework</em>.</p>
+</div>
+<div id="self-assessment-and-reflection" class="section level2">
+<h2>Self-assessment and reflection</h2>
+<p>Respond to the following three questions on a 1 (not at all) to 5 (very much)
+scale by replacing the “x” below with your response:</p>
+<pre class="r"><code>x = NULL
+tibble::tribble(
+  ~question,                                   ~response,
+  &quot;How challenging was this homework?&quot;,        x,
+  &quot;How interesting was this homework to you?&quot;, x,
+  &quot;How valuable was this homework to you?&quot;,    x
+)</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   question                                  response
+##   &lt;chr&gt;                                     &lt;list&gt;  
+## 1 How challenging was this homework?        &lt;NULL&gt;  
+## 2 How interesting was this homework to you? &lt;NULL&gt;  
+## 3 How valuable was this homework to you?    &lt;NULL&gt;</code></pre>
+<p>Include any other comments, feedback, or reflections on this homework below:</p>
+<p>Important note: Please post your comment(s), feedback, or reflections in Slack
+when you share your Rmd file!</p>
+</div>
+</div>

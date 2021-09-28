@@ -50,3 +50,12 @@ Readings:
 
 - 1: https://clauswilke.com/dataviz/histograms-density-plots.html
 - 2: https://clauswilke.com/dataviz/visualizing-proportions.html
+
+## Week 7
+
+Readings:
+
+- 1: https://r4ds.had.co.nz/graphics-for-communication.html
+- 2: https://clauswilke.com/dataviz/figure-titles-captions.html
+- 3: https://clauswilke.com/dataviz/color-pitfalls.html
+
