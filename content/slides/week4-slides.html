@@ -1,301 +1,381 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 4: ‘Tidying’ data 2</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Alex Lishinski" />
+    <meta name="date" content="2021-09-07" />
+    <script src="libs/header-attrs-2.8/header-attrs.js"></script>
+    <link rel="stylesheet" href="theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Week 4: ‘Tidying’ data 2
+### Alex Lishinski
+### September 7, 2021
+
 ---
-title: "Week 4: 'Tidying' data 2" 
-subtitle: ""
-author: "Alex Lishinski"
-date: "September 7, 2021"
-output:
-  xaringan::moon_reader:
-    css: [theme.css]
-    lib_dir: libs
-    nature:
-      highlightStyle: github
-      highlightLines: true
-      countIncrementalSlides: false
+
+
+# Welcome!
+
+Welcome to *week 4*!
+
+**Record the meeting** 
+
+
+
 ---
 
-<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+# Discussion!
+
+**Two questions**
+
+- What is one particular "messy data" problem have you encountered (or do you anticipate encountering) in your own work?
+- What is an example of multiple, separate datasets that you might wish to combine together into a single dataset in your work? If you cannot immediately think of one, consider information that might be recorded or created in two different files, but which could be useful to combine.
+
+(10 minutes)
+
+---
+
+### Review of last week's class
+
+**Last week we discussed wrangling and tidying data**:
+
+1. Reading in Data
+1. Tidying data
+1. Our tidy data tools
+
+---
+
+### Homework
+
+**Effective and ineffective ways of filtering the data**
 
 
-<div id="welcome" class="section level1">
-<h1>Welcome!</h1>
-<p>Welcome to <em>week 4</em>!</p>
-<p><strong>Record the meeting</strong></p>
-<hr />
-</div>
-<div id="discussion" class="section level1">
-<h1>Discussion!</h1>
-<p><strong>Two questions</strong></p>
-<ul>
-<li>What is one particular “messy data” problem have you encountered (or do you anticipate encountering) in your own work?</li>
-<li>What is an example of multiple, separate datasets that you might wish to combine together into a single dataset in your work? If you cannot immediately think of one, consider information that might be recorded or created in two different files, but which could be useful to combine.</li>
-</ul>
-<p>(10 minutes)</p>
-<hr />
-<div id="review-of-last-weeks-class" class="section level3">
-<h3>Review of last week’s class</h3>
-<p><strong>Last week we discussed wrangling and tidying data</strong>:</p>
-<ol style="list-style-type: decimal">
-<li>Reading in Data</li>
-<li>Tidying data</li>
-<li>Our tidy data tools</li>
-</ol>
-<hr />
-</div>
-<div id="homework" class="section level3">
-<h3>Homework</h3>
-<p><strong>Effective and ineffective ways of filtering the data</strong></p>
-<pre class="r"><code>data %&gt;% 
-  filter(content == 1, content == 2, content == 3, content == 4, content == 5)</code></pre>
-<p>–</p>
-<pre class="r"><code>data %&gt;% 
-  filter(content == &quot;1&quot;, content == &quot;2&quot;, content == &quot;3&quot;, content == &quot;4&quot;, content == &quot;5&quot;)</code></pre>
-<p>–</p>
-<pre class="r"><code>data %&gt;% 
-  filter(content == &quot;1&quot; | content == &quot;2&quot; | content == &quot;3&quot; | content == &quot;4&quot; | content == &quot;5&quot;)</code></pre>
-<p>–</p>
-<pre class="r"><code>data %&gt;% filter(between(content, 1, 5))</code></pre>
-<p>–</p>
-<pre class="r"><code>data %&gt;% filter(content %in% c(&quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;))</code></pre>
-<p>–</p>
-<pre class="r"><code>data %&gt;% filter(str_detect(content, &quot;[1-5]&quot;))</code></pre>
-<hr />
-</div>
-<div id="reminder" class="section level2">
-<h2>Reminder</h2>
-<p>Check the output of functions you write carefully; you may find yourself <em>constantly</em> looking at and viewing your data!</p>
-<p><strong>How do I check/view my data?</strong></p>
-<p>There are many ways:</p>
-<ul>
-<li><code>my_data</code> (just typing the name of your data will print info about it!)</li>
-<li><code>glance(my_data)</code></li>
-<li><code>str(my_data)</code></li>
-<li><code>View(my_data)</code> (do not include in <code>.Rmd</code> document)</li>
-<li><code>skimr::skim(my_data)</code> (must install “skimr” first)</li>
-<li><code>psych::describe()</code> (must install “psych” first)</li>
-</ul>
-<hr />
-<div id="this-weeks-topics" class="section level3">
-<h3>This week’s topics</h3>
-<p><strong>Overview</strong></p>
-<ol style="list-style-type: decimal">
-<li>Tidy data: Data reshaping</li>
-<li>Working with multiple data frames: joins</li>
-<li>Grouped data operations with dplyr</li>
-</ol>
-<p>We are by no means done with the data tidying tools we discussed last week, so don’t feel like you should already have those completely mastered yet.</p>
-<hr />
-</div>
-<div id="data-reshaping" class="section level3">
-<h3>1. Data reshaping</h3>
-<p><strong>Outline</strong></p>
-<p>What is reshaping?</p>
-<p>Why would you reshape?</p>
-<p>How do you reshape?</p>
-<hr />
-</div>
-<div id="data-reshaping-1" class="section level3">
-<h3>1. Data reshaping</h3>
-<p>** What is reshaping? **</p>
-<ul>
-<li><p>Reshaping involves moving data between “long”er and “wide”er formats</p>
-<ul>
-<li><p>Wide data has more columns and fewer rows</p></li>
-<li><p>Long data has more rows and fewer columns</p></li>
-<li><p>This is often a choice you can make with your data</p></li>
-</ul></li>
-</ul>
-<hr />
-</div>
-<div id="data-reshaping-2" class="section level3">
-<h3>1. Data reshaping</h3>
-<p>** What is reshaping? **</p>
-<ul>
-<li>Reshaping involves moving data between “long”er and “wide”er formats</li>
-</ul>
-<p><img src="img/original-dfs-tidy.png" width="65%" /></p>
-<hr />
-</div>
-<div id="data-reshaping-3" class="section level3">
-<h3>1. Data reshaping</h3>
-<p>** Why would you reshape? **</p>
-<p>One reason to reshape is to get data in a proper ‘tidy’ format.</p>
-<p>The broader reason is that data can be in multiple shapes and you may need different ones for different purposes.</p>
-<p>‘Tidy’ data doesn’t always fully determine what you should do, particularly in the case of repeated measures data.</p>
-<hr />
-</div>
-<div id="data-reshaping-4" class="section level3">
-<h3>1. Data reshaping</h3>
-<p>** How do you reshape? **</p>
-<p>The <code>tidyr</code> package offers the <code>gather()</code> and <code>spread()</code> functions.</p>
-<p>These are meant to be replaced by the “pivot” functions from <code>dplyr</code>, which are <code>pivot_longer()</code> and <code>pivot_wider()</code></p>
-<hr />
-</div>
-<div id="data-reshaping-5" class="section level3">
-<h3>1. Data reshaping</h3>
-<p>** How do you reshape? **</p>
-<div class="figure">
-<img src="img/tidyr-longer-wider.gif" alt="" />
-<p class="caption">Join gif</p>
-</div>
-<hr />
-</div>
-<div id="data-joining" class="section level3">
-<h3>2. Data joining</h3>
-<p><strong>What are joins?</strong></p>
-<p>Why are joins important?</p>
-<p>What are the different types?</p>
-<p>How do we know we’re doing them right?</p>
-<hr />
-</div>
-<div id="data-joining-1" class="section level3">
-<h3>2. Data joining</h3>
-<p><strong>What are joins?</strong></p>
-<ul>
-<li>When you have multiple data frames that you want to combine</li>
-<li>Need to have overlap</li>
-</ul>
-<p>Why are joins important?
+```r
+data %&gt;% 
+  filter(content == 1, content == 2, content == 3, content == 4, content == 5)
+```
+
+--
+
+
+```r
+data %&gt;% 
+  filter(content == "1", content == "2", content == "3", content == "4", content == "5")
+```
+
+--
+
+
+```r
+data %&gt;% 
+  filter(content == "1" | content == "2" | content == "3" | content == "4" | content == "5")
+```
+
+--
+
+
+```r
+data %&gt;% filter(between(content, 1, 5))
+```
+
+--
+
+
+```r
+data %&gt;% filter(content %in% c("1", "2", "3", "4", "5"))
+```
+
+--
+
+
+```r
+data %&gt;% filter(str_detect(content, "[1-5]"))
+```
+
+---
+
+## Reminder
+
+Check the output of functions you write carefully; you may find yourself *constantly* looking at and viewing your data!
+
+**How do I check/view my data?** 
+
+There are many ways:
+
+- `my_data` (just typing the name of your data will print info about it!)
+- `glance(my_data)`
+- `str(my_data)`
+- `View(my_data)` (do not include in `.Rmd` document)
+- `skimr::skim(my_data)` (must install "skimr" first) 
+- `psych::describe()` (must install "psych" first)
+
+---
+
+### This week's topics
+
+**Overview**
+
+1. Tidy data: Data reshaping
+1. Working with multiple data frames: joins
+1. Grouped data operations with dplyr
+
+We are by no means done with the data tidying tools we discussed last week, so don't feel like you should already have those completely mastered yet.
+
+---
+
+### 1. Data reshaping
+
+**Outline**
+
+What is reshaping?
+
+Why would you reshape?
+
+How do you reshape?
+
+---
+
+### 1. Data reshaping
+
+** What is reshaping? **
+
+* Reshaping involves moving data between "long"er and "wide"er formats
+
+  + Wide data has more columns and fewer rows
+
+  + Long data has more rows and fewer columns
+
+  + This is often a choice you can make with your data
+
+---
+
+### 1. Data reshaping
+
+** What is reshaping? **
+
+* Reshaping involves moving data between "long"er and "wide"er formats
+
+&lt;img src="img/original-dfs-tidy.png" width="65%" /&gt;
+
+---
+
+### 1. Data reshaping
+
+** Why would you reshape? **
+
+One reason to reshape is to get data in a proper 'tidy' format.
+
+The broader reason is that data can be in multiple shapes and you may need different ones for different purposes.
+
+'Tidy' data doesn't always fully determine what you should do, particularly in the case of repeated measures data.
+
+---
+
+### 1. Data reshaping
+
+** How do you reshape? **
+
+The `tidyr` package offers the `gather()` and `spread()` functions.
+
+These are meant to be replaced by the "pivot" functions from `dplyr`, which are `pivot_longer()` and `pivot_wider()`
+
+
+---
+
+### 1. Data reshaping
+
+** How do you reshape? **
+
+![Join gif](img/tidyr-longer-wider.gif)
+
+---
+
+### 2. Data joining
+
+**What are joins?**
+
+Why are joins important?
+
+What are the different types?
+
+How do we know we're doing them right?
+
+---
+
+### 2. Data joining
+
+**What are joins?**
+
+- When you have multiple data frames that you want to combine
+- Need to have overlap
+
+Why are joins important?
 - They are the way we will use to integrate data from different sources for analysis
-- Doing them incorrectly can substantially change your data set</p>
-<hr />
-</div>
-<div id="data-joining-2" class="section level3">
-<h3>2. Data joining</h3>
-<p><strong>Different types of joins</strong></p>
-<ul>
-<li>Main types
-<ul>
-<li>left join</li>
-<li>right join</li>
-<li>full join</li>
-<li>inner join</li>
-</ul></li>
-<li>Less common
-<ul>
-<li>semi join</li>
-<li>anti join</li>
-</ul></li>
-</ul>
-<hr />
-</div>
-<div id="data-joining-3" class="section level3">
-<h3>2. Data joining</h3>
-<p><code>dplyr::left_join()</code></p>
-<ul>
-<li>Columns from both</li>
-<li>Matching rows from both</li>
-<li>non-matching rows from X only
-<img src="img/left-join.gif" alt="Join gif" /></li>
-</ul>
-<hr />
-</div>
-<div id="data-joining-4" class="section level3">
-<h3>2. Data joining</h3>
-<p><code>dplyr::right_join()</code></p>
-<ul>
-<li>Columns from both</li>
-<li>Matching rows from both</li>
-<li>non-matching rows from Y only
-<img src="img/right-join.gif" alt="Join gif" />
-—</li>
-</ul>
-</div>
-<div id="data-joining-5" class="section level3">
-<h3>2. Data joining</h3>
-<p><code>dplyr::full_join()</code></p>
-<ul>
-<li>Columns from both</li>
-<li>Matching rows from both</li>
-<li>non-matching rows from both
-<img src="img/full-join.gif" alt="Join gif" /></li>
-</ul>
-<hr />
-</div>
-<div id="data-joining-6" class="section level3">
-<h3>2. Data joining</h3>
-<p><code>dplyr::inner_join()</code></p>
-<ul>
-<li>Columns from both</li>
-<li>Matching rows from both</li>
-<li>non-matching rows from neither
-<img src="img/inner-join.gif" alt="Join gif" /></li>
-</ul>
-<hr />
-</div>
-<div id="data-joining-7" class="section level3">
-<h3>2. Data joining</h3>
-<p><code>dplyr::semi_join()</code></p>
-<ul>
-<li>Columns from X</li>
-<li>Matching rows from both</li>
-<li>non-matching rows from neither
-<img src="img/semi-join.gif" alt="Join gif" /></li>
-</ul>
-<hr />
-</div>
-<div id="data-joining-8" class="section level3">
-<h3>2. Data joining</h3>
-<p><code>dplyr::anti_join()</code></p>
-<ul>
-<li>Columns from X</li>
-<li>No matching rows</li>
-<li>Only non-matching rows from X
-<img src="img/anti-join.gif" alt="Join gif" />
-—</li>
-</ul>
-</div>
-<div id="data-joining-9" class="section level3">
-<h3>2. Data joining</h3>
-<p>How do we know we’re doing them right?
-- Short answer: Carefully inspecting your data before and after</p>
-<p>How do we know which one to choose?
+- Doing them incorrectly can substantially change your data set
+
+---
+
+
+### 2. Data joining
+
+**Different types of joins**
+
+* Main types
+  + left join
+  + right join 
+  + full join
+  + inner join
+
+* Less common 
+  + semi join
+  + anti join
+
+---
+
+### 2. Data joining
+
+`dplyr::left_join()`
+
+* Columns from both
+* Matching rows from both
+* non-matching rows from X only
+![Join gif](img/left-join.gif)
+
+
+---
+
+### 2. Data joining
+
+`dplyr::right_join()`
+
+* Columns from both
+* Matching rows from both
+* non-matching rows from Y only
+![Join gif](img/right-join.gif)
+---
+
+### 2. Data joining
+
+`dplyr::full_join()`
+
+* Columns from both
+* Matching rows from both
+* non-matching rows from both
+![Join gif](img/full-join.gif)
+
+---
+
+### 2. Data joining
+
+`dplyr::inner_join()`
+
+* Columns from both
+* Matching rows from both
+* non-matching rows from neither
+![Join gif](img/inner-join.gif)
+
+---
+
+### 2. Data joining
+
+`dplyr::semi_join()`
+
+* Columns from X
+* Matching rows from both
+* non-matching rows from neither
+![Join gif](img/semi-join.gif)
+
+---
+
+### 2. Data joining
+
+`dplyr::anti_join()`
+
+* Columns from X
+* No matching rows 
+* Only non-matching rows from X
+![Join gif](img/anti-join.gif)
+---
+
+### 2. Data joining
+
+How do we know we're doing them right?
+- Short answer: Carefully inspecting your data before and after
+
+How do we know which one to choose?
 - Short answer: Knowing what the different types do and knowing your data
-- It all depends on what you want.</p>
-<hr />
-</div>
-<div id="data-joining-10" class="section level3">
-<h3>2. Data joining</h3>
-<p>Matching variables:
+- It all depends on what you want.
+
+---
+
+### 2. Data joining
+
+Matching variables: 
 * Need to make sure matching variables are correct
-* Join functions by default will match all names, but you can specify</p>
-<p>Need to align variable names:
-* Can do this by renaming variables
-* Can also specify corresponding pairs in the join functions</p>
-<p>Other issues to consider:
+* Join functions by default will match all names, but you can specify
+
+Need to align variable names:
+* Can do this by renaming variables 
+* Can also specify corresponding pairs in the join functions
+
+Other issues to consider: 
 * Multiple matches
 * Matching NAs
-* Duplicate variable labels</p>
-<hr />
-</div>
-<div id="grouped-data-operations-and-summary" class="section level3">
-<h3>3. Grouped data operations and summary</h3>
-<p>** How do we look at summary information about our variables? **</p>
-<p>What do we mean by grouping?</p>
-<p>How do we group?</p>
-<p>What can you do with grouped data?</p>
-<hr />
-</div>
-<div id="grouped-data-operations-and-summary-1" class="section level3">
-<h3>3. Grouped data operations and summary</h3>
-<p>** How do we look at summary information about our data? **</p>
-<p><code>summarize()</code> from <code>dplyr</code> allows us to look at various sorts of summary info.</p>
-<hr />
-</div>
-<div id="grouped-data-operations-and-summary-2" class="section level3">
-<h3>3. Grouped data operations and summary</h3>
-<p>** What do we mean by grouping? **</p>
-<p>Grouping is when we create groups in our data based on a categorical variable (or something that can be transformed into one).</p>
-<hr />
-</div>
-<div id="grouped-data-operations-and-summary-3" class="section level3">
-<h3>3. Grouped data operations and summary</h3>
-<p>** How do we group? **</p>
-<p>The <code>dplyr</code> function <code>group_by()</code> allows us to create grouped data frames.</p>
-<pre class="r"><code>library(dplyr)
+* Duplicate variable labels
+
+---
+
+### 3. Grouped data operations and summary
+
+** How do we look at summary information about our variables? **
+
+What do we mean by grouping?
+
+How do we group?
+
+What can you do with grouped data?
+
+---
+
+### 3. Grouped data operations and summary
+
+** How do we look at summary information about our data? **
+
+`summarize()` from `dplyr` allows us to look at various sorts of summary info.
+
+---
+
+### 3. Grouped data operations and summary
+
+** What do we mean by grouping? **
+
+Grouping is when we create groups in our data based on a categorical variable (or something that can be transformed into one).
+
+
+---
+
+### 3. Grouped data operations and summary
+
+** How do we group? **
+
+The `dplyr` function `group_by()` allows us to create grouped data frames.
+
+
+```r
+library(dplyr)
 
 storms %&gt;% 
-  group_by(name)</code></pre>
-<pre><code>## # A tibble: 5 × 13
+  group_by(name)
+```
+
+
+```
+## # A tibble: 5 × 13
 ## # Groups:   name [1]
 ##   name   year month   day  hour   lat  long status       category  wind pressure
 ##   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;        &lt;ord&gt;    &lt;int&gt;    &lt;int&gt;
@@ -304,25 +384,37 @@ storms %&gt;%
 ## 3 Amy    1975     6    27    12  29.5 -79   tropical de… -1          25     1013
 ## 4 Amy    1975     6    27    18  30.5 -79   tropical de… -1          25     1013
 ## 5 Amy    1975     6    28     0  31.5 -78.8 tropical de… -1          25     1012
-## # … with 2 more variables: ts_diameter &lt;dbl&gt;, hu_diameter &lt;dbl&gt;</code></pre>
-<hr />
-</div>
-<div id="grouped-data-operations-and-summaries" class="section level3">
-<h3>3. Grouped data operations and summaries</h3>
-<p>** What can we do with grouped data? **</p>
-<p>We can combine <code>summarize()</code> with grouped data frames and get summary information by group.</p>
-<p>We can also do different sorts of data cleaning operations on grouped data.</p>
-<hr />
-</div>
-<div id="grouped-data-operations-and-summaries-1" class="section level3">
-<h3>3. Grouped data operations and summaries</h3>
-<p>** Finding the mean wind speed for storms **</p>
-<pre class="r"><code>library(dplyr)
+## # … with 2 more variables: ts_diameter &lt;dbl&gt;, hu_diameter &lt;dbl&gt;
+```
+
+---
+
+### 3. Grouped data operations and summaries
+
+** What can we do with grouped data? **
+
+We can combine `summarize()` with grouped data frames and get summary information by group.
+
+We can also do different sorts of data cleaning operations on grouped data.
+
+---
+
+### 3. Grouped data operations and summaries
+
+** Finding the mean wind speed for storms **
+
+
+```r
+library(dplyr)
 
 storms %&gt;% 
   group_by(name) %&gt;% 
-  summarize(mean_wind_speed = mean(wind))</code></pre>
-<pre><code>## # A tibble: 198 × 2
+  summarize(mean_wind_speed = mean(wind))
+```
+
+
+```
+## # A tibble: 198 × 2
 ##    name     mean_wind_speed
 ##    &lt;chr&gt;              &lt;dbl&gt;
 ##  1 AL011993            27.5
@@ -335,19 +427,28 @@ storms %&gt;%
 ##  8 AL022003            30  
 ##  9 AL022006            38  
 ## 10 AL031987            21.2
-## # … with 188 more rows</code></pre>
-<hr />
-</div>
-<div id="grouped-data-operations-and-summaries-2" class="section level3">
-<h3>3. Grouped data operations and summaries</h3>
-<p>** Finding the mean wind speed for storms and arranging **</p>
-<pre class="r"><code>library(dplyr)
+## # … with 188 more rows
+```
+
+---
+
+### 3. Grouped data operations and summaries
+
+** Finding the mean wind speed for storms and arranging **
+
+
+```r
+library(dplyr)
 
 storms %&gt;% 
   group_by(name) %&gt;% 
   summarize(mean_wind_speed = mean(wind)) %&gt;% 
-  arrange(desc(mean_wind_speed))</code></pre>
-<pre><code>## # A tibble: 198 × 2
+  arrange(desc(mean_wind_speed))
+```
+
+
+```
+## # A tibble: 198 × 2
 ##    name    mean_wind_speed
 ##    &lt;chr&gt;             &lt;dbl&gt;
 ##  1 Wilma              91.9
@@ -360,16 +461,137 @@ storms %&gt;%
 ##  8 Joaquin            81.8
 ##  9 Rita               80.1
 ## 10 Gilbert            79.6
-## # … with 188 more rows</code></pre>
-<hr />
-</div>
-</div>
-</div>
-<div id="wrapping-up" class="section level1">
-<h1>Wrapping up</h1>
-<p>On Slack:</p>
-<ul>
-<li>What is one thing you took away from today?</li>
-<li>What is something you want to learn more about?</li>
-</ul>
-</div>
+## # … with 188 more rows
+```
+
+---
+
+# Wrapping up
+
+On Slack:
+
+- What is one thing you took away from today?
+- What is something you want to learn more about? 
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
