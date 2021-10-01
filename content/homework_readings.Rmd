@@ -53,6 +53,8 @@ Readings:
 
 ## Week 7
 
+Homework: https://github.com/alishinski/course-website/blob/master/content/homework/HW56.Rmd
+
 Readings:
 
 - 1: https://r4ds.had.co.nz/graphics-for-communication.html

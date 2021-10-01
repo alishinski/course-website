@@ -1,0 +1,214 @@
+---
+title: "HW5-6"
+output: html_document
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="background" class="section level1">
+<h1>Background</h1>
+<p>For this homework, we will be covering material from the last 2 weeks of data visualization.</p>
+</div>
+<div id="background-part-1" class="section level1">
+<h1>Background Part 1</h1>
+<p>We will use a built in dataset for part 1 this week’s homework, called <code>mpg</code>. It
+contains fuel economy and other data on 38 models of cars. You can learn more
+about it by typing this in the console <code>?mpg</code>.</p>
+</div>
+<div id="loading-data" class="section level1">
+<h1>Loading data</h1>
+<p>To load the data, run the following code chunk.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.3     ✓ dplyr   1.0.6
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>data(mpg)</code></pre>
+<p>Once you’ve loaded it, familiarize yourself with the different variables in the
+dataset using the methods that we’ve talked about.</p>
+</div>
+<div id="using-the-count-function" class="section level1">
+<h1>Using the <code>count()</code> function</h1>
+<p>The <code>count()</code> function can be a useful way to
+summarize data for plotting. Here’s an example of how this works:</p>
+<pre class="r"><code>mpg %&gt;% count(year)</code></pre>
+<pre><code>## # A tibble: 2 × 2
+##    year     n
+##   &lt;int&gt; &lt;int&gt;
+## 1  1999   117
+## 2  2008   117</code></pre>
+<p>Below, I would like you to create a barplot showing the number of vehicles per
+manufacturer, using the <code>count()</code> function and <code>geom_col()</code>.</p>
+</div>
+<div id="plotting-summary-statistics" class="section level1">
+<h1>Plotting summary statistics</h1>
+<p>As we discussed in class, the combination of <code>group_by()</code> and <code>summarize()</code> can
+be used to generate summary dataframes which you can then use to plot summary
+statistics. Below, we would like you to generate a summary dataframe and plot
+the summary statistics you create. You can use whatever variables from the data
+you see fit. Refer back to the slides and video from this week’s (and last
+week’s) class for examples of how to do this if you’re not sure.</p>
+</div>
+<div id="tell-a-story" class="section level1">
+<h1>Tell a story</h1>
+<p>As I mentioned in one class, one important principle of creating data
+visualizations is using them to tell a clear story about some aspect of the
+data. I would like you to tell me something interesting about the data. By
+interesting I don’t mean it has to be anything earth-shattering, but just a
+coherent conclusion about the data that is communicated by your plot. Make it
+look nice insofar as it serves this end, but there’s no need to go overboard.
+For more about what we mean by tell a story, I will refer you to one of the readings
+for this week, which shows some examples of storytelling with the mpg dataset:
+<a href="https://r4ds.had.co.nz/graphics-for-communication.html" class="uri">https://r4ds.had.co.nz/graphics-for-communication.html</a>
+Of course I would like your story to be different from the examples in that
+chapter. Be creative and have fun with it!</p>
+</div>
+<div id="background-part-2" class="section level1">
+<h1>Background Part 2</h1>
+<p>We will use a data set built into dplyr for part 2 of this week’s homework.
+The data, which we have encountered before,
+“includes the positions and attributes of 198 tropical storms, measured every six
+hours during the lifetime of a storm.”</p>
+<p>Like for the <code>mpg</code> data set, you can learn more about it by typing
+this in the console <code>?storms</code>. Note that the back tick marks are simply to format
+code in R Markdown - you do not include these when you run the code.</p>
+<p>Note how this appears differently in output; in fact, since Slack allows us to
+use Markdown, you can also use back ticks like this to format code in Slack!).</p>
+</div>
+<div id="loading-data-1" class="section level1">
+<h1>Loading data</h1>
+<p>To load the data, in the next code chunk, load the tidyverse package and then type
+storms to load and view the storms data from the dplyr package that is loaded as a
+part of the tidyverse:</p>
+<p>Once you’ve loaded it, familiarize yourself with the different variables in the
+data set using the methods for inspecting and exploring a new data set we have
+discussed.</p>
+<p>Next, filter the data to include observations only from 2006 (including that year)
+through the last year with data available in the data, and save the results back
+to a new object to use for the remainder of this homework.</p>
+</div>
+<div id="using-color" class="section level1">
+<h1>Using Color</h1>
+<p>First, create a plot using pressure and wind on the x- and y- axes (which axis
+corresponds to which is you choice)! Use geom_point() in this plot.</p>
+<p><strong>Assigning a color to a geom</strong></p>
+<p>Next, assign a color to the points by adding to the code above.</p>
+<p>To see a list of available colors in R, type <code>colors()</code> in the console. You can also consult this resource: <a href="http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf?utm_source=twitterfeed&amp;utm_medium=twitter" class="uri">http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf?utm_source=twitterfeed&amp;utm_medium=twitter</a></p>
+<p>If helpful, check out this last week’s slides for a tip:
+<a href="https://f21-intro-to-data-sci-methods-in-ed.netlify.app/slides/week7-slides.html" class="uri">https://f21-intro-to-data-sci-methods-in-ed.netlify.app/slides/week7-slides.html</a></p>
+<p><strong>Mapping a color scale to a variable</strong></p>
+<p>Next, map a color scale to a variable. This is different from assigning a color
+to points; instead, the use of color should be used to represent different values
+of a variable.</p>
+<p>Choose which variable you would like to represent with a color scale. For a tip,
+consult this week’s slides (linked above).</p>
+<p><strong>Changing the color scale</strong></p>
+<p>Next, change the color scale. Recall the function we demonstrated in our slides
+for easily changing the color scale (hint: it includes the term “brewer”). In your
+use of this function, consider whether the specific color scale you are using is:</p>
+<ul>
+<li>sequential,</li>
+<li>diverging, or</li>
+<li>qualitative</li>
+</ul>
+<p>And, specify the correct scale for the variable you are representing corresponds
+to the variable you wish to represent. Finally, once you have settled on the type of
+color scale you are using, consider changing the color palette; view the help documentation
+(or the slides) for tips on how to do that. Feel free to play around with what
+variable you represent, what scale you use, and what palette you use!</p>
+</div>
+<div id="stacking-and-dodging-bars" class="section level1">
+<h1>Stacking and dodging bars</h1>
+<p>By default, the geom we use for bar/column charts, <code>geom_col()</code>, “stacks” the bars
+vertically.</p>
+<p>First, run the following code:</p>
+<pre class="r"><code>storms %&gt;% 
+  group_by(year) %&gt;% 
+  summarize(mean_wind = mean(wind))</code></pre>
+<pre><code>## # A tibble: 41 × 2
+##     year mean_wind
+##    &lt;dbl&gt;     &lt;dbl&gt;
+##  1  1975      50.9
+##  2  1976      59.9
+##  3  1977      54.0
+##  4  1978      40.5
+##  5  1979      48.7
+##  6  1980      53.7
+##  7  1981      56.6
+##  8  1982      49.5
+##  9  1983      47.0
+## 10  1984      51.4
+## # … with 31 more rows</code></pre>
+<p>What do you notice? Add a note about below:</p>
+<ul>
+<li></li>
+</ul>
+<p>Next, replace year in the code above with status, and run the new code:</p>
+<p>What do you notice now? Add a note about this below:</p>
+<ul>
+<li></li>
+</ul>
+<p>Finally, group by both year and status; add both to your <code>group_by</code> function.</p>
+<p>If you need a tip regarding how to group by multiple variables, check the code
+used in some of the slides, or the help documentation (by running <code>?group_by()</code>
+in the console.</p>
+<p>What do you notice now? Add one last note:</p>
+<ul>
+<li></li>
+</ul>
+<p><strong>Plotting the mean wind speeds</strong></p>
+<p>Next, plot the mean wind speeds, using the code you wrote above as the
+foundation. Specifically, using ggplot2, assign the x-axis values to the year,
+and the y-axis values to the variable you calculated for the mean wind speed.
+Finally, specify that the fill aesthetic is equal to the location variable; see
+the slides for an example of using the fill aesthetic.</p>
+<p>Finally, dodge the plots by year. To do so, add an argument to dodge the columns
+to the <code>geom_col()</code> function you used; our slides have an example that might help
+you to do this:</p>
+</div>
+<div id="faceting-plots" class="section level1">
+<h1>Faceting plots</h1>
+<p>Above, beneath the bold text <strong>Changing the color scale</strong>, you created a scatter plot
+that involved mapping a color to a variable and changing the scale to be appropriate
+for the variable you chose.</p>
+<p>Below, copy and paste the final code you used. Add to that code a layer that will
+facet the plots based upon the year. An example of how to do this is available in
+the section of the slides corresponding to faceting plots. Depending on what variable
+you mapped to a color, you may need to tinker with your plot (and the variables you
+included in it) for this plot to make sense. Tinkering and modifications, including
+to theme elements, are welcome.</p>
+<div id="fin" class="section level2">
+<h2>fin</h2>
+<p>Render and submit:
+- Submit the .html file you used to render a report to Canvas - Upload the .Rmd
+file you rendered to the #homework channel in Slack.
+One difference from last week: Please post a comment, feedback, or reflection
+below <em>as well as to Slack when you post your homework</em>.</p>
+</div>
+<div id="self-assessment-and-reflection" class="section level2">
+<h2>Self-assessment and reflection</h2>
+<p>Respond to the following three questions on a 1 (not at all) to 5 (very much)
+scale by replacing the “x” below with your response:</p>
+<pre class="r"><code>x = NULL
+tibble::tribble(
+  ~question,                                   ~response,
+  &quot;How challenging was this homework?&quot;,        x,
+  &quot;How interesting was this homework to you?&quot;, x,
+  &quot;How valuable was this homework to you?&quot;,    x
+)</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   question                                  response
+##   &lt;chr&gt;                                     &lt;list&gt;  
+## 1 How challenging was this homework?        &lt;NULL&gt;  
+## 2 How interesting was this homework to you? &lt;NULL&gt;  
+## 3 How valuable was this homework to you?    &lt;NULL&gt;</code></pre>
+<p>Include any other comments, feedback, or reflections on this homework below:</p>
+<p>Important note: Please post your comment(s), feedback, or reflections in Slack
+when you share your Rmd file!</p>
+</div>
+</div>

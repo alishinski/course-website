@@ -12,4 +12,6 @@ output: html_document
 
 - [Week 5 Tuesday Lecture](https://tennessee.zoom.us/rec/share/X63ZHW3mScAsXbHF5iYtWQH-OjIarj0XbnIP5ZCpA0B761bUvVo5Z94gLY05uDQA.t5hmHztCQNERRLLH)
 
+- [Week 6 Tuesday Class]()
 
+- [Week 7 Thursday Class](https://tennessee.zoom.us/rec/share/8-H69SarL60PwtNsQTg4YgSfsQfA5tzGJXP743CL3YjIW6qvZ-shXfsfzFxbCMv5.gdOx7jRYlQpyEc2H)
