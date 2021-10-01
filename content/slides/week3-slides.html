@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 3: ‘Tidying’ data</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Alex Lishinski" />
+    <meta name="date" content="2021-08-31" />
+    <script src="libs/header-attrs-2.8/header-attrs.js"></script>
+    <link rel="stylesheet" href="theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Week 3: ‘Tidying’ data
+### Alex Lishinski
+### August 31, 2021
+
+---
+
+
+# Welcome!
+
+Welcome to *week 3*!
+
+Great job last week. 
+
+Now we feel like we have enough of an introduction to some of the basics of working 
+with R that we can move to the more substantial material. However, don't be discouraged
+if you don't feel rock solid about any of the basics we've covered so far. We will continue to reinforce these as we move forward.
+
+**Record the meeting** 
+
+
+
+---
+
+# Discussion
+
+- How did you find the homework? Too easy, too hard, confusing?
+
+- From [the chapter introducing educational data science](https://datascienceineducation.com/c03.html), which of the educational data science roles do you see as the most similar to the work you have done, are doing, or intend to do, and why? If you are coming from outside of education, discuss any similarities (or the lack thereof)!
+
+- What are you looking forward to (general life question)?
+
+(10 minutes)
+
+---
+
+# Recap: Foundational R skills
+
+A general framework for you to use as a foundation and as a set of concepts to help you work through the class.
+
+The four core concepts we will use to build our framework are:
+
+1. Projects
+1. Packages
+1. Data
+1. Functions
+
+You will use each of these in most of your analyses with R.
+
+---
+
+# Recap: Foundational R skills
+
+These foundational skills are what we will build on as we move to data wrangling and tidying
+
+We're not done building your understanding of working with packages, data, and functions
+
+---
+
+# Recap: Packages quick review
+
+1. What are packages? 
+  + Code bundles that add functionality to R
+  + Examples: ggplot2, dplyr, rtweet, quanteda, lme4
+1. Where do we get packages?
+  + CRAN or GitHub
+1. How do we install packages?
+  + `install.packages("pkg-name")`
+1. How do we know what packages to use?
+  + Searching 
+  + People and news related to R (more later - there are *tons*)
+  + CRAN task views
+1. How do we use packages?
+  + `library(pkgname)`
+
+---
+
+### Overview of today's class
+
+Wrangling and Tidying
+
+1. Reading in Data
+1. Tidying data
+1. Our Tidy data tools
+
+---
+
+# 1. Reading in Data
+
+So far, we have used *built-in data*. There is a lot of built-in data!
+
+Loading different types of data, assigning to a name 
+
+Comma-separated values (`.csv`)
+
+
+```r
+library(readr)
+
+data &lt;- readr::read_csv(here( "content", "data", "answer_export.csv"))
+```
+
+---
+
+# 1. Reading in Data 
+
+`.xlsx`
+
+
+```r
+library(readxl)
+
+data &lt;- read_excel((here("content", "data", "schedule.xlsx")))
+```
+
+---
+
+# 1. Reading in Data
+
+`.sav`
+
+
+```r
+library(haven)
+data &lt;- read_sav((here("data", "file-name.sav")))
+```
+
+---
+
+# 1. Reading in Data
+
+Google Sheets
+
+
+```r
+library(googlesheets4)
+```
+
+Web
+
+
+```r
+data &lt;- read_csv("https://github.com/data-edu/dataedu/raw/master/data-raw/wt01_online-science-motivation/raw/s12-course-data.csv")
+```
+
+---
+
+# 1. Reading in Data
+
+Pitfalls
+
+Can't find data file
+
+* Check file location
+* Check working directory (here base directory)
+* Make sure those line up
+
+---
+
+# 1. Reading in Data
+
+Other considerations to keep in mind
+
+- Missing column name headers, csv files in particular (`header = T`)
+
+
+```r
+data &lt;- readr::read_csv(here("content", "data", "answer_export.csv"), col_names = F, skip =1)
+```
+
+```
+## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   X1 = col_double(),
+##   X2 = col_character(),
+##   X3 = col_character(),
+##   X4 = col_double()
+## )
+```
+
+```r
+colnames(data)
+```
+
+```
+## [1] "X1" "X2" "X3" "X4"
+```
+
+```r
+colnames(data) &lt;- c("id", "content", "session_id", "question_id")
+
+data
+```
+
+```
+## # A tibble: 2,396 × 4
+##       id content    session_id                         question_id
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;                                    &lt;dbl&gt;
+##  1    10 Ready      SM275024c5512ea0f626560c2a7c974a8b           1
+##  2    11 I'm ready. SMe14d7954247d88c43cf6bd5e70f17cc2           1
+##  3    12 3          SM4c0c4addefec91a5ad5d92230606d8ec           1
+##  4    13 4          SMc559b03477909c853ba0bd7cbe745651           1
+##  5    14 3          SM3465833f00a6119440163db13a729c4b           1
+##  6    15 4          SMb2ce42bc10c0a75172640c7b728f80ad           1
+##  7    16 3          SM11cb1f8d5bcf86ca43d8e8802820d80f           2
+##  8    17 4          SM391e2a4f2315eceee4ba95fb04e12ca6           1
+##  9    18 4          SMe0a1f06bff4a847ebf00f87fb2b6d38d           2
+## 10    19 4          SM486683d9fab1f02610e44a130142475f           1
+## # … with 2,386 more rows
+```
+
+
+---
+
+# 1. Reading in Data
+
+Other considerations to keep in mind
+
+- renaming column headers with `dplyr::rename()`
+
+
+```r
+data &lt;- readr::read_csv(here("content", "data", "answer_export.csv"))
+```
+
+```
+## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   id = col_double(),
+##   content = col_character(),
+##   session_id = col_character(),
+##   question_id = col_double()
+## )
+```
+
+```r
+colnames(data)
+```
+
+```
+## [1] "id"          "content"     "session_id"  "question_id"
+```
+
+```r
+data &lt;- data %&gt;%
+  rename(ID_num = id,
+         Response = content,
+         Session_num = session_id,
+         Question_num = question_id)
+
+colnames(data)
+```
+
+```
+## [1] "ID_num"       "Response"     "Session_num"  "Question_num"
+```
+
+
+---
+
+# 2. Tidying Data
+
+Tidying data AKA wrangling data, cleaning data, etc.
+
+* Data cleaning is 80% of the job
+* Don't underestimate it, know what to expect
+
+---
+
+# 2. Tidying Data
+
+    “Happy families are all alike; 
+    every unhappy family is unhappy in its own way.” 
+    –– Leo Tolstoy
+
+    “Tidy datasets are all alike, 
+    but every messy dataset is messy in its own way.” 
+    –– Hadley Wickham
+
+What does 'tidy' data mean
+
+1. Every Column is a variable
+1. Every Row is an observation
+1. Every cell is a single value 
+
+(Don't worry too much about the details of what these mean quite yet)
+
+Primary importance: the tools that we will use are built around tidy data.
+
+---
+
+# 2. Tidying data
+
+Examining data is the first step
+
+* `View()` 
+* `glimpse()`
+* `colnames()` or `names()`
+* `table()` or `tabyl()`
+
+---
+
+# 2. Tidying data
+
+Deeper aspects of cleaning/tidying data
+
+* Columns should be the right type (e.g. integer, double, factor, character, additional character types like date/time)
+
+* Values in column should only be valid values for whatever that variable is supposed to be (sometimes your data sources will pre-validate this, sometimes not)
+
+* Missing data indicators for missing values (NA type)
+
+---
+
+# 2. Tidying data
+
+Data is stored in data frames or tibbles
+
+Variables are vectors, and there are a few types of these in R based on what type of information the entries in the vector are
+
+Character: Text strings, in double quotes
+Numeric: numbers, with decimals
+Logical: TRUE or FALSE values
+Integer: Whole number values
+Factor: categorical variables with a fixed number of levels
+
+---
+
+# 2. Tidying data
+
+Vector types need to be correct for what you were expecting or functions won't work correctly
+
+Most of the time this will work as expected but it's important to be mindful when cleaning data
+
+
+```r
+glimpse(storms)
+```
+
+```
+## Rows: 10,010
+## Columns: 13
+## $ name        &lt;chr&gt; "Amy", "Amy", "Amy", "Amy", "Amy", "Amy", "Amy", "Amy", "A…
+## $ year        &lt;dbl&gt; 1975, 1975, 1975, 1975, 1975, 1975, 1975, 1975, 1975, 1975…
+## $ month       &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7…
+## $ day         &lt;int&gt; 27, 27, 27, 27, 28, 28, 28, 28, 29, 29, 29, 29, 30, 30, 30…
+## $ hour        &lt;dbl&gt; 0, 6, 12, 18, 0, 6, 12, 18, 0, 6, 12, 18, 0, 6, 12, 18, 0,…
+## $ lat         &lt;dbl&gt; 27.5, 28.5, 29.5, 30.5, 31.5, 32.4, 33.3, 34.0, 34.4, 34.0…
+## $ long        &lt;dbl&gt; -79.0, -79.0, -79.0, -79.0, -78.8, -78.7, -78.0, -77.0, -7…
+## $ status      &lt;chr&gt; "tropical depression", "tropical depression", "tropical de…
+## $ category    &lt;ord&gt; -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
+## $ wind        &lt;int&gt; 25, 25, 25, 25, 25, 25, 25, 30, 35, 40, 45, 50, 50, 55, 60…
+## $ pressure    &lt;int&gt; 1013, 1013, 1013, 1013, 1012, 1012, 1011, 1006, 1004, 1002…
+## $ ts_diameter &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+## $ hu_diameter &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+```
+
+
+---
+
+# 3. Our Tidy Data Tools
+
+What are our tools for tidy data?
+
+* Tidyverse
+* More specifically tidyr and dplyr are the wrangling tools
+* tidyr narrower focus on reshaping data 
+* dplyr does more, stuff like filtering arranging selecting joining 
+* dplyr also has powerful tools for grouping data and grouped operations 
+* stringr: not talked about as much but useful operations for dealing with character strings
+
+---
+
+# 3. Our Tidy Data Tools 
+
+How dplyr functions work:
+
+* First argument is always data frame (important for %&gt;%)
+* They don't modify the existing data frame, need to save the results
+
+
+```r
+data &lt;- data %&gt;%
+  rename(ID_num = id,
+         Response = content,
+         Session_num = session_id,
+         Question_num = question_id)
+```
+
+---
+
+# 3. Our Tidy Data Tools 
+
+How dplyr functions work:
+
+Very amenable to chained operations with `%&gt;%`
+
+
+```r
+data &lt;- readr::read_csv(here("content", "data", "answer_export.csv"))
+```
+
+```
+## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   id = col_double(),
+##   content = col_character(),
+##   session_id = col_character(),
+##   question_id = col_double()
+## )
+```
+
+```r
+data_subset &lt;- data %&gt;%
+  rename(ID_num = id,
+         Response = content,
+         Session_num = session_id,
+         Question_num = question_id) %&gt;%
+  select(Response, Question_num)
+```
+
+---
+
+# 3. Our Tidy Data Tools 
+
+How dplyr functions work:
+
+Grouped operations
+
+
+```r
+data &lt;- readr::read_csv(here("content", "data", "answer_export.csv"))
+```
+
+```
+## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   id = col_double(),
+##   content = col_character(),
+##   session_id = col_character(),
+##   question_id = col_double()
+## )
+```
+
+```r
+data_grp &lt;- data_subset %&gt;%
+  group_by(Question_num)
+```
+
+---
+
+# 3. Our Tidy Data Tools 
+
+Dplyr `mutate()` function
+
+Can use to add columns or change columns
+
+
+```r
+data &lt;- data %&gt;% dplyr::mutate(new_col = 1:nrow(data))
+```
+
+---
+
+# 3. Our Tidy Data Tools 
+
+`stringr` package has a number of tools used to clean up text data
+
+
+```r
+library(stringr)
+
+data &lt;- data %&gt;% dplyr::mutate(stringr::str_trim(col1))
+```
+
+
+---
+
+# Wrapping up
+
+On Slack:
+
+- What is one thing you took away from today?
+- What is something you want to learn more about? 
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

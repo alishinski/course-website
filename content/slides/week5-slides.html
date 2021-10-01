@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 5 - Introduction to Data Viz</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Alex Lishinski" />
+    <meta name="date" content="2021-09-14" />
+    <script src="libs/header-attrs-2.8/header-attrs.js"></script>
+    <link rel="stylesheet" href="theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Week 5 - Introduction to Data Viz
+### Alex Lishinski
+### September 14, 2021
+
+---
+
+
+# Welcome!
+
+Welcome to *week 5*!
+
+**Record the meeting** 
+
+
+
+---
+
+### Review of last week's class
+
+**Last week we discussed wrangling and tidying data**:
+
+1. Reshaping data
+  - `pivot_wide()` and `pivot_long()`
+2. Joining data
+  - `left_join()`, `inner_join()`, and others
+3. Grouped data operations with dplyr
+  - `group_by()` and `summarize()`
+
+---
+
+### Review of last week's class
+
+**Reading**
+
+* From R for Data Science: https://r4ds.had.co.nz/tidy-data.html
+* tidy data:
+  * every variable has its own column
+  * every observation has its own row
+  * every value has its own cell
+
+* tidy data makes it easier to use similar tools (even with very different datasets and types of data)
+* tidy data works well with R
+
+---
+
+### Review of last week's class
+
+*TB cases*
+
+- Where is the year variable represented?
+- Where is the cases variable represented?
+- How many observations does each row represent?
+
+
+```r
+library(tidyverse)
+```
+
+```
+## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
+```
+
+```
+## ✓ tibble  3.1.3     ✓ forcats 0.5.1
+## ✓ purrr   0.3.4
+```
+
+```
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x tidyr::extract()   masks magrittr::extract()
+## x dplyr::filter()    masks stats::filter()
+## x dplyr::lag()       masks stats::lag()
+## x purrr::set_names() masks magrittr::set_names()
+```
+
+```r
+table4a
+```
+
+```
+## # A tibble: 3 × 3
+##   country     `1999` `2000`
+## * &lt;chr&gt;        &lt;int&gt;  &lt;int&gt;
+## 1 Afghanistan    745   2666
+## 2 Brazil       37737  80488
+## 3 China       212258 213766
+```
+
+---
+
+### This week's topics
+
+**Overview**
+
+1. Introduction to data viz
+2. A bit more tidying data
+
+We are by no means done with the data tidying functions we discussed last week!
+
+---
+
+### 1. Intro to Data Viz
+
+**Outline**
+
+A. Why visualize data?  
+B. How can we visualize data in R?  
+C. And, how can we make our visualizations aesthetically pleasing?  
+
+---
+
+### 1A: Why visualize data?
+
+One answer: 
+
+"You should look at your data." ([Healy, 2018](https://socviz.co/))
+
+*To elaborate on this*:
+
+- Visualizations allow to _understand the structure and nature of your data_, and to begin to understand what might relate to what else
+- Just like we want to be constantly looking at our data in its spreadsheet/table/data frame format (e.g., `str()`, `glimpse()`, and `View()`), visualizing our data can help us to make sure our data contains what we think it does-and it can alert us to when it does not
+
+---
+
+### 1A: Why visualize data?
+
+These four different data sets have the same correlation (type `anscombe` in R to view the data), but are very different
+
+&lt;img src="https://socviz.co/dataviz-pdfl_files/figure-html4/ch-01-anscombe-1.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### 1A: Why visualize data
+
+Another reason to visualize data is to *communicate with others*; you can use visualizations to communicate your findings or results. In example:
+
+&lt;img src="https://apreshill.github.io/ohsu-biodatavis/slides_files/figure-html/bar1-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+---
+
+&lt;img src="https://apreshill.github.io/ohsu-biodatavis/slides_files/figure-html/bar8-1.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+https://apreshill.github.io/ohsu-biodatavis/slides.html#33
+
+---
+
+### 1B: How to visualize data
+
+One way to think about visualizing data is in terms of the _type_ of visualization you create:
+
+- Histogram
+- Density plot
+- Scatter plot
+- Bar chart
+- Pie chart ([gasp!](https://socviz.co/refineplots.html))
+- Time series plot/line chart
+
+---
+
+### 1B: How to visualize data
+
+Another way to think about visualizing data is in terms of the elements that make up a plot.
+
+The *grammar of graphics* ([Wickham, 2010](https://www.tandfonline.com/doi/abs/10.1198/jcgs.2009.07098), [Wilkinson, 2012](https://link.springer.com/chapter/10.1007/978-3-642-21551-3_13)) has a particular answer to the question of what a plot includes:
+
+Why a grammar of graphics?
+
+- gain insight into complex figures
+- reveal deeper relationships between what may appear to be unrelated visualizations
+- more flexibly and creatively visualize data--including in ways that do not fit well into one type of plot
+- suggest what makes a good figure
+
+---
+
+### 1B: How to visualize data?
+
+One view of visualizations is that they consist of four components:
+
+1. Data
+2. One or more geometric objects (shape, point, line, etc.)
+3. A mapping between variables in the data and the geometric objects and their characteristics (including their size and color)
+4. A theme
+
+---
+
+### 1B: How to visualize data?
+
+Let's see how this might appear:
+
+
+
+
+```r
+data
+```
+
+```
+## # A tibble: 1,618 × 2
+##    name       value
+##    &lt;chr&gt;      &lt;dbl&gt;
+##  1 Question 1  2.90
+##  2 Question 1  3.46
+##  3 Question 1  2.80
+##  4 Question 1  2.64
+##  5 Question 1  3.06
+##  6 Question 1  3.34
+##  7 Question 1  4.36
+##  8 Question 1  2.43
+##  9 Question 1  2.58
+## 10 Question 1  3.32
+## # … with 1,608 more rows
+```
+
+
+```r
+data %&gt;%
+  ggplot(aes(x = name, y = value)) +
+  geom_boxplot()
+```
+
+---
+
+### 1B: How to visualize data?
+
+![](week5-slides_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+
+---
+
+### 1B: How to visualize data
+
+- The previous slide contained a potentially _useful_ plot
+- However, we might be able to improve both its interpretability and its aesthetic
+
+
+&lt;img src="https://d33wubrfki0l68.cloudfront.net/21d683072b0c21cbd9b41fc0e37a587ad26b9525/cbf41/wp-content/uploads/2018/08/data-visualization-2.1.png" width="62%" style="display: block; margin: auto;" /&gt;
+
+https://github.com/rstudio/cheatsheets/blob/master/data-visualization.pdf
+
+---
+
+### 1B: How to visualize data?
+
+![](week5-slides_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+
+---
+
+### 1B: How to visualize data?
+
+![](week5-slides_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
+
+---
+
+### 1B: How to visualize data
+
+You can create different plots by:
+
+- Changing the aesthetic _mapping_ between variables in the data and geometric objects
+- Changing the geometric objects
+
+---
+
+### 1B: How to visualize data?
+
+![](week5-slides_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
+
+---
+
+### 1B: How to visualize data?
+
+![](week5-slides_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+
+---
+
+### 1C: How to make visualizations aesthetically pleasing
+
+&lt;img src="week5-slides_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+_Theming and fine-tuning_
+
+
+```r
+data %&gt;%
+  ggplot(aes(x = value, y = name, fill = name)) +
+  geom_jitter(color = "gray") +
+  geom_violin() +
+  theme_minimal() +
+  scale_fill_brewer("", type = "qual") +
+  ylab(NULL) +
+  xlab(NULL) +
+  theme(text = element_text(size = 16, family = "Times"),
+        legend.position = "none") +
+  ggtitle("Distributions for the Five Questions")
+```
+
+---
+
+&lt;img src="week5-slides_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### 2: How does tidying data relate to data viz?
+
+Often, we have to make changes to our data frame in order to create the visualization we would like to create.
+
+---
+
+### 2: How does tidying data relate to data viz?
+
+**Making a new variable prior to plotting the data**
+
+
+```r
+pred_frame %&gt;% 
+  mutate(isTeacher = ifelse(isTeacher == 0, "Non-Teachers", "Teachers")) %&gt;% 
+  ggplot(aes(year_of_post_centered + 2016, prediction)) +
+  geom_line(aes(color = type_of_tweet), 
+            size = 1.3) +
+  geom_text(aes(label = label, color = type_of_tweet),
+           family = "Times New Roman",
+           data = label_frame) +
+  facet_wrap(~isTeacher, ncol = 1) +
+  scale_x_continuous("Year", breaks = seq(2010, 2020, 2)) +
+  labs(x = "Year", 
+       y = "Standardized Model-Predicted Sentiment Score")
+```
+
+---
+
+### 2: How does tidying data relate to data viz?
+
+&lt;img src="img/interactions.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### 2: How does tidying data relate to data viz?
+
+_Other data tidying steps_ we might take prior to visualizing data:
+
+  - **recoding** variables
+  - **creating a factor** (so that we can order elements of a plot as we wish for them
+  to be ordered)
+  - **grouping** and **summarizing** to plot a summary statistic
+  - realizing that your data processing and tidying was not quite sufficient,
+  so **returning to those stages** before finalizing your visualization
+  - **re-running our analysis** (`.Rmd` file) because we discovered an issue with our 
+  data
+  
+---
+
+# Course Logistics
+
+**This week**
+* Homework 3: Due by Thursday, 9/16
+* Homework 4: Due by Tuesday, 9/21
+* Readings
+  * 1: A Layered Grammar of Graphics ([Wickham, 2010](http://vita.had.co.nz/papers/layered-grammar.pdf))
+  * 2: Data visualization ([Wickham &amp; Grolemund, 2018](https://r4ds.had.co.nz/data-visualisation.html))
+  
+**Coming up**
+* *Just begin* to think and to ask questions about what you may want to do for [a final project](https://making-data-science-count.github.io/s21-intro-to-data-sci-methods-in-ed/assignments.html); something that
+will advance your research and allow you to exhibit and extend what you do in class
+
+---
+
+# Wrapping up
+
+In the class-checkout Slack channel:
+
+- What is one thing you learned today?
+- What is something you want to learn more about? 
+- _Also_, in GIF form (type `/giphy` in Slack, and then a random term), summarize how you are feeling
+about R
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
