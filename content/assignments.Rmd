@@ -13,4 +13,4 @@ Weekly homework. To be submitted in the form of an R Markdown file (`.Rmd`) via 
 
 Complete an individually-designed project that can take different forms (R Markdown Report, interactive Shiny app, interactive dashboard, etc.) related to identifying and solving a data-related problem in education using R (due approximately two-thirds of the way through the semester).
 
-[Link to assignment details](assignment-final-project.html)
+[Link to assignment details](https://f21-intro-to-data-sci-methods-in-ed.netlify.app/assignment-final-project/)

@@ -25,15 +25,15 @@ These goals can take a number of different forms, including:
 - Creating an interactive data visualization or dashboard
 - ... (let's discuss your ideas!)
 
-We are more focused on the process you take than the specifics of your project, as we discuss next.
+I ame more focused on the process you take than the specifics of your project, as I discuss next.
 
 ### Process and Timeline and Due Dates
 
 A draft is due approximately two-thirds of the way through the semester, and your final project is due in presentation (screen recording via Zoom) form at the very end of the semester.
 
 **Stage 1**
-- Initial ideas posted in a class-wide Google Slides presentation, 3/18; do so here: https://docs.google.com/presentation/d/1KWU5bhxZmV63vkNtQNxHo-2YI_iYJmSW2oOZ_jtFeP0/edit?usp=sharing
-- You will provide feedback to peers in your base group (by 3/25)
+- Initial ideas posted in a class-wide Google Slides presentation, 10/12; do so here: (LINK FORTHCOMING)
+- You will provide feedback to peers (by 10/14)
   
 **Stage 2**
 
@@ -68,20 +68,16 @@ For instance, for a project that involves creating a map of the locations of use
 
 *Key questions and / or concerns*: Add bullet points with any key questions and / or concerns that you have. In this, identify specific gaps where you don't know how to complete a goal / milestone (those you detailed above) or where you don't know what the step is.
 
----
-
-To submit this document, add a link here, and please share the document with us: jrosenb8@utk.edu and alishins@utk.edu. *Please share the document with these email addresses; we have e-mail aliases that causes issues with Google Docs, but sharing will work with the above addresses*: https://docs.google.com/spreadsheets/d/1A6YlySv6h41UUZXwO80pQhQwNKEMvz_eHc3fY9Y41Cw/edit?usp=sharing. If helpful to you, instructions for how to share a Google Doc are here: https://support.google.com/docs/answer/2494822?co=GENIE.Platform%3DDesktop&hl=en 
-  
 **Stage 3**
 - Final project
-  - Submission of a product (likely a rendered `.Rmd` file, but possibly something) and a five-ten minute recording of your work; why you chose to work on this, what you did, and what you want to do next, 5/5 - _strict deadline_
+  - Submission of a product (likely a rendered `.Rmd` file, but possibly something) and a five-ten minute recording of your work; why you chose to work on this, what you did, and what you want to do next, DEADLINE FORTHCOMING - _strict deadline_
     - In your five-ten minute recording, please describe:
       - The topic of your project
       - Why you chose this topic - what problem it solve or question it helped/helps you to answer
       - What you did, including the learning/independent work you had to do to be able to achieve what you did
       - What you are most proud of about your final project
       - What you still want to know more about/what you want to do next having completed your final project
-    - We recommend using Zoom and recording to the Cloud - then using that link to share your recording (more details below)
+    - I recommend using Zoom and recording to the Cloud - then using that link to share your recording (more details below)
 
 ### Other resources
 
@@ -100,4 +96,4 @@ Available data sets:
   - Share the link to your recording in the #final-projects channel.
   - Please also share the product (the .Rmd version if you used R Markdown, or whatever format your final project took)
   - Also, _you will share your recording with the members of your base group_
-    - Lastly, and importantly, we ask you to view and comment on your base group member's presentations by Sunday, May 9 (just over four days); you can comment on anyone else's, too!
+

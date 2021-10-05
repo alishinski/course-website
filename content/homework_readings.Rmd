@@ -61,3 +61,10 @@ Readings:
 - 2: https://clauswilke.com/dataviz/figure-titles-captions.html
 - 3: https://clauswilke.com/dataviz/color-pitfalls.html
 
+## Week 7
+
+Homework: 
+
+Readings:
+
+- 1: https://r4ds.had.co.nz/exploratory-data-analysis.html

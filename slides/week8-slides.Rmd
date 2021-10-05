@@ -412,10 +412,10 @@ https://r4ds.had.co.nz/exploratory-data-analysis.html
 
 # Final Project
 
-* [Final project]()
+* [Final project](https://f21-intro-to-data-sci-methods-in-ed.netlify.app/assignment-final-project/)
 
-* [Slide deck to edit this week](https://docs.google.com/presentation/d/1KWU5bhxZmV63vkNtQNxHo-2YI_iYJmSW2oOZ_jtFeP0/edit?usp=sharing)
-  * Must be logged in to UTK email/account
+* Next week - Initial ideas for feedback 
+* Two weeks - 3-5 minute proposal in class 
   
 ---
 
