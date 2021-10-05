@@ -1,0 +1,103 @@
+---
+title: "Final Project"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Individual Final Project
+
+### Overview
+
+Complete an individually-designed project that can take different forms (R Markdown Report, interactive Shiny app, interactive dashboard, etc.) related to identifying and solving a data-related problem in education using R. 
+
+### Details
+
+The scope of the project must involve making substantial progress toward a research-related goal.
+
+These goals can take a number of different forms, including:
+
+- Accessing, cleaning, and initially describing the dimensions of a new data source (e.g., data from Twitter)
+- Analyzing data in a new way and writing the results up in a brief report
+- Analyzing an existing data set that you have in ways that would be difficult to do without some of the techniques in this class/without the sue of R
+- Creating an interactive data visualization or dashboard
+- ... (let's discuss your ideas!)
+
+We are more focused on the process you take than the specifics of your project, as we discuss next.
+
+### Process and Timeline and Due Dates
+
+A draft is due approximately two-thirds of the way through the semester, and your final project is due in presentation (screen recording via Zoom) form at the very end of the semester.
+
+**Stage 1**
+- Initial ideas posted in a class-wide Google Slides presentation, 3/18; do so here: https://docs.google.com/presentation/d/1KWU5bhxZmV63vkNtQNxHo-2YI_iYJmSW2oOZ_jtFeP0/edit?usp=sharing
+- You will provide feedback to peers in your base group (by 3/25)
+  
+**Stage 2**
+
+In this stage, you will revised and expand upon the final project ideas you detailed in the Google Slides presentation (see Stage 1 above for a link to the presentation). To do this, you will create and share your own Google Doc. 
+
+First, create a Google Doc. In this document, please add information on the following elements.
+
+You may copy this over with the prompts if you would like, replacing the instructions following each colon:
+
+*Title*: A tentative title for your final project - consider something memorable that also accurately describes the goal of your project
+
+*Overview*: One paragraph on what topic, question, or problem you are considering working on for your final project. As a starter, consider including within this paragraph a sentence to establish why you are pursuing the topic, question, or problem you are for your final project.
+
+Depending on the specifics of your project, specify either (or both) the substantive (e.g., why might what you are doing be important / of interest to others) and/or technical (e.g., what you'll be learning and doing) parts of your project.
+
+*Data*: One paragraph on the data you plan or hope to use: Its source, dimensions, technical information about what format(s) it is in, and what parts/subsets (if relevant) you might use.
+
+*Product*: What form(s) will your final project take? Our baseline assumption is that you will share an 
+R Markdown report with the code and output of your code, but, there are additions you can make to this, as 
+well as entirely different products that you can create. Examples of other products include specific figures, 
+hosting the R Markdown report on your own website and/or on [R Pubs](https://rpubs.com/), creating a dashboard or an interactive Shiny web application, creating an R script, starting an APA-formatted manuscript, etc. (the sky is the limit!)
+
+*Major Goals / Milestones*: In a bullet-point list, describes the major goals / milestones for your project. Most projects will include between 3-5 of these. 
+
+For instance, for a project that involves creating a map of the locations of users' social media accounts, these might be goals / milestones such as: 
+
+* obtain permission to use the data and obtain the data from collaborators or mentors
+* read the data into R and prepare and clean the data for subsequent analyses
+* determine the locations of individuals using XXX method
+* create a map using a relevant package with R
+* save the plot in a high-resolution image and share the code and plot in an R Markdown document to enhance the reproducibility of the analysis/to prepare for future changes to the map going forward.
+
+*Key questions and / or concerns*: Add bullet points with any key questions and / or concerns that you have. In this, identify specific gaps where you don't know how to complete a goal / milestone (those you detailed above) or where you don't know what the step is.
+
+---
+
+To submit this document, add a link here, and please share the document with us: jrosenb8@utk.edu and alishins@utk.edu. *Please share the document with these email addresses; we have e-mail aliases that causes issues with Google Docs, but sharing will work with the above addresses*: https://docs.google.com/spreadsheets/d/1A6YlySv6h41UUZXwO80pQhQwNKEMvz_eHc3fY9Y41Cw/edit?usp=sharing. If helpful to you, instructions for how to share a Google Doc are here: https://support.google.com/docs/answer/2494822?co=GENIE.Platform%3DDesktop&hl=en 
+  
+**Stage 3**
+- Final project
+  - Submission of a product (likely a rendered `.Rmd` file, but possibly something) and a five-ten minute recording of your work; why you chose to work on this, what you did, and what you want to do next, 5/5 - _strict deadline_
+    - In your five-ten minute recording, please describe:
+      - The topic of your project
+      - Why you chose this topic - what problem it solve or question it helped/helps you to answer
+      - What you did, including the learning/independent work you had to do to be able to achieve what you did
+      - What you are most proud of about your final project
+      - What you still want to know more about/what you want to do next having completed your final project
+    - We recommend using Zoom and recording to the Cloud - then using that link to share your recording (more details below)
+
+### Other resources
+
+Available data sets:
+
+- Your own!
+- Education data package: https://github.com/UrbanInstitute/education-data-package-r
+- Data from Twitter: https://developer.twitter.com/en/solutions/academic-research
+- Data from Facebook: https://help.crowdtangle.com/en/articles/4302208-crowdtangle-for-academics-and-researchers
+- Other ideas for data sets?
+
+### How to submit
+
+- **Final Product** Please submit _an HTML file_ for this assignment on Canvas. If you used a different format (other than Rmd), you may submit a relevant product (e.g., an attachment or a link to a Shiny app).
+- **Recording**: 
+  - Share the link to your recording in the #final-projects channel.
+  - Please also share the product (the .Rmd version if you used R Markdown, or whatever format your final project took)
+  - Also, _you will share your recording with the members of your base group_
+    - Lastly, and importantly, we ask you to view and comment on your base group member's presentations by Sunday, May 9 (just over four days); you can comment on anyone else's, too!

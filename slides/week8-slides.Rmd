@@ -1,0 +1,430 @@
+---
+title: "Week 8 - Data Exploration and Summary" 
+subtitle: ""
+author: "Alex Lishinski"
+date: "October 5, 2021"
+output:
+  xaringan::moon_reader:
+    css: [theme.css]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center", message = FALSE)
+```
+
+# Welcome!
+
+Welcome to *week 8*!
+
+```{r echo = FALSE, out.width = "70%"}
+```
+
+**Record the meeting** 
+
+```{r, include = TRUE, echo = FALSE}
+library(here)
+library(tidyverse)
+```
+
+---
+
+### Review of last week's class
+
+- Using color
+
+- Grouping and stacking bar charts
+
+- Faceting charts
+
+---
+
+### This week's topics
+
+**Overview**
+
+A. Summarizing variables
+
+B. Inspecting data frames and correlations
+
+C. Summary tables  
+
+---
+
+### A. Summarizing variables
+
+**Overview**
+
+* Sometimes you need to summarize variables
+
+* Data viz is often a good tool to use
+
+* Statistics are important too
+
+As always with R, there are multiple ways to get there.
+
+---
+
+```{r, echo = FALSE}
+library(emojifont)
+```
+
+### A. Summarizing variables - Base R
+
+`library(`r emoji('man_shrugging')`)`
+
+```{r}
+summary(mtcars)
+```
+
+---
+
+### A. Summarizing variables - skimr
+
+skimr package - https://cran.r-project.org/web/packages/skimr/vignettes/skimr.html
+
+```{r}
+library(skimr)
+
+skim(mtcars)
+```
+
+---
+
+### A. Summarizing variables - skimr
+
+Grouping also works with some of these summary functions
+
+```{r}
+mtcars %>% 
+  group_by(am) %>%
+  skim()
+```
+
+---
+
+### A. Summarizing variables - psych
+
+```{r}
+library(psych)
+
+describe(mtcars)
+```
+
+
+---
+
+### A. Summarizing variables
+
+Can also use subsets of variables
+
+```{r}
+mtcars %>% select(mpg, cyl, disp) %>%
+  describe()
+```
+
+---
+
+### A. Summarizing variables
+
+Or subsets of rows
+
+```{r}
+mtcars %>% filter(str_detect(row.names(mtcars), "Merc")) %>%
+  describe()
+```
+
+---
+
+### B. Inspecting data frames and correlations
+
+Another handy package is visdat: https://cran.r-project.org/web/packages/visdat/vignettes/using_visdat.html
+
+Lets you essentially visualize the sort of information you see in `glimpse()`
+
+```{r, out.width="50%"}
+library(visdat)
+
+vis_dat(storms)
+```
+
+---
+
+### B. Inspecting data frames and correlations
+
+Another useful function from visdat is `vis_compare()`
+
+This lets you compare two data sets of the same size to see what's different
+
+```{r, out.width="50%"}
+storms_2 <- storms %>% mutate(day = as.numeric(day))
+
+vis_compare(storms, storms_2)
+```
+
+
+---
+
+### B. Inspecting data frames and correlations
+
+Correlations are something you'll probably want to look at.
+
+Base R:
+
+```{r}
+cor(mtcars)
+```
+
+---
+
+### B. Inspecting data frames and correlations
+
+Base R:
+
+Correlations are in a matrix object
+
+```{r}
+storms %>%
+  select_if(is.numeric) %>% 
+  cor()
+```
+
+---
+
+### B. Inspecting data frames and correlations
+
+Base R:
+
+Correlations are in a matrix object
+
+```{r}
+storms %>%
+  select_if(is.numeric) %>% 
+  cor(use = "pairwise")
+```
+
+---
+
+### B. Inspecting data frames and correlations
+
+corrr package - `correlate()`
+
+Introduces a new data frame type for correlations
+
+```{r}
+library(corrr)
+
+correlate(mtcars)
+```
+
+---
+
+### B. Inspecting data frames and correlations
+
+corrr package - Adds some useful features: variable subsets
+
+```{r}
+mtcars %>% correlate() %>%
+ focus(mpg, cyl, disp)
+```
+
+---
+
+### B. Inspecting data frames and correlations
+
+corrr package - Adds some useful features: neater print output
+
+```{r}
+mtcars %>% correlate() %>%
+ focus(mpg, cyl, disp) %>%
+  fashion()
+```
+
+---
+
+### B. Inspecting data frames and correlations
+
+```{r, out.width="80%"}
+mtcars %>% correlate() %>%
+  rplot()
+```
+
+---
+
+### B. Inspecting data frames and correlations
+
+```{r, out.width="65%"}
+mtcars %>% correlate() %>%
+  shave() %>%
+  rplot()
+```
+
+---
+
+### B. Inspecting data frames and correlations
+
+visdat package does correlation heatmaps as well:
+
+```{r, out.width="65%"}
+mtcars %>% vis_cor()
+```
+
+---
+
+### C. Summary tables
+
+We also can make some of this summary information neater for our Rmd documents
+
+```{r}
+describe(mtcars)
+```
+
+---
+
+### C. Summary tables
+
+We also can make some of this summary information neater for our Rmd documents
+
+```{r}
+library(knitr)
+kable(describe(mtcars), digits = 2)
+```
+
+---
+
+### C. Summary tables
+
+We also can make some of this summary information neater for our Rmd documents
+
+```{r}
+cors <- mtcars %>% correlate() %>%
+ focus(mpg, cyl, disp) %>%
+  fashion()
+
+cors
+
+kable(cors)
+```
+
+
+---
+
+### C. Summary tables
+
+We can also do some additional customizing with `kable()`
+
+```{r}
+kable(describe(mtcars), digits = 2, caption = "This is my summary table")
+```
+
+---
+
+### C. Summary tables
+
+The kableExtra packages adds more customization options to `kable()`
+
+```{r}
+library(kableExtra)
+table <- kable(describe(mtcars), digits = 2, caption = "This is my summary table")
+row_spec(table, 5, bold = TRUE, background = "yellow") %>% 
+  footnote("only the highlighted row is important, but you can't have a table with just one row")
+```
+
+---
+
+### C. Summary tables
+
+There are other packages that can customize tables for specific formats 
+
+the sjPlot package is particularly useful for producing orderly and nice looking output tables for different kinds of models. 
+
+Example: `lm()` summary output
+
+```{r}
+library(sjPlot)
+model <- lm(mpg ~ disp + cyl, data = mtcars)
+```
+
+
+---
+
+### C. Summary tables
+
+Example: `lm()` print output
+
+```{r}
+model <- lm(mpg ~ disp + cyl, data = mtcars)
+model
+```
+
+---
+
+### C. Summary tables
+
+Example: `lm()` summary output
+
+```{r}
+model <- lm(mpg ~ disp + cyl, data = mtcars)
+summary(model)
+```
+
+
+---
+
+### C. Summary tables
+
+Example: `lm()` sjPlots table output
+
+```{r}
+model <- lm(mpg ~ disp + cyl, data = mtcars)
+tab_model(model)
+```
+
+---
+
+### C. Summary tables
+
+
+```{r, eval = FALSE}
+library(apaTables)
+apa.cor.table(attitude)
+apa.cor.table(attitude, filename="ex-CorTable1.doc")
+```
+
+---
+
+# Logistics
+
+**This week**
+
+* Homework 7: Available thursday
+
+* Readings
+https://r4ds.had.co.nz/exploratory-data-analysis.html
+
+* Schedule: How do we want to spend our time?
+
+---
+
+# Final Project
+
+* [Final project]()
+
+* [Slide deck to edit this week](https://docs.google.com/presentation/d/1KWU5bhxZmV63vkNtQNxHo-2YI_iYJmSW2oOZ_jtFeP0/edit?usp=sharing)
+  * Must be logged in to UTK email/account
+  
+---
+
+### Wrapping up
+
+On Slack channel:
+
+- What is one thing you learned today?
+- What is something you want to learn more about? 
+- Share your feelings in GIF form!
+
+I really appreciate being able to see these reactions and get this feedback!
