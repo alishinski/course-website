@@ -1,0 +1,292 @@
+---
+title: "Week 9 - Models and Shiny" 
+subtitle: ""
+author: "Alex Lishinski"
+date: "October 12, 2021"
+output:
+  xaringan::moon_reader:
+    css: [theme.css]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center", message = FALSE)
+```
+
+# Welcome!
+
+Welcome to *week 9*!
+
+```{r echo = FALSE, out.width = "70%"}
+```
+
+**Record the meeting** 
+
+```{r, include = TRUE, echo = FALSE}
+library(here)
+library(tidyverse)
+```
+
+---
+
+### This week's topics
+
+**Overview**
+
+A. Final project presentations
+
+B. A buffet of models
+
+C. Intro to Shiny
+
+---
+
+### A. Final project presentations
+
+* Add your ideas to the final project brainstorm! 
+
+  * https://docs.google.com/presentation/d/1etv_oXeSjn8YdgZFHzPrAM4RRESXiEDFkdmodnNW1Mo/edit?usp=sharing
+
+* Thursday, each of you will briefly (1 min. or so) present on your final project idea
+
+* Next week, incorporate feedback present more fleshed out plan for further feedback(3-5 mins)
+
+---
+
+### B. A buffet of models
+
+There are a number of ways to understand variables about which you have data and the
+relationships between them.
+
+One way is to create a **model**, a simplified _representation_ of your data that
+can be informative to you (and others) about your data - and, maybe, what your data
+represents. 
+
+From this broad definition, models can take many different forms:
+
+- A sample statistic (e.g., a _mean_ of a variable)
+- A relationship describing how two variables co-vary (e.g., a bivariate _correlation_)
+- A linear regression model
+- . . . (what models are common in your field?)
+
+---
+
+### B. A buffet of models
+
+One of the benefits of modeling your data within R is that many R packages share a 
+common modeling syntax, or interface: the formula syntax.
+
+This code represents the regression of `hp` upon `mpg`:
+
+```{r, eval = FALSE}
+mpg ~ hp
+```
+
+This code often corresponds to the underlying mathematical/statistical equation:
+
+```{r, echo = FALSE}
+m1 <- lm(mpg ~ hp, data = mtcars)
+equatiomatic::extract_eq(m1)
+```
+
+---
+
+### B. A buffet of models
+
+Today, we'll focus on the linear regression model, but will also touch on the following:
+
+- *t*-test
+- ANOVA
+- generalized linear model (i.e., Poisson or Logistic Regression)
+- multi-level (or hierarchical linear) model
+
+---
+
+### B. A buffet of models
+
+There is a _lot_ we can do with a linear regression model!
+
+```{r, warning = FALSE, message = FALSE}
+d <- read_csv("https://raw.githubusercontent.com/data-edu/dataedu/master/data-raw/wt01_online-science-motivation/processed/sci_mo_processed.csv")
+
+d
+```
+
+---
+
+### B. A buffet of models
+
+Estimating a model; seeing the result:
+
+```{r, warning = FALSE, message = FALSE}
+lm(FinalGradeCEMS ~ TimeSpent_hours, data = d)
+```
+---
+
+### B. A buffet of models
+
+Saving the output to an _object_ and printing a summary of the results
+
+```{r, warning = FALSE, message = FALSE}
+m1 <- lm(FinalGradeCEMS ~ TimeSpent_hours, data = d)
+summary(m1)
+```
+
+---
+
+### B. A buffet of models
+
+Making the model more complex - a multiple regression
+
+```{r, warning = FALSE, message = FALSE}
+m2 <- lm(FinalGradeCEMS ~ TimeSpent_hours + int + Gender, data = d)
+summary(m2)
+```
+
+---
+
+### B. A buffet of models
+
+Adding an interaction 
+
+```{r, warning = FALSE, message = FALSE}
+m3 <- lm(FinalGradeCEMS ~ TimeSpent_hours + int*Gender, data = d)
+summary(m3)
+```
+
+---
+
+### B. A buffet of models
+
+*t*-test
+
+```{r}
+m_t_test <- t.test(FinalGradeCEMS ~ Gender, data = d)
+m_t_test
+```
+
+---
+
+### B. A buffet of models
+
+ANOVA
+
+```{r}
+m_anova <- aov(FinalGradeCEMS ~ subject, data = d)
+m_anova
+```
+
+---
+
+### B. A buffet of models
+
+Multi-level model
+
+```{r}
+library(lme4)
+m5 <- lmer(FinalGradeCEMS ~ TimeSpent_hours + int*Gender + (1|course_id), data = d)
+summary(m5)
+```
+
+---
+
+### C. Intro to Shiny
+
+Shiny is a framework for making interactive data tools in R
+
+Shiny projects are web apps that are made for viewing in a browser
+
+Simple to get started, but unlimited customizability
+
+---
+
+### C. Intro to Shiny
+
+Shiny apps are meant to be interactive - user changes the input, output changes
+
+Output can take whatever form you want - plots are one good option
+
+Creating the app involves 2 main parts:
+
+- UI: how the app looks
+- Server: how the app behaves
+
+Shiny lets you define these 2 parts together in one file or separately
+
+---
+
+### C. Intro to Shiny
+
+Minimal example of app code
+
+```{r, eval = FALSE}
+library(shiny)
+
+ui <- fluidPage(
+  "Hello, world!"
+)
+
+server <- function(input, output, session) {
+}
+
+shinyApp(ui, server)
+```
+
+---
+
+### C. Intro to Shiny
+
+Different layout functions let you set up basic template of UI
+
+e.g. sidebarLayout()
+
+Panel functions let you define the layout of different areas of the UI based on the layout
+
+e.g. sidebarPanel(), mainPanel()
+
+---
+
+### C. Intro to Shiny
+
+Within UI panels you can use various inputs from users to control the output
+
+e.g.:
+
+* selectInput() - drop down menu
+* sliderInput() - numerical slider
+* numericInput() - numerical text box
+
+Important that you align these correctly!
+
+---
+
+# Logistics
+
+**This week**
+
+* Homework 8: Available Thursday**
+
+* Readings:
+  * https://datascienceineducation.com/c09.html
+  * https://moderndive.com/5-regression.html
+---
+
+# Final Project
+
+* [Final project]()
+  * Flesh out final project idea based upon feedback (this forthcoming week)
+    * Present and receive more feedback next week
+
+---
+
+### Wrapping up
+
+On Slack:
+
+- What is one thing you learned today?
+- What is something you want to learn more about? 
+- Share your feelings in GIF form!
