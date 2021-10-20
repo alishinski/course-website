@@ -1,0 +1,91 @@
+---
+title: "Homework Week 9-10 - Shiny Models"
+output: html_document 
+---
+
+``` {r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Background
+
+We are going to make a shiny app! We are also going to use the things that we have learned about fitting regression models in R. This file contains the instructions for the homework, and I will also make available to you a template shiny app file that you will use to build your app. To submit this homework, please submit the app.R shiny file on slack, as you would normally do with the .Rmd file. Then put in your information about your app at the bottom of this file, render to html, and submit that to canvas as you normally would.
+
+First, pick a dataset that we have used before for the homeworks. The tidykids.csv dataset or the undergrad_data.csv dataset would work nicely for this exercise.
+
+We will use this data set to fit regression models using variables chosen by user. 
+
+Our shiny app will get information about what variables to use from the user, and then it will display output from the models.
+
+# Requirements
+
+The user interface will consist of two elements:
+
+- A dropdown menu listing variable names to be selected from for the dependent variable
+
+- A checkbox list of variables to include as independent variables
+
+The shiny cheatsheet will be very helpful for this
+
+
+The output will consist of three parts
+
+- A table of coefficients
+
+- A table of model fit statistics
+
+- A plot with fitted values on the x axis and residuals on the y axis
+
+The first two parts of this output can be generated with the broom package, whereas for the plot I would like you to use ggplot.
+
+The slides from week 10 will be very helpful for this
+
+# Instructions
+
+Now, open up the shiny app template file.
+
+Change the title panel to include your name.
+
+Add your code where indicated by the comments (I've provided some structure and covered a couple tricky bits for you).
+
+Make sure everything works by pressing the run app button in Rstudio.
+
+When you are all done, click the publish button in the upper right of your app.
+
+Connect a publishing account, you will likely need to create one, select ShinyApps.io. Follow the instructions to set up your account and connect it to Rstudio.
+
+Deploy your app to ShinyApps.io! You may have to restart it from your account page.
+
+Copy the URL of your app and paste it below:
+
+
+
+## fin
+
+Render and submit:
+
+  - Submit the .html file you used to render a report to Canvas - Upload the
+    .Rmd file you rendered to the \#homework channel in Slack. One difference
+    from last week: Please post a comment, feedback, or reflection below *as
+    well as to Slack when you post your homework*.
+
+## Self-assessment and reflection
+
+Respond to the following three questions on a 1 (not at all) to 5 (very much)
+scale by replacing the "x" below with your response:
+
+``` {r, reflection}
+x = NULL
+tibble::tribble(
+  ~question,                                   ~response,
+  "How challenging was this homework?",        x,
+  "How interesting was this homework to you?", x,
+  "How valuable was this homework to you?",    x
+)
+```
+
+Include any other comments, feedback, or reflections on this homework below:
+
+
+Important note: Please post your comment(s), feedback, or reflections in Slack
+when you share your Rmd file!

@@ -1,0 +1,13 @@
+name: homework
+title: homework
+username:
+account: alex-lishinski
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4917077
+bundleId: 5159173
+url: https://alex-lishinski.shinyapps.io/homework/
+when: 1634746835.79375
+lastSyncTime: 1634746835.79378
+asMultiple: FALSE
+asStatic: FALSE
