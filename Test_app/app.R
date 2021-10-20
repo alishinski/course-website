@@ -22,8 +22,13 @@ ui <- fluidPage(
                         "Number of bins:",
                         min = 1,
                         max = 50,
-                        value = 30)
-        ),
+                        value = 30),
+            selectInput("color",
+                        "Color of Histogram:",
+                        c("Dark Olive Green" = "darkolivegreen",
+                          "Medium Orchid" = "mediumorchid3",
+                          "Pale Turquoise" = "paleturquoise2"))
+            ),
 
         # Show a plot of the generated distribution
         mainPanel(
@@ -41,7 +46,7 @@ server <- function(input, output) {
         bins <- seq(min(x), max(x), length.out = input$bins + 1)
 
         # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = "darkgray", border = 'white')
+        hist(x, breaks = bins, col = input$color, border = 'white')
     })
 }
 

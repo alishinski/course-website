@@ -1,0 +1,468 @@
+---
+title: "Week 10 - Modeling Data and More Shiny" 
+subtitle: ""
+author: "Alex Lishinski"
+date: "October 19, 2021"
+output:
+  xaringan::moon_reader:
+    css: [theme.css]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center", message = FALSE)
+```
+
+# Welcome!
+
+Welcome to *week 11*!
+
+```{r echo = FALSE, out.width = "70%"}
+```
+
+**Record the meeting** 
+
+```{r, include = TRUE, echo = FALSE}
+library(here)
+library(tidyverse)
+```
+
+---
+
+### Topics for today
+
+**Record the meeting** 
+
+Modeling continued
+
+A. Recap from the buffet and further expansion
+
+B. Model outputs and summaries
+
+C. Model helpers - tests, diagnostics, and model components
+
+D. Shiny continued
+
+---
+
+### A. Buffet of models recap
+
+What a model is:
+
+**model**: a simplified _representation_ of your data that
+can be informative to you (and others) about your data - and, maybe, what your data
+represents. 
+
+From this broad definition, models can take many different forms:
+
+- A sample statistic (e.g., a _mean_ of a variable)
+- A relationship describing how two variables co-vary (e.g., a bivariate _correlation_)
+- A linear regression model
+
+---
+
+### A. Buffet of models recap
+
+How do we represent model equations in R? Many R packages share a common modeling syntax, or interface: the formula syntax.
+
+This code represents the regression of `hp` upon `mpg`:
+
+```{r, eval = FALSE}
+mpg ~ hp
+```
+
+Then there are other formula operators:
+
+```{r, eval = FALSE}
+# additional independent variables
+mpg ~ hp + disp
+# interactions with main effects
+mpg ~ hp + disp + hp*disp
+# interactions without main effects
+mpg ~ hp + disp + hp:disp
+# All remaining variables
+mpg ~ .
+```
+
+---
+
+### A. Buffet of models recap
+
+There are a number of helper functions that work with `lm` and other models
+
+And there's some more advanced formula tricks too
+
+```{r}
+# Polynomial Regression
+y ~ x + I(x^2) + I(x^3)
+
+# Factorial ANOVA
+y ~ (a*b*c)^2
+
+# Variable transformations
+Sepal.Width ~ Petal.Width + log(Petal.Length) + Species
+```
+
+---
+
+### A. Buffet of models recap
+
+The lm() function is the base case of using these model formulas
+
+```{r, warning = FALSE, message = FALSE, include = FALSE}
+d <- read_csv("https://raw.githubusercontent.com/data-edu/dataedu/master/data-raw/wt01_online-science-motivation/processed/sci_mo_processed.csv")
+```
+
+Estimating a model; seeing the result:
+
+```{r, warning = FALSE, message = FALSE}
+lm(FinalGradeCEMS ~ TimeSpent_hours, data = d)
+```
+
+---
+
+### A. Buffet of models recap
+
+The lm() function is the base case of using these model formulas
+
+Saving the output to an _object_ and printing a summary of the results
+
+```{r, warning = FALSE, message = FALSE}
+m1 <- lm(FinalGradeCEMS ~ TimeSpent_hours, data = d)
+summary(m1)
+```
+
+---
+
+### A. Buffet of models recap
+
+The lm() function is the base case of using these model formulas
+
+Making the model more complex - a multiple regression
+
+```{r, warning = FALSE, message = FALSE}
+m2 <- lm(FinalGradeCEMS ~ TimeSpent_hours + int + Gender, data = d)
+summary(m2)
+```
+
+---
+
+### A. Buffet of models recap
+
+But other functions and packages use this as well
+
+t-test
+
+```{r}
+m_t_test <- t.test(FinalGradeCEMS ~ Gender, data = d)
+m_t_test
+```
+
+ANOVA
+
+```{r}
+m_anova <- aov(FinalGradeCEMS ~ subject, data = d)
+m_anova
+```
+
+---
+
+### A. Buffet of models recap
+
+Some packages add to this syntax too -- Multi-level model
+
+```{r}
+library(lme4)
+m5 <- lmer(FinalGradeCEMS ~ TimeSpent_hours + int*Gender + (1|course_id), data = d)
+summary(m5)
+```
+
+---
+
+### A. Buffet of models recap
+
+Weights using `lm()`
+
+```{r}
+# Adding weights
+wts1 <- rnorm(n = nrow(d), mean = 0, sd = 1)
+wts2 <- rnorm(n = nrow(d), mean = 0, sd = 1)
+
+wts <- abs(wts1/wts2)
+
+m1_wt <- lm(FinalGradeCEMS ~ TimeSpent_hours, data = d, weights = wts)
+summary(m1_wt)
+```
+
+
+---
+
+### A. Buffet of models recap
+
+The `glm()` function - the way to fit other types of regression models
+
+`glm()` lets you specify distribution families for different kinds of outcomes:
+
+* "gaussian" = standard regression for continuous dependent variables (default)
+* "binomial" = binary (0/1) outcome variables
+* "poisson" = count outcome variables
+* several others are available
+
+---
+
+### A. Buffet of models recap
+
+The base case with default options will be same as `lm()`
+
+```{r}
+glm1 <- glm(FinalGradeCEMS ~ TimeSpent_hours, data = d)
+summary(glm1)
+```
+
+---
+
+### A. Buffet of models recap
+
+The `family` argument to `glm()` helps you change the kind of model being estimated.
+
+```{r}
+d <- d %>%
+  mutate(Points_Earned_Bin = ifelse(d$Points_Earned > mean(d$Points_Earned, na.rm = T), 1, 0))
+
+glm1 <- glm(Points_Earned_Bin ~ TimeSpent_hours, data = d, family = "binomial")
+summary(glm1)
+```
+
+---
+
+### B. Model outputs and summaries
+
+We've previously discussed making better looking output tables in .Rmd documents
+
+```{r}
+library(sjPlot)
+
+tab_model(m1)
+```
+
+---
+
+### B. Model outputs and summaries
+
+Another package makes it easier to pull out model estimates in an easier format to use for further operations: `broom`
+
+`tidy()` Makes `lm()` coefficient output into a tidy data frame format, which you can then use all of your tidyverse tools on
+
+`glance()` works similarly but with the whole model diagnostic statistics such as $R^2$
+
+```{r}
+library(broom)
+
+# Model coefficents
+tidy(m1)
+
+# whole model stats
+glance(m1)
+```
+
+
+---
+
+### B. Model outputs and summaries
+
+`broom` can also help you grab other diagnostics from the model with `augment()`
+
+```{r}
+# Data level additional model generated values
+head(augment(m1))
+```
+
+---
+
+### B. Model outputs and summaries
+
+`broom` can also help you grab other diagnostics from the model
+
+
+```{r, out.width="50%"}
+f <- augment(m1)
+
+ggplot(f) +
+  geom_point(aes(x=.fitted, y=.resid))
+```
+
+---
+
+### B. Model outputs and summaries
+
+The `car` package has plotting and testing functions that can help you evaluate models
+
+```{r, out.width="50%"}
+library(car)
+
+avPlots(m2)
+```
+
+---
+
+### B. Model outputs and summaries
+
+The `car` package has plotting and testing functions that can help you evaluate models
+
+```{r, out.width="50%"}
+residualPlots(m2)
+```
+
+---
+
+### B. Model outputs and summaries
+
+The `report` package can generate written summaries of the results of your models
+
+```{r}
+#devtools::install_github("https://github.com/easystats/report")
+library(report)
+
+report(m1)
+```
+
+---
+
+### B. Model outputs and summaries
+
+Components of an `lm()` object, some of which you can get with helper functions
+
+```{r}
+m1$coefficients
+head(m1$residuals)
+```
+
+---
+
+### C. Model helpers - tests, diagnostics, etc.
+
+There are a number of helper functions that work with `lm` and other models
+
+```{r}
+# model coefficients
+coef(m1)
+
+# model residuals
+head(residuals(m1))
+
+# regression fitted values
+head(fitted(m1))
+
+# Get the data used to fit the model
+head(model.frame(m1))
+```
+
+---
+
+### C. Model helpers - tests, diagnostics, etc.
+
+There are a number of helper functions that work with `lm` and other models - How do we know which ones?
+
+```{r}
+library(sloop)
+s3_methods_class("lm")
+
+confint(m1)
+vcov(m1)
+```
+
+---
+
+### C. Model helpers - tests, diagnostics, etc.
+
+The `lmSupport` package provides number of additional tools for regression models
+
+```{r}
+library(lmSupport)
+
+m1 <- lm(FinalGradeCEMS ~ TimeSpent_hours, data = d)
+m2 <- lm(FinalGradeCEMS ~ TimeSpent_hours + int + Gender, data = d)
+
+# A function to check regression model assumptions
+modelAssumptions(m1)
+```
+
+---
+
+### C. Model helpers - tests, diagnostics, etc.
+
+The `lmSupport` package provides number of additional tools for regression models
+
+```{r}
+m2 <- lm(FinalGradeCEMS ~ TimeSpent_hours + int + Gender, data = d)
+m1 <- lm(FinalGradeCEMS ~ TimeSpent_hours, data = model.frame(m2$model))
+
+# F Test difference between 2 models
+modelCompare(m1, m2)
+```
+
+---
+
+### D. Shiny Continued
+
+*Storms App Additional Features*
+
+Fixing the multiple hurricanes issue 
+
+Adding a zoom slider
+
+Adding Color
+
+Data table under plot
+
+---
+
+### Addendum: Other modeling packages to be aware of
+
+* `lme4` and `nlme`: hierarchical linear models (aka multilevel models)
+* `lavaan`: structural equation models
+* `MASS`: Robust regression
+* `caret`: Lots of different classification and regression models for machine learning applications
+* `parsnip`: (tidyverse) Unified interface to many different models, largely machine learning type
+* Time series: https://cran.r-project.org/web/views/TimeSeries.html
+
+Other types of models that may be more applicable to your field can also be found in the CRAN task views:
+https://cran.r-project.org/web/views/
+
+Tutorials for many different varieties of Regression can be found here: 
+https://stats.idre.ucla.edu/other/dae/
+
+Other packages that can help you with your models
+https://easystats.github.io/easystats/
+e.g. the `performance` package does model assumption checking and model comparison
+
+---
+
+# Logistics
+
+**This week**
+
+* Homework 8: Available tomorrow, Due next Tuesday 
+
+* Reading: * https://www.tmwr.org/base-r.html#formula
+
+---
+
+# Assignment updates
+
+* [Final project](https://f21-intro-to-data-sci-methods-in-ed.netlify.app/assignment-final-project/)
+  * NEXT Thursday - Give updated version of your idea 
+
+---
+
+### Wrapping up
+
+On Slack channel:
+
+- What is one thing you learned today?
+- What is something you want to learn more about? 
+- Share your feelings in GIF form!
