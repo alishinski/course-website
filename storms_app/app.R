@@ -26,20 +26,24 @@ ui <- fluidPage(
         sidebarPanel(
             selectInput("storm",
                         "Name of storm:",
-                        unique(paste(storms$name, storms$year))
-            
-        ),
+                        unique(paste(storms$name, storms$year))),
         sliderInput("bounds",
                     "Map boundary amount",
                     min = 1,
                     max = 20,
-                    value = 5)
+                    value = 5),
+        radioButtons("dataSum",
+                     "What to display below plot",
+                     choices = c("nothing", "underlying data", "data summary"))
+        
         ),
+        
         
      
         # Show a plot of the generated distribution
         mainPanel(
             plotOutput("mapPlot"),
+            verbatimTextOutput("summary"),
             dataTableOutput("data_table")
         )
     )
@@ -52,8 +56,8 @@ server <- function(input, output) {
     output$mapPlot <- renderPlot({
         world <- ne_countries(scale = "medium", returnclass = "sf") 
         
-        storm_ind <- dplyr::filter(storms, name == str_extract(input$storm, "[:alpha:]+"), 
-                                   year == str_extract(input$storm, "[:digit:]+"))
+        storm_ind <- dplyr::filter(storms, name == str_extract(input$storm, "[:alpha:]+[:digit:]*"), 
+                                   year == str_trim(str_extract(input$storm, "\\s[:digit:]+")))
         
         amt <- input$bounds
         
@@ -63,13 +67,27 @@ server <- function(input, output) {
         ggplot(data = world) +
             geom_sf() +
             coord_sf(xlim = longs, ylim = lats, expand = FALSE) +
-            geom_point(data = storm_ind, aes(long, lat, color = wind)) +
+            geom_point(data = storm_ind, aes(long, lat, color = wind, size = ifelse(!is.na(hu_diameter), hu_diameter + 1, 2))) +
             scale_color_gradient(low = "#fee5d9", high = "#99000d") + 
             theme_bw()
     })
     
     output$data_table <- renderDataTable({
-        storms
+        storm_ind <- dplyr::filter(storms, name == str_extract(input$storm, "[:alpha:]+[:digit:]*"), 
+                                   year == str_trim(str_extract(input$storm, "\\s[:digit:]+")))
+        
+        if(input$dataSum == "underlying data"){
+            storm_ind
+        }
+    })
+    
+    output$summary <- renderPrint({
+        storm_ind <- dplyr::filter(storms, name == str_extract(input$storm, "[:alpha:]+[:digit:]*"), 
+                                   year == str_trim(str_extract(input$storm, "\\s[:digit:]+")))
+        
+        if(input$dataSum == "data summary"){
+            summary(storm_ind)
+        }
     })
     
     

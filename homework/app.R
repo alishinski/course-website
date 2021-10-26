@@ -7,14 +7,13 @@
 #    http://shiny.rstudio.com/
 #
 
-
-
 library(shiny)
 library(sjPlot)
 library(broom)
 library(lmSupport)
 library(car)
 library(here)
+library(tidyverse)
 
 data <- read_csv(here("content", "data", "undergrad_data.csv"))
 data <- data[,-c(1:2)]
@@ -38,12 +37,11 @@ ui <- fluidPage(
                                choices = colnames(data)),
             
             
-            
-            
         ),
 
         # Show a plot of the generated distribution
         mainPanel(
+           textOutput("message"),
            tableOutput("coefTable"),
            tableOutput("modelFit"),
            plotOutput("regPlot")
@@ -53,7 +51,6 @@ ui <- fluidPage(
 
 # Define server logic to run regression models and produce output
 server <- function(input, output) {
-    
 
     output$coefTable <- renderTable({
         
@@ -62,9 +59,18 @@ server <- function(input, output) {
         formula <- paste(input$dv, rhs, sep = " ~ ")
         
         fit <- lm(formula, data = data)
-        
+
         tidy(fit)
+        
+
     })
+    
+        
+    observeEvent(input$ivs, { message("model has been fit")})
+    
+    
+    observe({"The Model Has Been FIt"}) %>% bindEvent(input$ivs)#, {renderText("The Model has been Fit")})
+    
     
     output$modelFit <- renderTable({
         
