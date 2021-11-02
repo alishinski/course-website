@@ -63,8 +63,23 @@ Readings:
 
 ## Week 7
 
-Homework: 
+Homework: https://github.com/alishinski/course-website/blob/master/content/homework/HW56.Rmd
 
 Readings:
 
 - 1: https://r4ds.had.co.nz/exploratory-data-analysis.html
+
+
+## Week 12
+
+
+Readings:
+
+- https://r4ds.had.co.nz/iteration.html#the-map-functions
+
+- MI Basics short article: https://www.statisticssolutions.com/multiple-imputation-for-missing-data/
+- MI advanced online book: https://stefvanbuuren.name/fimd/
+
+
+
+

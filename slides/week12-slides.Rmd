@@ -1,0 +1,349 @@
+---
+title: "Week 13 - Basic advanced techniques" 
+subtitle: ""
+author: "Alex Lishinski"
+date: "November 2, 2021"
+output:
+  xaringan::moon_reader:
+    css: [theme.css]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center", message = FALSE)
+```
+
+# Welcome!
+
+Welcome to *week 13*!
+
+```{r echo = FALSE, out.width = "70%"}
+```
+
+**Record the meeting** 
+
+```{r, include = TRUE, echo = FALSE}
+library(here)
+library(tidyverse)
+library(visdat)
+library(mice)
+```
+
+---
+
+# Discussion!
+
+- What is something about R you've learned working on your final project that goes beyond what we've covered in class?
+
+---
+
+## A recap of last week (on functional programming)
+
+- R has built in functions from packages, but you can write your own too!
+
+- The purrr package offers tools to do multiple iterations of operations
+
+---
+
+## Chunk options
+
+*For a single chunk*:
+
+- eval = FALSE
+- echo = FALSE
+- warning = FALSE
+- message = FALSE
+
+*For the entire document*:
+
+- knitr::opts_chunk$set(eval = FALSE, echo = FALSE, warning = FALSE, message = FALSE)
+
+---
+
+### Topics for today
+
+**Record the meeting** 
+
+A. Continued discussion on purrr - Iteration (or, _applying_ functions)
+
+B. Introduction to missing data procedures with MICE 
+
+---
+
+### A. Iteration
+
+Iteration is another name for your computer carrying out some step(s) multiple times.
+
+Iteration is helpful when, even after writing a function, you find yourself copying and pasting the same code (with modifications)
+
+---
+
+### A. Iteration
+
+Iteration can be helpful when you want to apply a function multiple times.
+
+The map functions can help with this. There are different ones based on the type of object returned.
+
+The key to understanding (and writing) functions is understanding what kind of input they take and what kind of output they return.
+
+`map()` - Applies function to every element of a list and return a list
+`map2()` - Applies function to every element from 2 lists and return a list
+
+Lists are ordered collections of any other type of object. You can have a list of vectors, a list of data frames, and a list of different types of objects. 
+
+`map_chr()` - returns a char vector of objects created
+`map_dbl()` - returns a numeric vector of objects created
+`map_dfc()` - objects created become columns of data frame
+`map_dfr()` - objects created become rows of a data frame
+
+
+---
+
+### A. Iteration
+
+Example: COVID vaccine data
+
+<blockquote class="twitter-tweet"><b><p lang="de" dir="ltr">Pfizer, Johnson &amp; Johnson, Moderna <a href="https://t.co/P1fTcCEoTP">pic.twitter.com/P1fTcCEoTP</a></p></b>
+![](img/vax.jpeg)
+&mdash; NFL Memes (@NFL_Memes) <a href="https://twitter.com/NFL_Memes/status/1381317131690725378?ref_src=twsrc%5Etfw">April 11, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+---
+
+### A. Iteration
+
+Example: COVID vaccine data - Read in the data
+
+One way to load data:
+
+```{r, eval= FALSE}
+pfi <- read_csv(here("data", "COVID", "COVID-19_Vaccine_Distribution_Allocations_by_Jurisdiction_-_Pfizer.csv"))
+mod <- read_csv(here("data", "COVID", "COVID-19_Vaccine_Distribution_Allocations_by_Jurisdiction_-_Moderna.csv"))
+jan <- read_csv(here("data", "COVID", "COVID-19_Vaccine_Distribution_Allocations_by_Jurisdiction_-_Janssen.csv"))
+jan
+```
+
+---
+
+### A. Iteration
+
+Example: COVID vaccine data - Read in the data
+
+```{r, eval = FALSE}
+vaccines <- c("Pfizer", "Moderna", "Janssen")
+file_base <- "/COVID-19_Vaccine_Distribution_Allocations_by_Jurisdiction_-_"
+file_ext <- ".csv"
+
+file_names <- str_c(here("content", "data", "COVID"), file_base, vaccines, file_ext)
+
+vax_files <- file_names %>% map(read_csv)
+names(vax_files) <- vaccines
+vax_files
+```
+
+
+---
+
+### A. Iteration
+
+Example: COVID vaccine data - Rename the data
+
+```{r, eval = FALSE}
+# write my rename function
+rename_vaccine_data <- function(dat){
+  dat <- dat %>% rename("State" = "Jurisdiction",
+                 "Week" = "Week of Allocations",
+                 "First Dose" = "1st Dose Allocations",
+                 "Second Dose" = "2nd Dose Allocations")
+  dat
+}
+
+# map it to every data set in the list
+vax_files %>% map(rename_vaccine_data)
+```
+
+Error: Can't rename columns that don't exist. x Column `2nd Dose Allocations` doesn't exist.
+
+---
+
+### A. Iteration
+
+Example: COVID vaccine data - Rename the data
+
+```{r, eval = FALSE}
+rename_vaccine_data <- function(dat){
+  if(ncol(dat) == 4){
+    dat <- dat %>% rename("State" = "Jurisdiction",
+                          "Week" = "Week of Allocations",
+                          "First Dose" = "1st Dose Allocations",
+                          "Second Dose" = "2nd Dose Allocations")
+    dat
+  } else {
+    dat <- dat %>% rename("State" = "Jurisdiction",
+                          "Week" = "Week of Allocations",
+                          "First Dose" = "1st Dose Allocations")
+    dat
+  }
+
+}
+
+vax_files <- vax_files %>% map(rename_vaccine_data)
+vax_files$Pfizer
+```
+
+---
+
+### B. Multiple Imputation of missing data with MICE
+
+`lm()` default way of dealing with missing data: listwise deletion
+
+Better way to deal with missing data: imputation
+
+Basic idea:
+
+If data missing, you can fill in values that let you estimate your model on whole data
+
+Good: Mean imputation
+
+Better: Model based imputation
+
+Best: Multiple imputation
+
+---
+
+### B. Multiple Imputation of missing data with MICE
+
+The MICE package: Multiple Imputation using Chained Equations
+
+Dealing with missing data is a big idea, and the nuances can be tricky
+
+Our goal is to show you that you need not be intimidated by approaching this task in R
+
+If you are doing inferential models in your analyses, MI is a tool that should be in your toolkit
+
+---
+
+### B. Multiple Imputation of missing data with MICE
+
+Example: Regression model
+
+```{r, warning = FALSE}
+ug_data <- read_csv(here("content", "data", "undergrad_data.csv"))
+
+vis_dat(ug_data)
+
+na.omit(ug_data)
+```
+
+---
+
+### B. Multiple Imputation of missing data with MICE
+
+Example: Regression model
+
+```{r}
+fit <- lm(PROJ_TOTAL ~ Prob_solve_pre + extraversion + agreeableness + conscient. + stability + openness  + Metacog. + SelfEfficacy + IntGoalOrient + ExtGoalOrient, 
+          data = ug_data)
+```
+
+---
+
+### B. Multiple Imputation of missing data with MICE
+
+Example: Regression model
+
+```{r}
+summary(fit)
+```
+
+---
+
+### B. Multiple Imputation of missing data with MICE
+
+The MICE package: viewing missing data pattern
+
+```{r}
+library(mice)
+
+md.pattern(ug_data)
+```
+
+---
+
+### B. Multiple Imputation of missing data with MICE
+
+The MICE package: Generating imputed data sets with `mice()`
+
+```{r}
+ug_data_imp <- mice(ug_data, m = 5)
+```
+
+---
+
+### B. Multiple Imputation of missing data with MICE
+
+The MICE package: Examining missing data
+
+```{r}
+ug_data_imp$imp$SelfEfficacy
+```
+
+
+---
+
+### B. Multiple Imputation of missing data with MICE
+
+The MICE package: Extracting data sets with `complete()`
+
+```{r}
+comp_data <- complete(ug_data_imp, 2)
+comp_data
+```
+
+
+---
+
+### B. Multiple Imputation of missing data with MICE
+
+The MICE package: fitting models with `with()`
+
+```{r}
+fit_imp <- with(data = ug_data_imp, exp = lm( PROJ_TOTAL ~ Prob_solve_pre + extraversion + agreeableness + conscient. + stability + openness  + Metacog. + SelfEfficacy + IntGoalOrient + ExtGoalOrient))
+fit_imp
+```
+
+---
+
+### B. Multiple Imputation of missing data with MICE
+
+The MICE package: pooling output with `pool()`
+
+```{r}
+summary(pool(fit_imp))
+broom::tidy(fit)
+```
+
+---
+
+# Logistics
+
+**This week**
+
+* Homework 9: Available Friday; **Due by Tuesday, 11/9**
+
+* Readings: https://r4ds.had.co.nz/iteration.html#the-map-functions
+            https://www.statisticssolutions.com/multiple-imputation-for-missing-data/
+
+---
+
+### Wrapping up
+
+In your base group's Slack channel:
+
+- What is one thing you learned today?
+- What is something you want to learn more about? 
+- Share your feelings in GIF form!

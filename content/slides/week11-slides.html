@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 11 - Functions and Iteration</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Alex Lishinski" />
+    <meta name="date" content="2021-10-25" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link rel="stylesheet" href="theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Week 11 - Functions and Iteration
+### Alex Lishinski
+### October 25, 2021
+
+---
+
+
+
+
+# Welcome!
+
+Welcome to *week 11*!
+
+
+
+**Record the meeting** 
+
+
+
+---
+
+## A recap of last week (on modeling)
+
+- A model is a simplification (and a summary) of your way
+- A common type of model is a regression model, aka a linear regression model (or a linear model)
+
+
+This code represents the regression of `hp` upon `mpg`:
+
+
+```r
+lm(mpg ~ hp, data = my_data)
+```
+
+This code often corresponds to the underlying mathematical/statistical equation:
+
+$$
+\operatorname{mpg} = \alpha + \beta_{1}(\operatorname{hp}) + \epsilon
+$$
+
+---
+
+## A recap of last week (on modeling)
+
+- A linear model can help you learn how one or more _independent variables_ (or, _x_ variables) relate to one _dependent variable_ (a _y_ variable)
+- It is common to specify a number of models, and to compare them (commonly based on how much of the variation in the dependent variable is accounted for by relationships with the _x_ variable(s))
+- the `lm()` function is a great tool for specifying relatively simple linear regression models, but it can be extended in a number of powerful ways
+- R has a number of tools for interpreting and presenting the output of models
+
+---
+
+## Checking-in on final projects
+
+- We will hear more details about your plans on Thursday
+- And, generally, please consider a) the scope of your project and b) the level of detail in your plans
+- I want you to do a small(er) number of things well 
+
+---
+
+### Topics for today
+
+**Record the meeting** 
+
+A. Functions  
+B. Iteration (or, _applying_ functions)  
+C. More shiny - Reactivity 
+
+---
+
+### A. Functions
+
+A function is a collection of code that:
+
+- takes one or more inputs (most commonly in R, data!)
+- and produces one or more forms of output (often, your data---transformed!)
+
+You _already_ use functions all of the time:
+
+
+```r
+mpg
+```
+
+```
+## # A tibble: 234 × 11
+##    manufacturer model      displ  year   cyl trans drv     cty   hwy fl    class
+##    &lt;chr&gt;        &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
+##  1 audi         a4           1.8  1999     4 auto… f        18    29 p     comp…
+##  2 audi         a4           1.8  1999     4 manu… f        21    29 p     comp…
+##  3 audi         a4           2    2008     4 manu… f        20    31 p     comp…
+##  4 audi         a4           2    2008     4 auto… f        21    30 p     comp…
+##  5 audi         a4           2.8  1999     6 auto… f        16    26 p     comp…
+##  6 audi         a4           2.8  1999     6 manu… f        18    26 p     comp…
+##  7 audi         a4           3.1  2008     6 auto… f        18    27 p     comp…
+##  8 audi         a4 quattro   1.8  1999     4 manu… 4        18    26 p     comp…
+##  9 audi         a4 quattro   1.8  1999     4 auto… 4        16    25 p     comp…
+## 10 audi         a4 quattro   2    2008     4 manu… 4        20    28 p     comp…
+## # … with 224 more rows
+```
+
+---
+
+### A. Functions
+
+A function is a collection of code that:
+
+- takes one or more inputs (most commonly in R, data!)
+- and produces one or more forms of output (often, your data---transformed!)
+
+You _already_ use functions all of the time:
+
+
+```r
+print(mpg)
+```
+
+```
+## # A tibble: 234 × 11
+##    manufacturer model      displ  year   cyl trans drv     cty   hwy fl    class
+##    &lt;chr&gt;        &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
+##  1 audi         a4           1.8  1999     4 auto… f        18    29 p     comp…
+##  2 audi         a4           1.8  1999     4 manu… f        21    29 p     comp…
+##  3 audi         a4           2    2008     4 manu… f        20    31 p     comp…
+##  4 audi         a4           2    2008     4 auto… f        21    30 p     comp…
+##  5 audi         a4           2.8  1999     6 auto… f        16    26 p     comp…
+##  6 audi         a4           2.8  1999     6 manu… f        18    26 p     comp…
+##  7 audi         a4           3.1  2008     6 auto… f        18    27 p     comp…
+##  8 audi         a4 quattro   1.8  1999     4 manu… 4        18    26 p     comp…
+##  9 audi         a4 quattro   1.8  1999     4 auto… 4        16    25 p     comp…
+## 10 audi         a4 quattro   2    2008     4 manu… 4        20    28 p     comp…
+## # … with 224 more rows
+```
+
+---
+
+### A. Functions
+
+**`select()` is a function**
+
+
+```r
+mpg %&gt;% 
+  select(model, displ, cyl)
+```
+
+```
+## # A tibble: 234 × 3
+##    model      displ   cyl
+##    &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;
+##  1 a4           1.8     4
+##  2 a4           1.8     4
+##  3 a4           2       4
+##  4 a4           2       4
+##  5 a4           2.8     6
+##  6 a4           2.8     6
+##  7 a4           3.1     6
+##  8 a4 quattro   1.8     4
+##  9 a4 quattro   1.8     4
+## 10 a4 quattro   2       4
+## # … with 224 more rows
+```
+
+---
+
+### A. Functions
+
+**`select()` and `filter()` are functions**
+
+
+```r
+mpg %&gt;% 
+  select(model, displ, cyl) %&gt;% 
+  filter(cyl == 6)
+```
+
+```
+## # A tibble: 79 × 3
+##    model      displ   cyl
+##    &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;
+##  1 a4           2.8     6
+##  2 a4           2.8     6
+##  3 a4           3.1     6
+##  4 a4 quattro   2.8     6
+##  5 a4 quattro   2.8     6
+##  6 a4 quattro   3.1     6
+##  7 a4 quattro   3.1     6
+##  8 a6 quattro   2.8     6
+##  9 a6 quattro   3.1     6
+## 10 malibu       3.1     6
+## # … with 69 more rows
+```
+
+---
+
+### A. Functions
+
+There are all kinds of functions:
+
+
+```r
+mpg %&gt;% 
+  summarize(mean_cty = mean(cty),
+            mean_hwy = mean(hwy))
+```
+
+```
+## # A tibble: 1 × 2
+##   mean_cty mean_hwy
+##      &lt;dbl&gt;    &lt;dbl&gt;
+## 1     16.9     23.4
+```
+
+
+```r
+ten_mpg_values &lt;- c(13, 63, 23, 43, 23, 33, 42, 34, 21, 23)
+mean(ten_mpg_values)
+```
+
+```
+## [1] 31.8
+```
+
+---
+
+### A. Functions
+
+You can write your own functions!
+
+Suppose we want to write a function to _standardize_ the `cty` variable to have _M_ = 0 and _SD_ = 1;
+presently, its *M* and *SD* are:
+
+
+```r
+mpg %&gt;% 
+  summarize(mean_cty = mean(cty),
+            sd_cty = sd(cty))
+```
+
+```
+## # A tibble: 1 × 2
+##   mean_cty sd_cty
+##      &lt;dbl&gt;  &lt;dbl&gt;
+## 1     16.9   4.26
+```
+---
+
+### A. Functions
+
+(In this case, there _is_ an existing function, but it has some quirks, including, importantly, returning a _matrix_, rather than a vector/"a column")
+
+So, let's write our own. Here is a template, with two "blanks" represented by "___":
+
+
+```r
+standardize_a_variable &lt;- function(___) {
+  ___
+}
+```
+
+---
+
+### A. Functions
+
+**A not very useful function!**
+
+
+```r
+standardize_variable &lt;- function(variable) {
+  variable
+}
+```
+
+
+```r
+mpg %&gt;% 
+  mutate(cty_std = standardize_variable(cty)) %&gt;% 
+  summarize(mean_cty_std = mean(cty_std),
+            sd_cty_std = sd(cty_std))
+```
+
+```
+## # A tibble: 1 × 2
+##   mean_cty_std sd_cty_std
+##          &lt;dbl&gt;      &lt;dbl&gt;
+## 1         16.9       4.26
+```
+
+---
+
+### A. Functions
+
+**A useful `standardize_variable`**
+
+
+```r
+standardize_variable &lt;- function(variable) {
+  variable &lt;- variable - mean(variable) # transforms variable to have M = 0
+  variable &lt;- variable / sd(variable) # transforms variable to have SD = 1
+  variable
+}
+```
+
+
+```r
+mpg %&gt;% 
+  mutate(cty_std = standardize_variable(cty)) %&gt;% 
+  summarize(mean_cty_std = mean(cty_std),
+            sd_cty_std = sd(cty_std))
+```
+
+```
+## # A tibble: 1 × 2
+##   mean_cty_std sd_cty_std
+##          &lt;dbl&gt;      &lt;dbl&gt;
+## 1     2.98e-16          1
+```
+
+---
+
+### A. Functions
+
+**Let's double-check that the mean is practically equal to 0** (by rounding to precision to three decimal points)
+
+
+```r
+mpg %&gt;% 
+  mutate(cty_std = standardize_variable(cty)) %&gt;% 
+  summarize(mean_cty_std = mean(cty_std),
+            sd_cty_std = sd(cty_std)) %&gt;% 
+  mutate(mean_cty_std_rounded = round(mean_cty_std, 3))
+```
+
+```
+## # A tibble: 1 × 3
+##   mean_cty_std sd_cty_std mean_cty_std_rounded
+##          &lt;dbl&gt;      &lt;dbl&gt;                &lt;dbl&gt;
+## 1     2.98e-16          1                    0
+```
+
+---
+
+### A. Functions
+
+We can add an argument to a function to modify how it works.
+
+
+```r
+standardize_variable &lt;- function(variable, remove_na_values = FALSE) {
+  variable &lt;- variable - mean(variable, na.rm = remove_na_values)
+  variable &lt;- variable / sd(variable, na.rm = remove_na_values)
+  variable
+}
+```
+
+---
+
+### A. Functions
+
+What if we wanted to scale the variables cty, hwy, and cyl? Imagine that cyl has a missing (`NA`) value.
+
+
+```r
+mpg %&gt;% 
+  mutate(cty_std = standardize_variable(cty),
+         hwy_std = standardize_variable(hwy),
+         cyl_std = standardize_variable(cyl, remove_na_values = TRUE)) %&gt;% 
+  select(cty_std, hwy_std, cyl_std, everything()) # bring the new variables to the beginning of the data frame
+```
+
+```
+## # A tibble: 234 × 14
+##    cty_std hwy_std cyl_std manufacturer model      displ  year   cyl trans drv  
+##      &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
+##  1   0.268   0.934 -1.17   audi         a4           1.8  1999     4 auto… f    
+##  2   0.973   0.934 -1.17   audi         a4           1.8  1999     4 manu… f    
+##  3   0.738   1.27  -1.17   audi         a4           2    2008     4 manu… f    
+##  4   0.973   1.10  -1.17   audi         a4           2    2008     4 auto… f    
+##  5  -0.202   0.430  0.0689 audi         a4           2.8  1999     6 auto… f    
+##  6   0.268   0.430  0.0689 audi         a4           2.8  1999     6 manu… f    
+##  7   0.268   0.598  0.0689 audi         a4           3.1  2008     6 auto… f    
+##  8   0.268   0.430 -1.17   audi         a4 quattro   1.8  1999     4 manu… 4    
+##  9  -0.202   0.262 -1.17   audi         a4 quattro   1.8  1999     4 auto… 4    
+## 10   0.738   0.766 -1.17   audi         a4 quattro   2    2008     4 manu… 4    
+## # … with 224 more rows, and 4 more variables: cty &lt;int&gt;, hwy &lt;int&gt;, fl &lt;chr&gt;,
+## #   class &lt;chr&gt;
+```
+
+---
+
+### A. Functions
+
+In summary:
+
+- You already use functions all of the time
+- You can write your own functions that take one or more types of input and return output
+- The functions that you are using within R were written by other people!
+- https://github.com/tidyverse/dplyr/blob/master/R/select.R
+- https://github.com/SurajGupta/r-source/blob/master/src/library/stats/R/median.R
+- https://github.com/jrosen48/konfound
+- https://github.com/data-edu/tidyLPA
+- If you find yourself copying and pasting the same code, it may be worthwhile to encapsulate your code within a function (more on this in a moment!)
+
+---
+
+### B. Iteration
+
+Iteration is another name for your computer carrying out some step(s) multiple times.
+
+Iteration is helpful when, even after writing a function, you find yourself copying and pasting the same code (with modifications)
+
+---
+
+### B. Iteration
+
+Another way of writing the above code in which we are scaling multiple variables:
+
+
+```r
+mpg %&gt;% 
+  mutate_at(vars(cty, hwy, cyl), standardize_variable) %&gt;% 
+  select(cty, hwy, cyl, everything()) # bring the transformed variables to the beginning of the data frame
+```
+
+```
+## # A tibble: 234 × 11
+##       cty   hwy     cyl manufacturer model  displ  year trans  drv   fl    class
+##     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;  &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+##  1  0.268 0.934 -1.17   audi         a4       1.8  1999 auto(… f     p     comp…
+##  2  0.973 0.934 -1.17   audi         a4       1.8  1999 manua… f     p     comp…
+##  3  0.738 1.27  -1.17   audi         a4       2    2008 manua… f     p     comp…
+##  4  0.973 1.10  -1.17   audi         a4       2    2008 auto(… f     p     comp…
+##  5 -0.202 0.430  0.0689 audi         a4       2.8  1999 auto(… f     p     comp…
+##  6  0.268 0.430  0.0689 audi         a4       2.8  1999 manua… f     p     comp…
+##  7  0.268 0.598  0.0689 audi         a4       3.1  2008 auto(… f     p     comp…
+##  8  0.268 0.430 -1.17   audi         a4 qu…   1.8  1999 manua… 4     p     comp…
+##  9 -0.202 0.262 -1.17   audi         a4 qu…   1.8  1999 auto(… 4     p     comp…
+## 10  0.738 0.766 -1.17   audi         a4 qu…   2    2008 manua… 4     p     comp…
+## # … with 224 more rows
+```
+
+---
+
+### B. Iteration
+
+Iteration can be helpful when you want to apply a function multiple times.
+
+For example, I recently needed to download 14 surveys for a teacher professional development-focused
+research project, https://megabitess.org!
+
+There is a great package, qualtRics, which can help with this, but it's tedious to have to download the surveys one-by-one.
+
+The map functions can help with this. 
+
+---
+
+### B. Iteration
+
+The `purrr` package is a package that is part of the tidyverse and lets you do various iteration operations
+
+The package consists of a family of related functions based on `map`
+
+
+```r
+library(qualtRics)
+library(tidyverse)
+
+# qualtRics::all_surveys()
+
+description &lt;- c("effectiveness - communication",
+                 "effectiveness - summer",
+                 "end-of-day survey",
+                 "post-summer survey",
+                 "pre-summer survey",
+                 "end-of-day survey",
+                 "end-of-day survey",
+                 "end-of-day survey",
+                 "end-of-day survey",
+                 "post-summer survey",
+                 "effectiveness - summer",
+                 "effectiveness - GIS",
+                 "post-GIS survey",
+                 "pre-GIS survey"
+)
+
+survey_id &lt;- c("SV_3IP9R9vFxZ7qGUe",
+               "SV_bJEe2AWjZdH4dcp",
+               "SV_81baWN1LtwNzV9r",
+               "SV_5jue08g3DvyGlmd",
+               "SV_6s9qu47PyM0js8t",
+               "SV_5iNHeOZns6zzxat",
+               "SV_9uhuHORliSFZq6x",
+               "SV_d0EQx7RXOZxasT3",
+               "SV_a46oo0Kklrlnh0F",
+               "SV_e2PwPb0wmRAWCcl",
+               "SV_9Zz8bjbBUPw1K4t",
+               "SV_cFRH5pgKwnYJRLT",
+               "SV_8HVSt4wfW3Hj2pn",
+               "SV_6AoaxSCPgUlfNUV"
+)
+```
+
+---
+
+### B. Iteration
+
+
+```r
+my_surveys &lt;- tibble(description = description,
+                     survey_id = survey_id)
+
+all_surveys &lt;- my_surveys$survey_id %&gt;% map(fetch_survey)
+
+my_surveys_end_of_day &lt;- my_surveys %&gt;% 
+  filter(description == "end-of-day survey")
+
+all_end_of_day_surveys &lt;- my_surveys_end_of_day$survey_id %&gt;% map_df(fetch_survey)
+```
+
+---
+
+### C. Shiny continued: Reactivity
+
+Shiny apps work on the principle of Reactivity:
+
+- Functions in your server code need to run again when there are changes to the input
+- UI is the same for all users of your app, server changes for each user
+- The input object can only be modified in the UI, and can only be accessed in a reactive context
+- We don't want to tell the app when to re-run code
+- Shiny figures out when to run the code, you provide recipes for what to do if that happens
+- When code is run depends on the connections between reactive dependencies, not the order written
+
+---
+
+### C. Shiny continued: Reactivity
+
+Shiny apps work on the principle of Reactivity:
+
+- Inputs from the UI connect to outputs in the server
+- Inputs are modified based on user input, server code then runs reactively to change output accordingly
+- Reactive expressions are a middle ground between inputs and outputs
+- Reactive expressions change based on input, but they can be used in constructing outputs
+- This can allow you to avoid repeating yourself
+- This is necessary because using a reactive context lets your code respond to changing input values
+
+---
+
+### C. Shiny continued: Controlling when code is run
+
+Sometimes you don't want your code to run right away
+
+A tool that shiny provides to allow you to control this behavior is an action button 
+
+An action button is a UI widget, but by using it in conjunction with the function `eventReactive` code running is dependent on the button, rather than reactive response to changing inputs
+
+Observers allow you to make other reactive side effects dependent on actions e.g. `observeEvent`
+
+Note: the most up to date version of Shiny recommends the use of a new function `bindEvent`
+
+---
+
+# Logistics
+
+**This week**
+
+* Homework 12: Available Thursday; **Due by Tuesday, 11/2**
+
+* Final Project: More detailed plan present to class: Thursday (~ 3-5 minutes, ~ 2-3 slides)
+
+---
+
+## Schedule
+
+- The product for your final project will be due are both due by the end of the day on Tuesday December 7
+- We will do presentations of your final project in class on our last day - Tuesday November 30
+
+---
+
+### Wrapping up
+
+On Slack:
+
+- What is one thing you learned today?
+- What is something you want to learn more about? 
+- Share your feelings in GIF form!
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
