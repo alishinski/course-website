@@ -15,13 +15,19 @@ library(car)
 library(here)
 library(tidyverse)
 
-data <- read_csv(here("undergrad_data.csv"))
-data <- data[,-c(1:2)]
+undergrad_data <- read_csv(here("undergrad_data.csv"))
+undergrad_data <- undergrad_data[,-c(1:2)]
+
+tidykids <- read_csv(here("tidykids.csv"))
+
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
     
+    
     theme = bslib::bs_theme(bootswatch = "darkly"),
+    
+    shinyFeedback::useShinyFeedback(),
 
     # Application title
     titlePanel("Regression Modeler"),
@@ -29,6 +35,9 @@ ui <- fluidPage(
     # Sidebar with a slider input for number of bins 
     sidebarLayout(
         sidebarPanel(
+            
+            textInput("data",
+                      "Which Dataset to Use?"),
 
             selectInput("dv",
                         "Dependent Variable",
@@ -59,6 +68,10 @@ ui <- fluidPage(
                             p("Fitted vs residuals"),
                             plotOutput("regPlot", click = "plot_click"),
                             verbatimTextOutput("click")
+                        ),
+                        tabPanel(
+                            p("Data"),
+                            dataTableOutput("dataframe")
                         )
                         
                         
@@ -72,12 +85,33 @@ ui <- fluidPage(
 # Define server logic to run regression models and produce output
 server <- function(input, output) {
     
+    data <- reactive({
+        req(input$data)
+        
+        exists <- exists(input$data)
+        shinyFeedback::feedbackDanger("data", !exists, "Unknown dataset")
+        req(exists, cancelOutput = TRUE)
+        
+        get(input$data)
+        })
+    
+    observeEvent(data(), {
+        choices <- unique(colnames(data()))
+        updateSelectInput(inputId = "dv", choices = choices)
+        updateCheckboxGroupInput(inputId = "ivs", choices = choices) 
+    })
+    
     rhs <- reactive({paste(input$ivs, collapse = " + ")})
     
-    formula <- reactive({paste(input$dv, rhs(), sep = " ~ ")})
+    formula <- reactive({
+        
+        proj_double <- input$dv == "PROJ_TOTAL" & sum(str_detect(input$ivs, "Proj")) > 0
+
+        shinyFeedback::feedbackWarning("dv", proj_double, "You may not want to regress PROJ_TOTAL on other project scores.")
+        paste(input$dv, rhs(), sep = " ~ ")})
     
     fit <- eventReactive(input$fit, {
-        lm(formula(), data = data)
+        lm(formula(), data = data())
     })
 
     output$coefTable <- renderTable({
@@ -106,6 +140,9 @@ server <- function(input, output) {
         cat("Fitted: ", x, "Residual: ", y)
     })
 
+    output$dataframe <- renderDataTable({
+        data()
+    })
 }
 
 # Run the application 

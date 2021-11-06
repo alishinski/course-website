@@ -1,0 +1,72 @@
+---
+title: "Homework 9 - More Shiny"
+output: html_document 
+---
+
+``` {r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Background
+
+We are going to update our shiny app from the last homework! 
+
+We will build upon our regression modeler app by adding some new features using the new stuff we've learned.
+
+The instructions are essentially the same as last time. This file contains the instructions for the homework, and you will use the app.R file you created last time. Then, to submit this homework, please submit the app.R shiny file on slack, as you would normally do with the .Rmd file. Then put in your information about your app at the bottom of this file, render to html, and submit that to canvas as you normally would.
+
+# Requirements
+
+To the user interface you will add:
+
+- An action button that will, in conjunction with a reactive in the server, fit the model when pressed
+
+- Change your layout to a tabbed interface
+
+- Add a click behavior input to your plot
+
+To the server code you will add:
+
+- A reactive (eventReactive) for the model fit such that it will update when the action button is pressed
+
+- Define a click behavior that will print information about your plot based on the click input
+
+- A feedback warning (shinyFeedback::feedbackWarning), you can choose what triggers it and where it shows up
+
+I've demo-ed all of these features in class so please refer back to the class recordings if you are having problems, or please feel free to ask any question that comes up on slack.
+
+# Instructions
+
+Now, open up your shiny app.
+
+Add the code for the features discussed above.
+
+Change the theme for your app using the bslib package
+
+Deploy your app to ShinyApps.io!
+
+Copy the URL of your app and paste it below:
+
+
+
+
+## Self-assessment and reflection
+
+Respond to the following three questions on a 1 (not at all) to 5 (very much)
+scale by replacing the "x" below with your response:
+
+``` {r, reflection}
+x = NULL
+tibble::tribble(
+  ~question,                                   ~response,
+  "How challenging was this homework?",        x,
+  "How interesting was this homework to you?", x,
+  "How valuable was this homework to you?",    x
+)
+```
+
+Include any other comments, feedback, or reflections on this homework below:
+
+
+Important note: Please post your comment(s), feedback, or reflections in Slack
+when you share your Rmd file!
