@@ -68,6 +68,7 @@ server <- function(input, output) {
             geom_sf() +
             coord_sf(xlim = longs, ylim = lats, expand = FALSE) +
             geom_point(data = storm_ind, aes(long, lat, color = wind, size = ifelse(!is.na(hu_diameter), hu_diameter + 1, 2))) +
+            guides(size = "none") +
             scale_color_gradient(low = "#fee5d9", high = "#99000d") + 
             theme_bw()
     })

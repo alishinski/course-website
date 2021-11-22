@@ -1,0 +1,122 @@
+---
+title: "Week 13 - Gettin' Extra Shiny" 
+subtitle: ""
+author: "Alex Lishinski"
+date: "November 9, 2021"
+output:
+  xaringan::moon_reader:
+    css: [theme.css]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center", message = FALSE)
+```
+
+# Welcome!
+
+Welcome to *week 13*!
+
+**Record the meeting** 
+
+```{r, include = TRUE, echo = FALSE}
+library(here)
+library(tidyverse)
+library(visdat)
+library(mice)
+```
+
+---
+
+## A recap of last week
+
+- The map() functions can help you to read in multiple files
+
+- Cases with missing values can still be used with multiple imputation
+
+---
+
+### Topics for today
+
+**Record the meeting** 
+
+- A. More Shiny mouse behaviors
+- B. More Shiny validation
+
+---
+
+### A. Shiny mouse behaviors
+
+- Your app can respond to mouse inputs
+- We saw this previously in defining the click behavior in a `plotOutput`
+- The click behavior can then be connected to its own output
+- There are more ways that we can define this behavior
+
+---
+
+### A. Shiny mouse behaviors
+
+- In our previous use of `click =` we created an input based on clicks
+- Our previous version gave us the coordinates on the plot wherever we clicked
+- We can also define the behavior to give us information based on the points 
+- `nearPoints()` gives us points within a certain distance of the click
+- `brush()` lets us define the area of interest
+
+---
+  
+### A. Shiny mouse behaviors
+
+- In addition to clicks we can create output based on other mouse actions, like hover
+- This works rather similarly to defining click behaviors, just use different arguments
+
+---
+
+### B. Shiny validation
+
+- Previously we talked about `shinyFeedback` and the `feedbackWarning` and similar functions
+- We also talked about the `req()` function which can be used to stop execution of code until a required condition is met
+- Another tool for pre-empting possible error messages is the function `validate()`
+- `validate()` can let us check for complex conditions
+
+---
+
+### B. Shiny validation
+
+- Shiny also lets you give notifications to the user based on a reactive
+- The basic way to fit them is to pair them with `observeEvent()`
+- Notifications allow you to change the duration and type
+- `Sys.sleep()` function lets you add delay between multiple notifications
+- These can also respond to an ongoing task
+
+---
+
+### B. Shiny validation
+
+- You can also request that a user confirm an action with a dialog box
+- You can create them with `modalDialog()` 
+- `showModal()` can create these dialogs and `removeModal()` gets rid of them
+- These are also a use case for `observeEvent()`
+
+---
+
+## Logistics
+
+**This week**
+
+* Homework 10: Available 11/18; **Due by 11/30 **
+
+* Reading:
+  * Big Magic With R: Creating Learning Beyond Fear: https://alison.rbind.io/talk/2018-cascadia-bigmagic/
+  
+---
+
+# Final project recordings/presentations
+
+- Presentations in class 11/30: ~15 minutes, slides + showing products
+
+- Strict deadline of 11:59 pm ET on 12/7
+

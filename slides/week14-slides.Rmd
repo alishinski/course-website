@@ -1,0 +1,93 @@
+---
+title: "Week 14 - Gettin' Extra Shiny" 
+subtitle: ""
+author: "Alex Lishinski"
+date: "November 16, 2021"
+output:
+  xaringan::moon_reader:
+    css: [theme.css]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center", message = FALSE)
+```
+
+# Welcome!
+
+Welcome to *week 14*!
+
+**Record the meeting** 
+
+```{r, include = TRUE, echo = FALSE}
+library(here)
+library(tidyverse)
+library(visdat)
+library(mice)
+```
+
+---
+
+## A recap of last week
+
+- Different behaviors responding to mouse inputs in shiny 
+- Shiny notifications and modal dialog boxes
+- Dynamic UI with `renderUI` and `uiOutput`
+
+---
+
+### Topics for today
+
+**Record the meeting** 
+
+- A. Davery's feedbackWarning issue
+- B. The issue with modal dialogs example from last time
+- C. `reactiveVal` to create reactive values
+
+---
+
+### A. Davery's feedbackWarning issue
+
+- Davery brought up an issue on slack with trying to use feedbackWarning
+- feedbackWarning responds to "events", which can be reactive values and functions
+- How you align the event with the warning will change when and how the warning shows up
+
+---
+
+### B. The issue with modal dialogs example from last time
+
+- You may have noticed an issue with the modal dialog last time
+- If we want the modal dialog to control downstream computations we need to make that explicit
+- The action buttons in the modal dialog work just like any other for controlling other output
+
+---
+
+### C. `reactiveVal` to create reactive values
+
+- The `reactiveVal` function allows you to create single reactive values 
+- These values can respond to other events
+- They create reactive dependencies just like other reactives so they will update accordingly when they need to
+
+
+---
+
+## Logistics
+
+**This week**
+
+* Homework 10: Available 11/18; **Due by 11/30 **
+
+
+  
+---
+
+# Final project recordings/presentations
+
+- Presentations in class 11/30: ~15 minutes, slides + showing products
+
+- Strict deadline of 11:59 pm ET on 12/7
+
