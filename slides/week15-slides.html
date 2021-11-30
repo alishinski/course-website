@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 15 - Some Final Packages</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Alex Lishinski" />
+    <meta name="date" content="2021-11-23" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+    <script src="libs/jquery-3.5.1/jquery.min.js"></script>
+    <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+    <script src="libs/leaflet-1.3.1/leaflet.js"></script>
+    <link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+    <script src="libs/proj4-2.6.2/proj4.min.js"></script>
+    <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+    <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+    <script src="libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
+    <script src="libs/plotly-binding-4.10.0/plotly.js"></script>
+    <script src="libs/typedarray-0.1/typedarray.min.js"></script>
+    <link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+    <link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+    <script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Week 15 - Some Final Packages
+### Alex Lishinski
+### November 23, 2021
+
+---
+
+
+
+
+# Welcome!
+
+Welcome to *week 15*!
+
+**Record the meeting** 
+
+
+
+---
+
+### Topics for today
+
+**Record the meeting** 
+
+- A. leaflet package
+- B. plotly package
+
+---
+
+### A. leaflet package
+
+- The leaflet package is a package for generating interactive map visualizations
+- The maps generated using this package use map tiles from OpenStreetMap, which looks a lot like the maps from google maps
+- There are many parameters you can add to your maps including different layers, markers, etc.
+
+---
+
+### A. leaflet package
+
+- The interface to leaflet is fairly straightforward
+- leaflet maps begin with a call of the leaflet() function
+- other map components are then added on in layers, similar to ggplot
+- unlike ggplot, these layers come from piping `%&gt;%`, rather than `+`
+
+---
+
+### A. leaflet package
+
+- The `leaflet()` function provides the blank (interactive) map canvas
+
+
+```r
+m &lt;- leaflet()
+
+m
+```
+
+<div id="htmlwidget-685cb8c98aa3ffb695ce" style="width:504px;height:504px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-685cb8c98aa3ffb695ce">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}}},"evals":[],"jsHooks":[]}</script>
+
+
+---
+
+### A. leaflet package
+
+- The `leaflet()` function provides the blank (interactive) map canvas
+- The `addTiles()` function adds your map tiles
+
+
+```r
+m &lt;- leaflet() %&gt;%
+      addTiles()
+m
+```
+
+<div id="htmlwidget-ef8ef9968652a520b73f" style="width:504px;height:504px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ef8ef9968652a520b73f">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}]},"evals":[],"jsHooks":[]}</script>
+
+---
+
+### A. leaflet package
+
+- The `leaflet()` function provides the blank (interactive) map canvas
+- The `addTiles()` function adds your map tiles
+- The `addMarkers()` function lets you add marker points to your map
+
+
+```r
+amy &lt;- filter(storms, name == "Amy")
+
+m &lt;- leaflet() %&gt;% 
+  addTiles() %&gt;%
+  addMarkers(lat = c(min(amy$lat), max(amy$lat)), lng = c(min(amy$long), max(amy$long)))
+m
+```
+
+<div id="htmlwidget-af38331143d172e842a4" style="width:504px;height:504px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-af38331143d172e842a4">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addMarkers","args":[[27.5,44.5],[-79,-51.6],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[27.5,44.5],"lng":[-79,-51.6]}},"evals":[],"jsHooks":[]}</script>
+
+---
+
+### A. leaflet package
+
+- leaflet visualizations can be incorporated into shiny
+- just like the other types of output we have used with shiny, there are functions for this type
+- the renderLeaflet() and leafletOutput() functions will do what you expect
+
+---
+
+### A. leaflet package
+
+- There are many other things that leaflet can do
+- You can add different map layers like topographical map
+- You can add shapes and colors to highlight things
+- Documentation and Examples here: https://rstudio.github.io/leaflet/
+
+---
+
+### B. plotly package
+
+- Plotly is a package for doing interactive data visualizations
+- Uses a fairly different sort of syntax from ggplot, but still rather straightforward
+- Adds a number of interactive tools to the sorts of data visualizations you'd create with ggplot
+- basic functionality covers some of the use cases from shiny that we've covered
+
+---
+
+### B. plotly package
+
+- Plotly plots are based around the `plot_ly()` function
+- Follows a roughly similar structure to ggplot
+- Data argument (optional)
+- Attributes (different for each plot, analogous to aes())
+- type (analogous than the various `geom_` functions)
+- mode (covers some differences between `geom_` functions)
+
+---
+
+### B. plotly package
+
+
+```r
+plot_ly (
+x = c( 1, 2, 3 ),
+y = c( 5, 6, 7),
+type = 'scatter',
+mode = 'lines')
+```
+
+<div id="htmlwidget-c02ef052e5190b0fb1fa" style="width:504px;height:504px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c02ef052e5190b0fb1fa">{"x":{"visdat":{"1539b5accacd0":["function () ","plotlyVisDat"]},"cur_data":"1539b5accacd0","attrs":{"1539b5accacd0":{"x":[1,2,3],"y":[5,6,7],"mode":"lines","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":[]},"yaxis":{"domain":[0,1],"automargin":true,"title":[]},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[1,2,3],"y":[5,6,7],"mode":"lines","type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+
+---
+
+### B. plotly package
+
+
+```r
+plot_ly (
+x = c( 1, 2, 3 ),
+y = c( 5, 6, 7 ),
+type = 'scatter' ,
+mode = 'markers' )
+```
+
+<div id="htmlwidget-13945a46b8b6e0de8159" style="width:504px;height:504px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-13945a46b8b6e0de8159">{"x":{"visdat":{"1539b226bffcc":["function () ","plotlyVisDat"]},"cur_data":"1539b226bffcc","attrs":{"1539b226bffcc":{"x":[1,2,3],"y":[5,6,7],"mode":"markers","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":[]},"yaxis":{"domain":[0,1],"automargin":true,"title":[]},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[1,2,3],"y":[5,6,7],"mode":"markers","type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+
+---
+
+### B. plotly package
+
+
+```r
+plot_ly(
+x = c( 1, 2, 3 ),
+y = c( 5, 6, 7 ),
+type = 'scatter',
+mode = 'markers' ,
+size = c( 1, 5, 10 ),
+marker = list(
+color = c( 'red', 'blue' ,
+'green' )))
+```
+
+```
+## Warning: `line.width` does not currently support multiple values.
+```
+
+<div id="htmlwidget-c8b7a5f8021158c68a01" style="width:504px;height:504px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c8b7a5f8021158c68a01">{"x":{"visdat":{"1539b382cd437":["function () ","plotlyVisDat"]},"cur_data":"1539b382cd437","attrs":{"1539b382cd437":{"x":[1,2,3],"y":[5,6,7],"mode":"markers","marker":{"color":["red","blue","green"]},"size":[1,5,10],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":[]},"yaxis":{"domain":[0,1],"automargin":true,"title":[]},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[1,2,3],"y":[5,6,7],"mode":"markers","marker":{"color":["red","blue","green"],"size":[10,50,100],"sizemode":"area","line":{"color":"rgba(31,119,180,1)"}},"type":"scatter","textfont":{"size":[10,50,100]},"error_y":{"color":"rgba(31,119,180,1)","width":[]},"error_x":{"color":"rgba(31,119,180,1)","width":[]},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+
+
+---
+
+### B. plotly package
+
+
+```r
+plot_ly(
+x = c( 1, 2, 3 ),
+y = c( 5, 6, 7 ),
+type = 'scatter' ,
+mode = 'lines' ,
+fill = 'tozeroy' )
+```
+
+<div id="htmlwidget-ef726debe01026ee138c" style="width:504px;height:504px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ef726debe01026ee138c">{"x":{"visdat":{"1539b49407e32":["function () ","plotlyVisDat"]},"cur_data":"1539b49407e32","attrs":{"1539b49407e32":{"x":[1,2,3],"y":[5,6,7],"mode":"lines","fill":"tozeroy","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":[]},"yaxis":{"domain":[0,1],"automargin":true,"title":[]},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"fillcolor":"rgba(31,119,180,0.5)","x":[1,2,3],"y":[5,6,7],"mode":"lines","fill":"tozeroy","type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+
+
+---
+
+### B. plotly package
+
+- like leaflet, plotly visualizations can be combined with shiny rather nicely
+- Also similarly, there are corresponding functions for render and output
+- renderPlotly() and plotlyOutput() will do the hard work for you
+- Documentation can be found here: https://plotly.com/r/plotly-fundamentals/
+- Cheatsheet can be found here: https://images.plot.ly/plotly-documentation/images/r_cheat_sheet.pdf
+- Book: https://plotly-r.com/index.html
+
+---
+
+## Logistics
+
+* Homework 10:  **Due by 11/30 **
+
+## Final project recordings/presentations
+
+- Presentations in class 11/30: ~15 minutes, slides + showing products
+
+- Strict deadline of 11:59 pm ET on 12/7
+  
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -32,7 +32,6 @@ I ame more focused on the process you take than the specifics of your project, a
 A draft is due approximately two-thirds of the way through the semester, and your final project is due in presentation (screen recording via Zoom) form at the very end of the semester.
 
 **Stage 1**
-DONE
 - Initial ideas posted in a class-wide Google Slides presentation, 10/12; do so here: (https://docs.google.com/presentation/d/1etv_oXeSjn8YdgZFHzPrAM4RRESXiEDFkdmodnNW1Mo/edit#slide=id.gf8d5e65320_2_5)
 - You will provide feedback to peers (on 10/14)
   
@@ -94,8 +93,6 @@ Available data sets:
 ### How to submit
 
 - **Final Product** Please submit _an HTML file_ for this assignment on Canvas. If you used a different format (other than Rmd), you may submit a relevant product (e.g., an attachment or a link to a Shiny app).
-- **Recording**: 
-  - Share the link to your recording in the #final-projects channel.
-  - Please also share the product (the .Rmd version if you used R Markdown, or whatever format your final project took)
-  - Also, _you will share your recording with the members of your base group_
+  - Please also share the product (the .Rmd version if you used R Markdown, or whatever format your final project took) on slack
+
 

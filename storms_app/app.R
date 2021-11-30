@@ -14,6 +14,7 @@ library(rnaturalearth)
 library(rnaturalearthdata)
 library(rgeos)
 library(knitr)
+library(leaflet)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -42,9 +43,19 @@ ui <- fluidPage(
      
         # Show a plot of the generated distribution
         mainPanel(
-            plotOutput("mapPlot"),
-            verbatimTextOutput("summary"),
-            dataTableOutput("data_table")
+            tabsetPanel(
+                tabPanel(
+                    p("original"),
+                    plotOutput("mapPlot"),
+                    verbatimTextOutput("summary"),
+                    dataTableOutput("data_table")
+                ),
+                tabPanel(
+                    p("leaflet"),
+                    leafletOutput("leafplot")
+                    
+                )
+            )
         )
     )
 )
@@ -89,7 +100,19 @@ server <- function(input, output) {
         if(input$dataSum == "data summary"){
             summary(storm_ind)
         }
+
     })
+    
+    output$leafplot <- renderLeaflet({
+        storm_ind <- dplyr::filter(storms, name == str_extract(input$storm, "[:alpha:]+[:digit:]*"), 
+                                   year == str_trim(str_extract(input$storm, "\\s[:digit:]+")))
+        
+        leaflet() %>%
+            addTiles() %>%
+            addMarkers(lng = storm_ind$long, lat = storm_ind$lat)
+        
+    })
+    
     
     
 }

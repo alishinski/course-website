@@ -14,6 +14,7 @@ library(lmSupport)
 library(car)
 library(here)
 library(tidyverse)
+library(plotly)
 
 undergrad_data <- read_csv(here("undergrad_data.csv"))
 undergrad_data <- undergrad_data[,-c(1:2)]
@@ -81,8 +82,11 @@ ui <- fluidPage(
                 tabPanel(
                     p("Data"),
                     dataTableOutput("dataframe")
+                ),
+                tabPanel(
+                    p("plotly"),
+                    plotlyOutput("plotly")
                 )
-                
                 
             )
             
@@ -246,7 +250,19 @@ server <- function(input, output) {
             NULL
         }
     })
-
+    
+    output$plotly <- renderPlotly({
+        
+        df <- data.frame(fitted = fit()$fitted, resid = fit()$residuals)
+        
+        plot_ly(data = df,
+                x = ~fitted,
+                y = ~resid,
+                type = "scatter",
+                mode = "markers")
+        
+    })
+    
 }
 
 # Run the application 

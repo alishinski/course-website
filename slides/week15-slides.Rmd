@@ -1,0 +1,218 @@
+---
+title: "Week 15 - Some Final Packages" 
+subtitle: ""
+author: "Alex Lishinski"
+date: "November 23, 2021"
+output:
+  xaringan::moon_reader:
+    css: [theme.css]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center", message = FALSE)
+```
+
+# Welcome!
+
+Welcome to *week 15*!
+
+**Record the meeting** 
+
+```{r, include = TRUE, echo = FALSE}
+library(here)
+library(tidyverse)
+
+library(plotly)
+library(leaflet)
+```
+
+---
+
+### Topics for today
+
+**Record the meeting** 
+
+- A. leaflet package
+- B. plotly package
+
+---
+
+### A. leaflet package
+
+- The leaflet package is a package for generating interactive map visualizations
+- The maps generated using this package use map tiles from OpenStreetMap, which looks a lot like the maps from google maps
+- There are many parameters you can add to your maps including different layers, markers, etc.
+
+---
+
+### A. leaflet package
+
+- The interface to leaflet is fairly straightforward
+- leaflet maps begin with a call of the leaflet() function
+- other map components are then added on in layers, similar to ggplot
+- unlike ggplot, these layers come from piping `%>%`, rather than `+`
+
+---
+
+### A. leaflet package
+
+- The `leaflet()` function provides the blank (interactive) map canvas
+
+```{r}
+m <- leaflet()
+
+m
+```
+
+
+---
+
+### A. leaflet package
+
+- The `leaflet()` function provides the blank (interactive) map canvas
+- The `addTiles()` function adds your map tiles
+
+```{r}
+m <- leaflet() %>%
+      addTiles()
+m
+```
+
+---
+
+### A. leaflet package
+
+- The `leaflet()` function provides the blank (interactive) map canvas
+- The `addTiles()` function adds your map tiles
+- The `addMarkers()` function lets you add marker points to your map
+
+```{r}
+amy <- filter(storms, name == "Amy")
+
+m <- leaflet() %>% 
+  addTiles() %>%
+  addMarkers(lat = c(min(amy$lat), max(amy$lat)), lng = c(min(amy$long), max(amy$long)))
+m
+```
+
+---
+
+### A. leaflet package
+
+- leaflet visualizations can be incorporated into shiny
+- just like the other types of output we have used with shiny, there are functions for this type
+- the renderLeaflet() and leafletOutput() functions will do what you expect
+
+---
+
+### A. leaflet package
+
+- There are many other things that leaflet can do
+- You can add different map layers like topographical map
+- You can add shapes and colors to highlight things
+- Documentation and Examples here: https://rstudio.github.io/leaflet/
+
+---
+
+### B. plotly package
+
+- Plotly is a package for doing interactive data visualizations
+- Uses a fairly different sort of syntax from ggplot, but still rather straightforward
+- Adds a number of interactive tools to the sorts of data visualizations you'd create with ggplot
+- basic functionality covers some of the use cases from shiny that we've covered
+
+---
+
+### B. plotly package
+
+- Plotly plots are based around the `plot_ly()` function
+- Follows a roughly similar structure to ggplot
+- Data argument (optional)
+- Attributes (different for each plot, analogous to aes())
+- type (analogous than the various `geom_` functions)
+- mode (covers some differences between `geom_` functions)
+
+---
+
+### B. plotly package
+
+```{r}
+plot_ly (
+x = c( 1, 2, 3 ),
+y = c( 5, 6, 7),
+type = 'scatter',
+mode = 'lines')
+```
+
+---
+
+### B. plotly package
+
+```{r}
+plot_ly (
+x = c( 1, 2, 3 ),
+y = c( 5, 6, 7 ),
+type = 'scatter' ,
+mode = 'markers' )
+```
+
+---
+
+### B. plotly package
+
+```{r}
+plot_ly(
+x = c( 1, 2, 3 ),
+y = c( 5, 6, 7 ),
+type = 'scatter',
+mode = 'markers' ,
+size = c( 1, 5, 10 ),
+marker = list(
+color = c( 'red', 'blue' ,
+'green' )))
+```
+
+
+---
+
+### B. plotly package
+
+```{r}
+plot_ly(
+x = c( 1, 2, 3 ),
+y = c( 5, 6, 7 ),
+type = 'scatter' ,
+mode = 'lines' ,
+fill = 'tozeroy' )
+```
+
+
+---
+
+### B. plotly package
+
+- like leaflet, plotly visualizations can be combined with shiny rather nicely
+- Also similarly, there are corresponding functions for render and output
+- renderPlotly() and plotlyOutput() will do the hard work for you
+- Documentation can be found here: https://plotly.com/r/plotly-fundamentals/
+- Cheatsheet can be found here: https://images.plot.ly/plotly-documentation/images/r_cheat_sheet.pdf
+- Book: https://plotly-r.com/index.html
+
+---
+
+## Logistics
+
+* Homework 10:  **Due by 11/30 **
+
+## Final project recordings/presentations
+
+- Presentations in class 11/30: ~15 minutes, slides + showing products
+
+- Strict deadline of 11:59 pm ET on 12/7
+  
+---
